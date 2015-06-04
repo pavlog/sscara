@@ -1,3 +1,6 @@
 [submodule "MCAD"]
 	path = MCAD
 	url = https://github.com/SolidCode/MCAD.git
+[submodule "Modules/MCAD"]
+	path = Modules/MCAD
+	url = https://github.com/SolidCode/MCAD.git
