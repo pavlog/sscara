@@ -1,47 +1,162 @@
 use <Modules/Pulley_T-MXL-XL-HTD-GT2_N-tooth.scad>
 use <Modules/ISOThread.scad>
 use <Modules/Bearings.scad>
+use <Modules/EndStoppers.scad>
 
 m5Rclearance = 0.1;
 m5Hclearance = 0.2;
 b625RClearance = 0.2;
+outerRad = (80*2/3.14*0.5);
 
-drawIndex = 1;
+drawIndex =0;
 
 isExpolode = 0;
-pulleyH = 9;
+pulley1H = 10;
+pulley2H = 9;
 //cylinder(r=4,h=30);
+
+translate([-50,-30,-3.5]) color ("grey") cube([100,100,5]);
 
 if( drawIndex==0 ) Bearing625();
 
 if( drawIndex==0 ) translate ([0,0,Bearing625Height()+isExpolode*5]) color( "Silver") hex_nut(5);
 
 if( drawIndex==1 || drawIndex==0 )
- translate([0,0,Bearing625Height()+isExpolode*10]) ArmPulley(numBigHoles=5);
-
-if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulleyH+isExpolode*15]) color( "Silver") hex_nut(5);
-
-if( drawIndex==2 || drawIndex==0 )
 {
-	translate ([0,0,Bearing625Height()+pulleyH+1+isExpolode*15]) 
-	{
-		//color([0,1,0,0.1]) 
-		difference()
+	translate([0,0,Bearing625Height()+isExpolode*10])
+	{	
+		ArmPulley(numBigHoles=5,retainerH=2);
+		translate([0,0,pulley1H-2]) 
+		hull()
 		{
-			ArmPulley(numBigHoles=3,numSmallHoles=3,smallHolesDist=12,smallHolesDia=1.55,bigHolesRadScale=0.85,bigHolesOffset=2);
-			cylinder(d=rolson_hex_nut_dia(5)+2,h=rolson_hex_nut_hi(5)+m5Hclearance);
-			translate ([0,0,pulleyH-Bearing625Height()])
-				cylinder(r=Bearing625Diameter()/2+b625RClearance,pulleyH);
+		rotate([0, 0, 197])
+        translate([outerRad+7, 0, 0])
+        cylinder(r=2,h=2);
+		rotate([0, 0, 202])
+        translate([outerRad, 0, 0])
+        cylinder(r=2,h=2);
+		rotate([0, 0, 185])
+        translate([outerRad, 0, 0])
+        cylinder(r=2,h=2);
 		}
-		if( drawIndex!=2 ) translate ([0,0,pulleyH-Bearing625Height()]) Bearing625();
 	}
 }
 
-if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulleyH+pulleyH+1+isExpolode*15]) color( "Silver") hex_nut(5);
+if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+isExpolode*15]) color( "Silver") hex_nut(5);
+
+if( drawIndex==2 || drawIndex==0 )
+{
+	translate ([0,0,Bearing625Height()+pulley1H+1+isExpolode*15]) 
+	{
+		//color([0,1,0,0.1]) 
+		color( "Goldenrod") difference()
+		{
+			ArmPulley(numBigHoles=3,numSmallHoles=3,smallHolesDist=12,smallHolesDia=1.55,bigHolesRadScale=0.85,bigHolesOffset=2);
+			cylinder(d=rolson_hex_nut_dia(5)+2,h=rolson_hex_nut_hi(5)+m5Hclearance);
+			translate ([0,0,pulley1H-Bearing625Height()])
+				cylinder(r=Bearing625Diameter()/2+b625RClearance,pulley1H);
+		}
+		if( drawIndex!=2 ) translate ([0,0,pulley1H-Bearing625Height()]) Bearing625();
+			
+	}
+}
+
+if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley1H+1+isExpolode*15]) color( "Silver") hex_nut(5);
+
+if( drawIndex==0 )
+{
+	translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11();
+	translate([-28,-13,Bearing625Height()+pulley1H+pulley2H-1]) rotate([180,180,0]) EndSwitchBody20x11();
+}
+
+if( drawIndex==3 || drawIndex==0 )
+{
+	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+1]) 
+	{
+
+difference()
+		{
+			union()
+			{
+difference()
+		{
+	cylinder(r=outerRad*0.7,h=2);
+	cylinder(r=Bearing625Diameter()/2+b625RClearance,h=2+1);
+
+		};
+
+translate([0,0,2]) //difference()
+		{
+	cylinder(r1=outerRad*0.7,r2=4+5,h=6);
+	cylinder(r1=Bearing625Diameter()/2+b625RClearance,r2=(rolson_hex_nut_dia(5)+2)/2,h=6);
+
+		};
+
+	translate([0,0,7]) cylinder(r=4+5,h=1);
+	translate([0,0,8]) 
+		{
+			difference()
+			{
+			union()
+				{
+				cylinder(r=4+5,h=15);
+				translate([9,0,-4]) cylinder(r=5,h=19);
+				}
+			translate([0,-0.25,3]) cube([20,0.5,15]);
+			translate([8,10,9]) rotate([90,0,0]) cylinder(r=1.55,h=25,$fn=12);
+			translate([8,-4.8,9]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
+			translate([8,4.8+10,9]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
+				}
+		}
 
 
+		translate([0,0,0]) 
+		hull()
+		{
+		rotate([0, 0, 197])
+        translate([outerRad+7, 0, 0])
+        cylinder(r=2,h=2);
+		rotate([0, 0, 202])
+        translate([outerRad, 0, 0])
+        cylinder(r=2,h=2);
+		rotate([0, 0, 215])
+        translate([outerRad-10, 0, 0])
+        cylinder(r=2,h=2);
+		rotate([0, 0, 185])
+        translate([outerRad, 0, 0])
+        cylinder(r=2,h=2);
+		rotate([0, 0, 180])
+        translate([outerRad-10, 0, 0])
+        cylinder(r=2,h=2);
+		}
+	}
+		for (i = [0:3-1]) 
+    {
+        rotate([0, 0, (360/3)*i+60])
+        translate([12, 0, 0])
+        cylinder(r=smallHolesDia,h=10,$fn=16);
 
-module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0)
+        rotate([0, 0, (360/3)*i+60])
+        translate([12, 0, 3])
+        cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=5,$fn=16);
+
+    }
+}
+}
+}
+
+
+translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9]) 
+color("silver")
+{
+	difference()
+	{
+			cylinder(r=4,h=200);
+			cylinder(r=3,h=200);
+	}
+}
+
+module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
 {
 difference()
 {
@@ -57,9 +172,9 @@ m3_nut_flats = 5.7,	// normal M3 hex nut exact width = 5.5
 m3_nut_depth = 2.7,	// normal M3 hex nut exact depth = 2.4, nyloc = 4
 
 retainer = 1,		// Belt retainer above teeth, 0 = No, 1 = Yes
-retainer_ht = 1,	// height of retainer flange over pulley, standard = 1.5
+retainer_ht = retainerH,	// height of retainer flange over pulley, standard = 1.5
 idler = 1,			// Belt retainer below teeth, 0 = No, 1 = Yes
-idler_ht = 1,		// height of idler flange over pulley, standard = 1.5
+idler_ht = idlerH,		// height of idler flange over pulley, standard = 1.5
 
 pulley_t_ht = 7,	// length of toothed part of pulley, standard = 12
 pulley_b_ht = 0,		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
@@ -85,7 +200,6 @@ additional_tooth_depth = 0 //mm
   //echo(bigHoleRad);
   if( numBigHoles )
   {
-    outerRad = (80*2/3.14*0.5);
     //echo(outerRad);
     bigHoleRad = (outerRad-5)*0.32;
     for (i = [0:numBigHoles-1]) 

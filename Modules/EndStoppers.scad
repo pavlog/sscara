@@ -2,7 +2,7 @@ module EndSwitchBody20x11(boltOnly=0)
 {
 	if( !boltOnly )
 	{
-		cube([20,10,6.5]);
+		color( "black") cube([20,10,6.5]);
 		color ("Silver") translate([2,10,1.5/2]) cube([0.3,4,5]);
 		color ("Silver") translate([9,10,1.5/2]) cube([0.3,4,5]);
 		color ("Silver") translate([17.5,10,1.5/2]) cube([0.3,4,5]);

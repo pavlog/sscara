@@ -1,6 +1,8 @@
 function radius_to_balls(r_ball, r) = 180 / asin(r_ball / r);
 function ball_to_radius(n, r) = r * sin(180 / n);
 
+sphereFn = 8;//45
+cylinderFn = 18;//45
 genPin = 0;
 module Bearing(outer, inner, attempt, gap, hole, height) {
 	n = round(radius_to_balls(attempt, inner));
@@ -13,27 +15,27 @@ module Bearing(outer, inner, attempt, gap, hole, height) {
 			translate([inner, 0, 0])
 				union() {/*
 					sphere(r = r - gap, center = true, $fn = 45); */
-					sphere(r = r - 0.5*gap, center = true, $fn = 45);
+					sphere(r = r - 0.5*gap, center = true, $fn = sphereFn);
 					assign(rad = pinRadius - gap)
   if( genPin )
   {
-						cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = 45);
+						cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = cylinderFn);
    }
 				}
 // The inner race:
 	difference() {
 		assign(rad = inner - pinRadius - gap)
-			cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = 45);
+			cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = cylinderFn);
 		rotate_extrude(convexity = 10)
 			translate([inner, 0, 0])
 				circle(r = r + gap, $fn = 30);
-		cylinder(r1 = hole, r2 = hole, h = height + 5, center = true, $fn = 45);
+		cylinder(r1 = hole, r2 = hole, h = height + 5, center = true, $fn = cylinderFn);
 	}
 // The outer race:
 	difference() {
-		cylinder(r1 = outer, r2 = outer, h = height, center = true, $fn = 45);
+		cylinder(r1 = outer, r2 = outer, h = height, center = true, $fn = cylinderFn);
 		assign(rad = inner + pinRadius + gap)
-			cylinder(r1 = rad, r2 = rad, h = height + 5, center = true, $fn = 45);
+			cylinder(r1 = rad, r2 = rad, h = height + 5, center = true, $fn = cylinderFn);
 		rotate_extrude(convexity = 10)
 			translate([inner, 0, 0])
 				circle(r = r + gap, $fn = 45);
