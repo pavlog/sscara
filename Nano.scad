@@ -10,7 +10,7 @@ outerRad = (80*2/3.14*0.5);
 
 drawIndex =0;
 
-isExpolode = 0;
+isExpolode = 1;
 pulley1H = 10;
 pulley2H = 9;
 //cylinder(r=4,h=30);
@@ -21,6 +21,7 @@ if( drawIndex==0 ) Bearing625();
 
 if( drawIndex==0 ) translate ([0,0,Bearing625Height()+isExpolode*5]) color( "Silver") hex_nut(5);
 
+// pulley1
 if( drawIndex==1 || drawIndex==0 )
 {
 	translate([0,0,Bearing625Height()+isExpolode*10])
@@ -44,9 +45,10 @@ if( drawIndex==1 || drawIndex==0 )
 
 if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+isExpolode*15]) color( "Silver") hex_nut(5);
 
+// pulley2
 if( drawIndex==2 || drawIndex==0 )
 {
-	translate ([0,0,Bearing625Height()+pulley1H+1+isExpolode*15]) 
+	translate ([0,0,Bearing625Height()+pulley1H+1+isExpolode*20]) 
 	{
 		//color([0,1,0,0.1]) 
 		color( "Goldenrod") difference()
@@ -56,12 +58,12 @@ if( drawIndex==2 || drawIndex==0 )
 			translate ([0,0,pulley1H-Bearing625Height()])
 				cylinder(r=Bearing625Diameter()/2+b625RClearance,pulley1H);
 		}
-		if( drawIndex!=2 ) translate ([0,0,pulley1H-Bearing625Height()]) Bearing625();
+		if( drawIndex!=2 ) translate ([0,0,pulley1H-Bearing625Height()+isExpolode*5]) Bearing625();
 			
 	}
 }
 
-if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley1H+1+isExpolode*15]) color( "Silver") hex_nut(5);
+if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley1H+1+isExpolode*30]) color( "Silver") hex_nut(5);
 
 if( drawIndex==0 )
 {
@@ -69,9 +71,10 @@ if( drawIndex==0 )
 	translate([-28,-13,Bearing625Height()+pulley1H+pulley2H-1]) rotate([180,180,0]) EndSwitchBody20x11();
 }
 
+// puter tube holder - mounted to pulley2 (top)
 if( drawIndex==3 || drawIndex==0 )
 {
-	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+1]) 
+	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+1+isExpolode*35]) 
 	{
 
 difference()
@@ -141,11 +144,13 @@ translate([0,0,2]) //difference()
         cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=5,$fn=16);
 
     }
+		cylinder(r=4,h=200);
+
 }
 }
 }
 
-
+/*
 translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9]) 
 color("silver")
 {
@@ -155,6 +160,9 @@ color("silver")
 			cylinder(r=3,h=200);
 	}
 }
+*/
+
+translate([30,0,0]) cube([10,10,50]);
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
 {
