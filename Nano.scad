@@ -2,6 +2,15 @@ use <Modules/Pulley_T-MXL-XL-HTD-GT2_N-tooth.scad>
 use <Modules/ISOThread.scad>
 use <Modules/Bearings.scad>
 use <Modules/EndStoppers.scad>
+include <Modules/MCAD/stepper.scad>
+
+module XYSteppers()
+{
+	color ("silver") motor(Nema17,NemaLengthLong);
+	color ("gold") translate([22,-5,41.5]) cube ([5,10,5]);
+}
+
+//XYSteppers();
 
 m5Rclearance = 0.1;
 m5Hclearance = 0.2;

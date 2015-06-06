@@ -10,6 +10,7 @@ module Bearing(outer, inner, attempt, gap, hole, height) {
 	theta = 360 / n;
 	pinRadius = 0.5 * r;
 // The pins:
+	
 	for(i = [0 : n])
 		rotate(a = [0, 0, theta * i])
 			translate([inner, 0, 0])
@@ -57,6 +58,15 @@ module Bearing623()
 function Bearing623Height() = 4;
 function Bearing623Diameter() = 10;
 
+module Bearing608()
+{
+  translate ([0,0,2.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 7, attempt = 2, gap = 0.2, height = Bearing608Height(), hole = 4);
+}
+function Bearing608Height() = 7;
+function Bearing608Diameter() = 22;
+
+
 Bearing625();
 translate ([0,0,20]) Bearing623();
+translate ([0,0,40]) Bearing608();
 
