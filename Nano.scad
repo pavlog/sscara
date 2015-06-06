@@ -8,7 +8,7 @@ m5Hclearance = 0.2;
 b625RClearance = 0.2;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex =0;
+drawIndex = 3;//0;
 
 isExpolode = 0;
 pulley1H = 10.5;
@@ -61,17 +61,20 @@ if( drawIndex==2 || drawIndex==0 )
 		//color([0,1,0,0.1]) 
 		color( "Goldenrod") difference()
 		{
+			//echo (pulley2H-(rolson_hex_nut_hi(5)+m5Hclearance));
+			//echo ((rolson_hex_nut_hi(5)+m5Hclearance));
 			ArmPulley(numBigHoles=3,numSmallHoles=3,smallHolesDist=12,smallHolesDia=1.55,bigHolesRadScale=0.85,bigHolesOffset=2);
-			cylinder(d=rolson_hex_nut_dia(5)+2,h=rolson_hex_nut_hi(5)+m5Hclearance);
-			translate ([0,0,pulley1H-Bearing625Height()])
-				cylinder(r=Bearing625Diameter()/2+b625RClearance,pulley1H);
+			cylinder(d=rolson_hex_nut_dia(5)+1,h=pulley2H);
+			translate ([0,0,rolson_hex_nut_hi(5)])
+				cylinder(r=Bearing625Diameter()/2,pulley2H);
 		}
-		if( drawIndex!=2 ) translate ([0,0,pulley1H-Bearing625Height()+isExpolode*5]) Bearing625();
-			
+		//echo(Bearing625Height());
+		if( drawIndex!=2 ) translate ([0,0,rolson_hex_nut_hi(5)+isExpolode*25]) Bearing625();	
+		//if( drawIndex!=2 ) color( "red") translate ([0,0,rolson_hex_nut_hi(5)+m5Hclearance+isExpolode*25]) cylinder(d=rolson_hex_nut_dia(5)+1,h=5);
 	}
 }
 
-if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley1H+pulleysSpace+isExpolode*30]) color( "Silver") hex_nut(5);
+if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*30]) color( "Silver") hex_nut(5);
 
 if( drawIndex==0 )
 {
@@ -91,11 +94,9 @@ if( drawIndex==3 || drawIndex==0 )
           difference()
           {
             cylinder(r=outerRad*0.7,h=endStopArmH);
-            cylinder(r=Bearing625Diameter()/2+b625RClearance,h=endStopArmH+0.1);
+            cylinder(d=rolson_hex_nut_dia(5)+1,h=endStopArmH+0.1);
           };
-
           translate([0,0,endStopArmH]) cylinder(r1=outerRad*0.7,r2=4+4,h=6);
-
           translate([0,0,endStopArmH+6]) cylinder(r=4+4.5,h=1);
           translate([0,0,8]) 
           {
@@ -112,25 +113,24 @@ if( drawIndex==3 || drawIndex==0 )
               translate([8,4.8+10,9]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
             }
           }
-
           translate([0,0,0]) 
           hull()
           {
             rotate([0, 0, 197])
                 translate([outerRad+7, 0, 0])
-                cylinder(r=2,h=endStopArmH);
+                cylinder(r=2,h=endStopArmH+1);
             rotate([0, 0, 202])
                 translate([outerRad, 0, 0])
                 cylinder(r=2,h=endStopArmH);
             rotate([0, 0, 215])
                 translate([outerRad-10, 0, 0])
-                cylinder(r=2,h=endStopArmH);
+                cylinder(r=2,h=endStopArmH+1);
             rotate([0, 0, 185])
                 translate([outerRad, 0, 0])
-                cylinder(r=2,h=endStopArmH);
+                cylinder(r=2,h=endStopArmH+1);
             rotate([0, 0, 180])
                 translate([outerRad-10, 0, 0])
-                cylinder(r=2,h=endStopArmH);
+                cylinder(r=2,h=endStopArmH+1);
           }
       }
       for (i = [0:3-1]) 
@@ -140,20 +140,20 @@ if( drawIndex==3 || drawIndex==0 )
           cylinder(r=smallHolesDia,h=10,$fn=16);
 
           rotate([0, 0, (360/3)*i+60])
-          translate([12, 0, 3])
+          translate([12, 0, 4])
           cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=5.5,$fn=20);
 
       }
 
       translate([0,0,endStopArmH])
-        cylinder(r1=Bearing625Diameter()/2+b625RClearance,r2=(rolson_hex_nut_dia(5)+1)/2,h=6);
+        cylinder(d=rolson_hex_nut_dia(5)+1,h=5);
 
-      translate([0, 0, endStopArmH+8]) cylinder(r=4,h=200,$fn=shaftsSegments);
+      translate([0, 0, endStopArmH+7]) cylinder(r=4,h=200,$fn=shaftsSegments);
       translate([0, 0, 0]) cylinder(r=shaftRadius,h=200,$fn=shaftsSegments);
+      translate([0, 0, 0]) cylinder(d=Bearing625Diameter()+b625RClearance,h=2,$fn=32);
     }
   }
 }
-
 /*
 translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9]) 
 color("silver")
@@ -218,7 +218,7 @@ additional_tooth_depth = 0 //mm
     {
         rotate([0, 0, (360/numBigHoles)*i])
         translate([bigHoleRad/2+5+6+bigHolesOffset, 0, 0])
-        cylinder(r=bigHoleRad*bigHolesRadScale,h=10,$fn=16);
+        cylinder(r=bigHoleRad*bigHolesRadScale,h=10+retainerH,$fn=16);
     }
   }
 
@@ -229,7 +229,7 @@ additional_tooth_depth = 0 //mm
     {
         rotate([0, 0, (360/numSmallHoles)*i+60])
         translate([smallHolesDist, 0, 0])
-        cylinder(r=smallHolesDia,h=10,$fn=16);
+        cylinder(r=smallHolesDia,h=10+retainerH,$fn=16);
     }
   }
 }
