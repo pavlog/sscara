@@ -46,8 +46,8 @@ namespace WindowsFormsApplication1
             float dhalf = d / 2;
             float l2 = l * l;
             float L2 = L * L;
-            float bedW = 100;
-            float bedH = 100;
+            float bedW = float.Parse(textBoxW.Text);
+            float bedH = float.Parse(textBoxH.Text);
             float bedYOffset = float.Parse(textBoxYOffs.Text);
             float minX = -bedW/2-5;
             float maxX = bedW / 2 + 5;
