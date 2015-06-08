@@ -6,6 +6,8 @@ use <Modules/Bearings.scad>
 use <Modules/EndStoppers.scad>
 include <Modules/MCAD/stepper.scad>
 
+//http://www.thingiverse.com/thing:34621
+//translate ([100,100,100])rotate([90,0,0]) import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
 
 m5Rclearance = 0.1;
 m5Hclearance = 0.2;
