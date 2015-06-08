@@ -16,4 +16,27 @@ Mass:
 Software:
 * Marlin (seems like potentially without modifications (maybe homing will be changed))
 
+Materials:
+* ??? meters(need to be measured) - GT2 timing belt 6mm
+* 3 - GT2 16 teeth pulleys
+* 4 - Nema17 (24mm shaft)
+* 2 - 625 bearings (ID-5mm,OD-16mm,H-7mm)
+* 2 - 608 bearings (ID-8mm,OD-16mm,H-7mm)
+* 1 - aluminium tube (ID-6mm,OD-8mm) - Length still not determined
+* 1 - m5 threaded rod - Length still not determined
+* m3 bolts and nuts - a few/lot of them (will be calculated later on project finish)
+* m5 nuts - a few/lot of them (will be calculated later on project finish)
+* ??? kg (need to be measured) - ABS fillaments to print parts
+
+
+SCAD:
+* use #drawIndex variable to control parts visibility
+
+Slicer:
+* Slic3r
+* ABS - 0.4mm nozzle, 25% infill, 0.25mm layer height
+
+Included Software:
+* SScaraVisualizer - c# application to preview and  visualize dimensions and different parameters
+
 Development blog - 3dgems.blogspot.com

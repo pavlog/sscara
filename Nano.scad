@@ -1,3 +1,5 @@
+// Author: Pavlo Gryb (psg416@gmail.com)
+
 use <Modules/Pulley_T-MXL-XL-HTD-GT2_N-tooth.scad>
 use <Modules/ISOThread.scad>
 use <Modules/Bearings.scad>
@@ -239,6 +241,7 @@ if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley2H+35+isExp
 
 //if( drawIndex==0 ) translate([30,0,0]) cube([10,10,50]);
 
+// bottom base for big pulleys+end stoppers mount
 if( drawIndex==4 || drawIndex==0 )
 {
   difference()
@@ -250,7 +253,7 @@ if( drawIndex==4 || drawIndex==0 )
           cube([60,24,5]);
 
       translate([-48,-24,0]) 
-        color("red") rotate([0,0,0]) scale([1,1,1])
+        color("blue") rotate([0,0,0]) scale([1,1,1])
           cube([20,24,11]);
 
         translate([13,-24,0]) 
@@ -349,15 +352,23 @@ if( drawIndex==4 || drawIndex==0 )
 
 		translate([-28,-13,0]) rotate([180,180,0]) EndSwitchBody20x11(1);
 
-		translate([40,-18,-0.10]) 
-					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=50,$fn=16);
-		translate([30,-18,-0.10]) 
-					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=50,$fn=16);
-		translate([43,-11,-0.10]) 
-					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=50,$fn=16);
+		translate([-26,-20,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+		translate([-26,-20,5]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=50,$fn=6);
+
+		translate([26,-20,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+		translate([26,-20,5]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=50,$fn=6);
+		translate([42,-20,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+		translate([34,-14,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
   }
 }
 
+// upper pulley+tube support for bearing
 if( drawIndex==5 || drawIndex==0 )
 {
   translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
@@ -444,108 +455,105 @@ if( drawIndex==5 || drawIndex==0 )
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
 {
-difference()
-{
+	difference()
+	{
+		Pulley(
+			teeth = 80,			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
+			profile = 12,		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
 
-	Pulley(
-teeth = 80,			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
-profile = 12,		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
+			motor_shaft = 5.2,	// NEMA17 motor shaft exact diameter = 5
+			m3_dia = 3.2,		// 3mm hole diameter
+			m3_nut_hex = 1,		// 1 for hex, 0 for square nut
+			m3_nut_flats = 5.7,	// normal M3 hex nut exact width = 5.5
+			m3_nut_depth = 2.7,	// normal M3 hex nut exact depth = 2.4, nyloc = 4
 
-motor_shaft = 5.2,	// NEMA17 motor shaft exact diameter = 5
-m3_dia = 3.2,		// 3mm hole diameter
-m3_nut_hex = 1,		// 1 for hex, 0 for square nut
-m3_nut_flats = 5.7,	// normal M3 hex nut exact width = 5.5
-m3_nut_depth = 2.7,	// normal M3 hex nut exact depth = 2.4, nyloc = 4
+			retainer = 1,		// Belt retainer above teeth, 0 = No, 1 = Yes
+			retainer_ht = retainerH,	// height of retainer flange over pulley, standard = 1.5
+			idler = 1,			// Belt retainer below teeth, 0 = No, 1 = Yes
+			idler_ht = idlerH,		// height of idler flange over pulley, standard = 1.5
 
-retainer = 1,		// Belt retainer above teeth, 0 = No, 1 = Yes
-retainer_ht = retainerH,	// height of retainer flange over pulley, standard = 1.5
-idler = 1,			// Belt retainer below teeth, 0 = No, 1 = Yes
-idler_ht = idlerH,		// height of idler flange over pulley, standard = 1.5
-
-pulley_t_ht = 7,	// length of toothed part of pulley, standard = 12
-pulley_b_ht = 0,		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
-pulley_b_dia = 20,	// pulley base diameter, standard = 20
-no_of_nuts = 1,		// number of captive nuts required, standard = 1
-nut_angle = 90,		// angle between nuts, standard = 90
-nut_shaft_distance = 1.2,	// distance between inner face of nut and shaft, can be negative.
-
-
-//	********************************
-//	** Scaling tooth for good fit **
-//	********************************
-//	To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
+			pulley_t_ht = 7,	// length of toothed part of pulley, standard = 12
+			pulley_b_ht = 0,		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
+			pulley_b_dia = 20,	// pulley base diameter, standard = 20
+			no_of_nuts = 1,		// number of captive nuts required, standard = 1
+			nut_angle = 90,		// angle between nuts, standard = 90
+			nut_shaft_distance = 1.2,	// distance between inner face of nut and shaft, can be negative.
 
 
-additional_tooth_width = 0.2, //mm
+			//	********************************
+			//	** Scaling tooth for good fit **
+			//	********************************
+			//	To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
 
-//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
-additional_tooth_depth = 0 //mm
-);
-	cylinder(r = rolson_hex_nut_dia(5)/2+m5Rclearance,h = rolson_hex_nut_hi(5)+m5Hclearance, $fn=6);
 
-  //echo(bigHoleRad);
-  if( numBigHoles )
-  {
-    //echo(outerRad);
-    bigHoleRad = (outerRad-5)*0.32;
-    for (i = [0:numBigHoles-1]) 
-    {
-        rotate([0, 0, (360/numBigHoles)*i])
-        translate([bigHoleRad/2+5+6+bigHolesOffset, 0, 0])
-        cylinder(r=bigHoleRad*bigHolesRadScale,h=10+retainerH,$fn=16);
-    }
-  }
+			additional_tooth_width = 0.2, //mm
 
-  //numSmallHoles = 3;
-  if( numSmallHoles )
-  {
-    for (i = [0:numSmallHoles-1]) 
-    {
-        rotate([0, 0, (360/numSmallHoles)*i+60])
-        translate([smallHolesDist, 0, 0])
-        cylinder(r=smallHolesDia,h=10+retainerH,$fn=16);
-    }
-  }
-}
+			//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
+			additional_tooth_depth = 0 //mm
+		);
+		cylinder(r = rolson_hex_nut_dia(5)/2+m5Rclearance,h = rolson_hex_nut_hi(5)+m5Hclearance, $fn=6);
+
+		//echo(bigHoleRad);
+		if( numBigHoles )
+		{
+			//echo(outerRad);
+			bigHoleRad = (outerRad-5)*0.32;
+			for (i = [0:numBigHoles-1]) 
+			{
+				rotate([0, 0, (360/numBigHoles)*i])
+				translate([bigHoleRad/2+5+6+bigHolesOffset, 0, 0])
+				cylinder(r=bigHoleRad*bigHolesRadScale,h=10+retainerH,$fn=16);
+			}
+		}
+
+		//numSmallHoles = 3;
+		if( numSmallHoles )
+		{
+			for (i = [0:numSmallHoles-1]) 
+			{
+				rotate([0, 0, (360/numSmallHoles)*i+60])
+				translate([smallHolesDist, 0, 0])
+				cylinder(r=smallHolesDia,h=10+retainerH,$fn=16);
+			}
+		}
+	}
 }
 
 
 module Pulley16Teeth()
 {
 	Pulley(
-teeth = 16,			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
-profile = 12,		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
+		teeth = 16,			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
+		profile = 12,		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
 
-motor_shaft = 5.2,	// NEMA17 motor shaft exact diameter = 5
-m3_dia = 3.2,		// 3mm hole diameter
-m3_nut_hex = 1,		// 1 for hex, 0 for square nut
-m3_nut_flats = 5.7,	// normal M3 hex nut exact width = 5.5
-m3_nut_depth = 2.7,	// normal M3 hex nut exact depth = 2.4, nyloc = 4
+		motor_shaft = 5.2,	// NEMA17 motor shaft exact diameter = 5
+		m3_dia = 3.2,		// 3mm hole diameter
+		m3_nut_hex = 1,		// 1 for hex, 0 for square nut
+		m3_nut_flats = 5.7,	// normal M3 hex nut exact width = 5.5
+		m3_nut_depth = 2.7,	// normal M3 hex nut exact depth = 2.4, nyloc = 4
 
-retainer = 1,		// Belt retainer above teeth, 0 = No, 1 = Yes
-retainer_ht = 1,	// height of retainer flange over pulley, standard = 1.5
-idler = 1,			// Belt retainer below teeth, 0 = No, 1 = Yes
-idler_ht = 0,		// height of idler flange over pulley, standard = 1.5
+		retainer = 1,		// Belt retainer above teeth, 0 = No, 1 = Yes
+		retainer_ht = 1,	// height of retainer flange over pulley, standard = 1.5
+		idler = 1,			// Belt retainer below teeth, 0 = No, 1 = Yes
+		idler_ht = 0,		// height of idler flange over pulley, standard = 1.5
 
-pulley_t_ht = 7,	// length of toothed part of pulley, standard = 12
-pulley_b_ht = 8,		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
-pulley_b_dia = 18,	// pulley base diameter, standard = 20
-no_of_nuts = 1,		// number of captive nuts required, standard = 1
-nut_angle = 90,		// angle between nuts, standard = 90
-nut_shaft_distance = 1.2,	// distance between inner face of nut and shaft, can be negative.
-
-
-//	********************************
-//	** Scaling tooth for good fit **
-//	********************************
-//	To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
+		pulley_t_ht = 7,	// length of toothed part of pulley, standard = 12
+		pulley_b_ht = 8,		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
+		pulley_b_dia = 18,	// pulley base diameter, standard = 20
+		no_of_nuts = 1,		// number of captive nuts required, standard = 1
+		nut_angle = 90,		// angle between nuts, standard = 90
+		nut_shaft_distance = 1.2,	// distance between inner face of nut and shaft, can be negative.
 
 
-additional_tooth_width = 0.2, //mm
+		//	********************************
+		//	** Scaling tooth for good fit **
+		//	********************************
+		//	To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
 
-//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
-additional_tooth_depth = 0 //mm
-);
+
+		additional_tooth_width = 0.2, //mm
+
+		//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
+		additional_tooth_depth = 0 //mm
+		);
 }
-
-
