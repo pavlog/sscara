@@ -9,14 +9,14 @@ module EndSwitchBody20x11(boltOnly=0)
 		color ("Silver") translate([20,-1,1.5/2]) rotate([0,0,0+90]) cube([0.3,23,5]);
 		color ("Silver") translate([19,0,1.5/2]) rotate([0,0,0+90]) cylinder(r=1.0,h=5);
 		color ("red") translate([12.5,0,1.5/2]) rotate([0,0,0+90]) cylinder(r=1.0,h=5);
-		color ("red") translate([5,7,-1]) cylinder(r=1.0,h=8.5);
-		color ("red") translate([5,7,-1]) cylinder(r=1.0,h=8.5);
-		color ("red") translate([14,7,-1]) cylinder(r=1.0,h=8.5);
+		color ("red") translate([5,7,-1]) cylinder(r=1.0,h=8.5,$fn=16);
+		color ("red") translate([5,7,-1]) cylinder(r=1.25,h=8.5,$fn=16);
+		color ("red") translate([14,7,-1]) cylinder(r=1.25,h=8.5,$fn=16);
 	}
 	else
 	{
-		color ("red") translate([5,7,-10]) cylinder(r=1.0,h=10+6.5+10);
-		color ("red") translate([14,7,-10]) cylinder(r=1.0,h=10+6.5+10);
+		color ("red") translate([5,7,-10]) cylinder(r=1.25,h=10+6.5+10,$fn=16);
+		color ("red") translate([14,7,-10]) cylinder(r=1.25,h=10+6.5+10,$fn=16);
 	}
 	//translate([-3,-3,0])  cube([3,3,5]);
 }

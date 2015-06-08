@@ -15,7 +15,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 isExpolode = 0;
 pulley1H = 10.5;
@@ -32,20 +32,34 @@ pulleysSpace = 0.5;
 
 
 // MY NEMA with 24mm length shafts
-module Nema17_shaft24_Stepper()
+module Nema17_shaft24_Stepper(bSrewsOnly=0)
 {
-	color ("silver")
-  {		
-    motor(Nema17,NemaLengthLong);
-    translate([0,0,-40+16]) cylinder(r=2.5,h=8,$fn=32);
-  }
-  color ("gold") translate([21,-5,41.5]) cube ([5,10,5]);
+	if( !bSrewsOnly )
+	{
+		color ("silver")
+		{		
+			motor(Nema17,NemaLengthLong);
+			translate([0,0,-40+16]) cylinder(r=2.5,h=8,$fn=32);
+		}
+		color ("gold") translate([21,-5,41.5]) cube ([5,10,5]);
+	}
+	else
+	{
+		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+		color ("silver") translate([holeDist,holeDist,-20]) cylinder(r=1.51,h=25,$fn=32);
+		color ("silver") translate([-holeDist,holeDist,-20]) cylinder(r=1.51,h=25,$fn=32);
+		color ("silver") translate([holeDist,-holeDist,-20]) cylinder(r=1.51,h=25,$fn=32);
+		color ("silver") translate([-holeDist,-holeDist,-20]) cylinder(r=1.51,h=25,$fn=32);
+		color ("silver") translate([0,0,-20]) cylinder(r=2.6,h=25,$fn=32);
+		extr = lookup(NemaRoundExtrusionDiameter, Nema17);
+		color ("silver") translate([0,0,.01]) cylinder(d=extr,h=2,$fn=32);
+	}
 }
 
 //translate([-25,110,-24]) cube([24,24,24]);
 //translate([0,150,0])  Nema17_shaft24_Stepper();
 
-if( drawIndex==0 ) 
+if( drawIndex==5 || drawIndex==0 )//) 
 {
   // z stepper
   translate([0,83,49]) rotate([90,0,0])
@@ -71,7 +85,7 @@ if( drawIndex==0 )
 //if( drawIndex==0 ) translate([-50,-30,-5]) color ("grey") cube([100,160,5]);
 
 // bed
-if( drawIndex==0 ) translate([-50,25,85]) color ([1,0.5,0.5,0.3]) cube([100,100,3]);
+//if( drawIndex==0 ) translate([-50,25,85]) color ([1,0.5,0.5,0.3]) cube([100,100,3]);
 
 rodOffsetX = 40;
 rodOffsetY = 15;
@@ -296,12 +310,34 @@ if( drawIndex==4 || drawIndex==0 )
 			// center mount
 			difference()
 			{
+				union()
+				{
+					color ("magenta") 
+					{
+						translate([-35,0,0]) cube([70,47,5]);
+						hull()
+						{
+						translate([-45,18,0]) cube([90,3,5]);
+						translate([-37.5,40,0]) cube([75,8,5]);
+						}
+					}
+					color ("green") translate([-25,34,0]) cube([50,5,70]);
+				}
+					color ("red") translate([-15,33,5]) cube([30,10,20]);
+  translate([0,83,49]) rotate([90,0,0])
+  {
+    translate( [0,0,45]) rotate([180,0,0]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+  }
+/*
 				hull()
 				{
 					translate([0,34,-0]) cylinder(r=3+5,h=rodsSupportH);
 					translate([0,25,0])color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=25,h=rodsSupportH,$fn=16);
 				}
-				translate([0,34,-0]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=rodsSupportH,$fn=16);
+				*/
+				translate([0,31,-0]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=rodsSupportH,$fn=16);
+				translate([31,40,-0]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=rodsSupportH,$fn=16);
+				translate([-31,40,-0]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.31,h=rodsSupportH,$fn=16);
 			}
 
 			// extra
@@ -370,11 +406,42 @@ if( drawIndex==4 || drawIndex==0 )
   }
 }
 
+// base 2
+					color ("green") 
+					{
+						//translate([-35,0,0]) cube([70,47,5]);
+						hull()
+						{
+						translate([-45,85,0]) cube([90,3,5]);
+						translate([-37.5,48,0]) cube([75,8,5]);
+						}
+					}
+
+// base 3
+					color ("orange") 
+					{
+						//translate([-35,0,0]) cube([70,47,5]);
+						hull()
+						{
+						translate([-45,85,0]) cube([90,3,5]);
+						translate([-45,123,0]) cube([90,8,5]);
+						}
+					}
+
 // upper pulley+tube support for bearing
 if( drawIndex==5 || drawIndex==0 )
 {
   translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
   {
+			//if( drawIndex==0 )
+			{
+				translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
+			}
+		difference()
+		{
+       translate([-33,7,-22]) cube([21,5,29]);
+			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11(1);
+		}
     height = Bearing608Height();
     difference()
     {
@@ -450,10 +517,53 @@ if( drawIndex==5 || drawIndex==0 )
       translate([rodOffsetX-0.5,rodOffsetY-10,-23]) cube([1,10,40]);
 
       translate([rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35);
+			
+			 translate([-10,15.5,-0.1]) cube([20,10,40]);
+			 translate([-13.7,12.5,-0.1]) cube([5,5,40]);
     }
   }
 }
 
+// upper bearing mount
+if( drawIndex==6 || drawIndex==0 )
+{
+  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45+Bearing608Height()]) 
+  {
+    height = 2+3;
+    difference()
+    {
+      color("blue") 
+      union()
+      {
+        cylinder(d=Bearing608Diameter()+12,h=height);
+        difference()
+        {
+          hull()
+          {
+            translate([0,-8,0]) color("blue") cylinder(d=30,h=height);
+
+            translate([40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+
+            translate([-40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+          }
+          translate([-25,-35,-0.5]) cube([50,20,height+1]);
+        }
+      }
+			// bearing hole
+      color( "red") translate([0,0,-Bearing608Height()+2]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.2);
+      color( "red") translate([0,0,-1]) cylinder(d=9,h=Bearing608Height()+15);
+			// mount holes
+      translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+      translate([40,0,-50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+			// end stopper fit
+						 translate([-10,15.5,-0.1]) cube([20,10,40]);
+			 translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+
+    }
+  }
+}
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
 {
