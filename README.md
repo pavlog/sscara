@@ -19,7 +19,7 @@ Software:
 Materials:
 * ??? meters(need to be measured) - GT2 timing belt 6mm
 * 3 - GT2 16 teeth pulleys
-* 4 - Nema17 (24mm shaft)
+* 4 - Nema17 (24mm shaft length)
 * 2 - 625 bearings (ID-5mm,OD-16mm,H-7mm)
 * 2 - 608 bearings (ID-8mm,OD-16mm,H-7mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - Length still not determined
@@ -39,4 +39,4 @@ Slicer:
 Included Software:
 * SScaraVisualizer - c# application to preview and  visualize dimensions and different parameters
 
-Development blog - 3dgems.blogspot.com
+Development blog - https://3dgems.blogspot.com
