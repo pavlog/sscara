@@ -5,6 +5,7 @@ use <Modules/ISOThread.scad>
 use <Modules/Bearings.scad>
 use <Modules/EndStoppers.scad>
 include <Modules/MCAD/stepper.scad>
+use <Modules/Belt_Generator.scad>
 
 //http://www.thingiverse.com/thing:34621
 //translate ([100,100,100])rotate([90,0,0]) import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
@@ -117,9 +118,15 @@ if( drawIndex==0 )
   color ("black") translate([26,0,6.5]) rotate([0,0,88]) cube([110,1.5,6]);
   color ("black") translate([-20,15,6.5]) rotate([0,0,67]) cube([110,1.5,6]);
 
+	translate([31,70,6.5]) rotate([0,0,178]) BeltClip();
+
   color ("black") translate([20,15,17.5]) rotate([0,0,112]) cube([110,1.5,6]);
   color ("black") translate([-26,0,17.5]) rotate([0,0,92]) cube([110,1.5,6]);
+	translate([-33,60,23.5]) rotate([180,0,3]) BeltClip();
+
+
 }
+
 
 // pulley1
 if( drawIndex==1 || drawIndex==0 )
@@ -772,4 +779,18 @@ module Pulley16Teeth()
 		//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
 		additional_tooth_depth = 0 //mm
 		);
+}
+
+module BeltClip()
+{
+	difference()
+	{
+		translate ([-2.9,0,0]) cube([6.1,20,9]);
+			rotate([0,0,90]) scale([1,1.3,1])belting("straight","GT2_2mm", belt_length = 60, belting_width = 7 );	// 13 seconds
+		translate ([0,9.5,0]) cube([12,1,7]);
+		//translate ([-11.3,-5,0]) rotate([0,0,10])  cube([10,10,10]);
+		//translate ([-13,15,0]) rotate([0,0,-10])  cube([10,10,10]);
+	}
+	//translate ([-11,-5,0]) rotate([0,0,10])  cube([10,10,10]);
+	//translate ([-13,15,0]) rotate([0,0,-10])  cube([10,10,10]);
 }
