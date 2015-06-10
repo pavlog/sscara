@@ -16,9 +16,10 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
+drawBelts = 0;
 
 isExpolode = 0;
 pulley1H = 10.5;
@@ -117,7 +118,8 @@ if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY,65]) color ("silver") cylind
 //if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY,65+19]) color ("silver") cylinder(d=12,h=19);
 
 
-if( drawIndex==0 ) 
+// belts
+if( drawIndex==0 || drawBelts==1 ) 
 {
   color ("black") translate([26,0,6.5]) rotate([0,0,88]) cube([110,1.5,6]);
   color ("black") translate([-20,15,6.5]) rotate([0,0,67]) cube([110,1.5,6]);
@@ -344,8 +346,16 @@ if( drawIndex==4 || drawIndex==0 )
 						}
 					}
 					color ("green") translate([-24,30,0]) cube([48,4,70]);
-					color ("green") translate([-24,27,0]) cube([4,3,70]);
-					color ("green") translate([25-5,27,0]) cube([4,3,70]);
+					hull()
+					{
+						color ("green") translate([-24,27,0]) cube([4,3,70]);
+						color ("green") translate([-24,20,0]) cube([4,3,20]);
+					}
+					hull()
+					{
+						color ("green") translate([25-5,27,0]) cube([4,3,70]);
+						color ("green") translate([25-5,20,0]) cube([4,3,20]);
+					}
 				}
 				color ("red") translate([-15,28,5]) cube([30,10,20]);
 				translate([0,83,49]) rotate([90,0,0])
@@ -363,6 +373,8 @@ if( drawIndex==4 || drawIndex==0 )
 				translate([40,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
 				translate([-40,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
 			}
+			// center support
+			color ("red") translate([-7.5,26,5]) cube([15,8,20]);
 
 			// extra
       height = 30;
@@ -382,6 +394,9 @@ if( drawIndex==4 || drawIndex==0 )
 		}
 		translate([0,0,5]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5);
 
+		color("red") translate([0,38,15]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=28,$fn=16);
+
+
 		color ("magenta") hull()
 		{
 			color("red") translate([-28,13,15]) rotate([90,0,0]) scale([1,1,1]) cylinder(d=13,h=28,$fn=16);
@@ -389,6 +404,12 @@ if( drawIndex==4 || drawIndex==0 )
 			color("red") translate([-28,13,27]) rotate([90,0,0]) scale([1,1,1]) cylinder(d=13,h=28,$fn=16);
 		}
 
+		mirror() color ("magenta") hull()
+		{
+			color("red") translate([-28,13,15]) rotate([90,0,0]) scale([1,1,1]) cylinder(d=13,h=28,$fn=16);
+
+			color("red") translate([-28,13,27]) rotate([90,0,0]) scale([1,1,1]) cylinder(d=13,h=28,$fn=16);
+		}
 
 		translate([40,0,0-0.1]) 
 		{
@@ -403,12 +424,7 @@ if( drawIndex==4 || drawIndex==0 )
 
 		translate([-48,-13,11]) 
 		color("blue") rotate([0,0,0]) scale([1,1,1])
-			cube([20,5,7]);
-
-		translate([-48,-13,23.5]) 
-		color("blue") rotate([0,0,0]) scale([1,1,1])
-			cube([20,5,7]);
-
+			cube([20,5,20]);
 
 		color("red") translate([0,0,0]) cylinder(d=Bearing625Diameter()+b625RClearance,h=Bearing625Height());
 
@@ -508,18 +524,18 @@ if( drawIndex==5 || drawIndex==0 )
       color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
 
       // rods holes
-      translate([-rodOffsetX,rodOffsetY,-23]) cylinder(r=3.2,h=35);
+      translate([-rodOffsetX,rodOffsetY,-23]) cylinder(r=3.2,h=35,$fn=16);
 
       translate([-rodOffsetX-0.5,rodOffsetY-10,-23]) cube([1,10,40]);
 
-      translate([-rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35);
+      translate([-rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35,$fn=16);
 
       // rods holes
-      translate([rodOffsetX,rodOffsetY,-23]) cylinder(r=3.2,h=35);
+      translate([rodOffsetX,rodOffsetY,-23]) cylinder(r=3.2,h=35,$fn=16);
 
       translate([rodOffsetX-0.5,rodOffsetY-10,-23]) cube([1,10,40]);
 
-      translate([rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35);
+      translate([rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35,$fn=16);
 			
 			translate([-10,15.5,-0.1]) cube([20,10,40]);
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
@@ -658,14 +674,14 @@ if( drawIndex==9 || drawIndex==0 )
 // base for z stepper
 if( drawIndex==10 || drawIndex==0 )
 {
-	color ("blue") 
+	//color ("blue") 
 	{
 		//translate([-35,0,0]) cube([70,47,5]);
 		difference()
 		{
-			union()
+			color ("blue") union()
 			{
-				hull()
+				hull() 
 				{
 					translate([-47.5,85,0]) cube([95,3,5]);
 					translate([-47.5,34,0]) cube([95,8,5]);
@@ -675,11 +691,20 @@ if( drawIndex==10 || drawIndex==0 )
 					color ("green") translate([-24,34,0]) cube([48,5,70]);
 					color ("red") translate([-20,33,5]) cube([40,10,20]);
 				}
-				color ("green") translate([10,45,0]) cube([13,25,28]);
-				color ("green") translate([-23,45,0]) cube([13,25,28]);
+				hull()
+				{
+					color ("red") translate([-7.5,34,5]) cube([15,1,20]);
+					color ("red") translate([-2.5,40,5]) cube([5,1,20]);
+				}
+				color ("green") translate([11.3,45,0]) cube([13,25,28]);
+				color ("green") translate([-24.2,45,0]) cube([13,25,28]);
 
-				#color ("green") translate([-24.3,39,0]) cube([3,10,70]);
-				#color ("green") translate([24.3-3,39,0]) cube([3,10,70]);
+				color ("green") translate([-24.3,39,0]) cube([3,10,70]);
+				color ("green") translate([24.3-3,39,0]) cube([3,10,70]);
+
+				color ("green") translate([-24.3,65,24]) rotate([30,0,0]) cube([3,5,45]);
+				color ("green") mirror() translate([-24.3,65,24]) rotate([30,0,0]) cube([3,5,45]);
+
 			}
 			translate([40,40,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
 			translate([-40,40,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
@@ -696,6 +721,13 @@ if( drawIndex==10 || drawIndex==0 )
 			//
 			translate([22.5,82,-0.2]) cube([6,6,10]);
 			translate([-22.5-6,82,-0.2]) cube([6,6,10]);
+			//
+			color("red") translate([0,48,15]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=38,$fn=16);
+			translate([0,83,49]) rotate([90,0,0])
+			{
+				translate( [0,0,45]) rotate([180,0,0]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+				color ("silver") translate([0,0,43]) cylinder(d=23,h=12,$fn=32);
+			}
 		}
 	}
 }
