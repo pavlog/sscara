@@ -18,6 +18,8 @@ outerRad = (80*2/3.14*0.5);
 
 drawIndex = 0;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
+drawSteppers = 1;
+
 isExpolode = 0;
 pulley1H = 10.5;
 pulley2H = 9;
@@ -80,13 +82,15 @@ if( drawIndex==5 || drawIndex==0 )//)
   // x stepper
   translate([xStepperX,xStepperY,xStepperZ])
   {
-    rotate([0,0,-90]) Nema17_shaft24_Stepper();
+		if( drawSteppers )
+			rotate([0,0,-90]) Nema17_shaft24_Stepper();
     translate ([0,0,-6]) rotate([180,0,0]) Pulley16Teeth();
   }
   // y stepper
   translate([-25,110,32-Bearing625Height()])
   {
-    rotate([0,0,-90]) Nema17_shaft24_Stepper();
+		if( drawSteppers )
+			rotate([0,0,-90]) Nema17_shaft24_Stepper();
     translate ([0,0,-18]) rotate([0,0,0]) Pulley16Teeth();
   }
 }
@@ -257,14 +261,16 @@ if( drawIndex==3 || drawIndex==0 )
   }
 }
 
-if( drawIndex==0 )  
-  translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9++isExpolode*40]) 
-  color("silver")
+if( drawIndex==0 )
 {
-	difference()
+	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9++isExpolode*40]) 
+		color("silver")
 	{
-			cylinder(r=4,h=200);
-			cylinder(r=3,h=200);
+		difference()
+		{
+				cylinder(r=4,h=200);
+				cylinder(r=3,h=200);
+		}
 	}
 }
 
@@ -287,8 +293,9 @@ if( drawIndex==4 || drawIndex==0 )
         color("blue") rotate([0,0,0]) scale([1,1,1])
           cube([20,24,11]);
 
-        translate([13,-24,0]) 
-          color("red") rotate([0,0,0]) scale([1,1,1]) cube([35,24,5]);
+			translate([13,-24,0]) 
+				color("red") rotate([0,0,0]) scale([1,1,1]) cube([35,24,5]);
+
       hull()
       {
         height = 30;//Bearing625Height()+pulley1H+pulley2H+32;//30
@@ -336,7 +343,9 @@ if( drawIndex==4 || drawIndex==0 )
 							translate([-47.5,29,0]) cube([95,5,5]);
 						}
 					}
-					color ("green") translate([-25,30,0]) cube([50,4,70]);
+					color ("green") translate([-24,30,0]) cube([48,4,70]);
+					color ("green") translate([-24,27,0]) cube([4,3,70]);
+					color ("green") translate([25-5,27,0]) cube([4,3,70]);
 				}
 				color ("red") translate([-15,28,5]) cube([30,10,20]);
 				translate([0,83,49]) rotate([90,0,0])
@@ -351,8 +360,8 @@ if( drawIndex==4 || drawIndex==0 )
 					translate([0,25,0])color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=25,h=rodsSupportH,$fn=16);
 				}
 				*/
-				translate([35,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
-				translate([-35,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
+				translate([40,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
+				translate([-40,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
 			}
 
 			// extra
@@ -421,136 +430,19 @@ if( drawIndex==4 || drawIndex==0 )
   }
 }
 
-// base 2
-color ("blue") 
-{
-	//translate([-35,0,0]) cube([70,47,5]);
-	difference()
-	{
-		union()
-		{
-			hull()
-			{
-				translate([-47.5,85,0]) cube([95,3,5]);
-				translate([-47.5,34,0]) cube([95,8,5]);
-			}
-			color ("blue") difference()
-			{
-				color ("green") translate([-25,34,0]) cube([50,5,70]);
-				color ("red") translate([-20,33,5]) cube([40,10,20]);
-				//
-			}
-			color ("green") translate([10,50,0]) cube([13,25,28]);
-			color ("green") translate([-23,50,0]) cube([13,25,28]);
-		}
-		translate([35,40,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		translate([-35,40,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		//
-		translate([40,80,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		translate([-40,80,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		//
-		translate([35,60,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		translate([-35,60,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		//
-		translate([0,80,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		translate([0,45,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
-		translate([0,63,-0.2]) color("red") cylinder(r=5,h=10,$fn=12);
-	}
-}
-
-// base 3
-difference()
-{
-	color ("orange") 
-	{
-		//translate([-35,0,0]) cube([70,47,5]);
-		hull()
-		{
-			translate([-47.5,85+3,0]) cube([95,3,5]);
-			translate([-47.5,123,0]) cube([95,8,5]);
-		}
-	}
-	translate([xStepperX,xStepperY,xStepperZ])
-	{
-			rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
-			translate([xStepperX-10,0,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
-			translate([0,15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
-			translate([0,-15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
-			translate([0,0,-xStepperZ-0.1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
-	}
-	translate([yStepperX,yStepperY,yStepperZ])
-	{
-			rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
-			translate([-(xStepperX-10),0,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
-			translate([0,15,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
-			translate([0,-15,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
-			translate([0,0,-xStepperZ-0.1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
-	}
-}
-
-// x stepper plaform
-if( drawIndex==7 || drawIndex==0 )
-{
-	translate([xStepperX,xStepperY,xStepperZ])
-	{
-		difference()
-		{
-			union()
-			{
-				translate([0,0,-1]) cube([42,42,4],center=true);
-				holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
-				translate([-holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				translate([holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				//translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				translate([-xStepperX+3,0,-xStepperZ+5+(xStepperZ-4)/2]) cube([6,42,xStepperZ-4],center=true);
-			}
-			rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
-			extr = lookup(NemaRoundExtrusionDiameter, Nema17);
-			color ("silver") translate([0,0,-1.01]) cylinder(d=extr,h=3,$fn=32);
-			color ("silver") translate([-xStepperX+10,7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
-			color ("silver") translate([-xStepperX+10,-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
-		}
-	}
-}
-// y stepper plaform
-if( drawIndex==8 || drawIndex==0 )
-{
-	translate([yStepperX,yStepperY,yStepperZ])
-	{
-		difference()
-		{
-			union()
-			{
-				translate([0,0,-1]) cube([42,42,4],center=true);
-				holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
-				translate([-holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				//translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				translate([holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				translate([-(-xStepperX+3),0,-xStepperZ+5+(xStepperZ-4)/2]) cube([6,42,xStepperZ-4],center=true);
-				}
-				rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
-				extr = lookup(NemaRoundExtrusionDiameter, Nema17);
-				color ("silver") translate([0,0,-1.01]) cylinder(d=extr,h=3,$fn=32);
-			color ("silver") translate([-(-xStepperX-10),7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
-			color ("silver") translate([-(-xStepperX-10),-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
-			}
-	}
-}
 
 // upper pulley+tube support for bearing
 if( drawIndex==5 || drawIndex==0 )
 {
   translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
   {
-			//if( drawIndex==0 )
-			{
-				translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
-			}
+		//if( drawIndex==0 )
+		{
+			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
+		}
 		difference()
 		{
-       translate([-33,7,-22]) cube([21,5,29]);
+			translate([-33,7,-22]) cube([21,5,29]);
 			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11(1);
 		}
     height = Bearing608Height();
@@ -603,7 +495,7 @@ if( drawIndex==5 || drawIndex==0 )
               translate([-40,0,0]) 
               color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
             }
-            translate([0,0,0]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5);
+            translate([0,0,-0.1]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5+0.1);
           }
         }
       }
@@ -629,8 +521,8 @@ if( drawIndex==5 || drawIndex==0 )
 
       translate([rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35);
 			
-			 translate([-10,15.5,-0.1]) cube([20,10,40]);
-			 translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+			translate([-10,15.5,-0.1]) cube([20,10,40]);
+			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
     }
   }
 }
@@ -669,11 +561,185 @@ if( drawIndex==6 || drawIndex==0 )
       translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
       translate([40,0,-50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
 			// end stopper fit
-						 translate([-10,15.5,-0.1]) cube([20,10,40]);
-			 translate([-13.7,12.5,-0.1]) cube([5,5,40]);
-
+			translate([-10,15.5,-0.1]) cube([20,10,40]);
+			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
     }
   }
+}
+
+// x stepper plaform
+if( drawIndex==7 || drawIndex==0 )
+{
+	translate([xStepperX,xStepperY,xStepperZ])
+	{
+		difference()
+		{
+			union()
+			{
+				translate([0,0,-1]) cube([42,42,4],center=true);
+				holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+				translate([-holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				translate([holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				//translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				translate([-xStepperX+3,0,-xStepperZ+5+(xStepperZ-4)/2]) cube([6,42,xStepperZ-4],center=true);
+			}
+			rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+			extr = lookup(NemaRoundExtrusionDiameter, Nema17);
+			color ("silver") translate([0,0,-3.01]) cylinder(d=extr,h=6,$fn=32);
+			color ("silver") translate([-xStepperX+10,7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+			color ("silver") translate([-xStepperX+10,-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+		}
+	}
+}
+// y stepper plaform
+if( drawIndex==8 || drawIndex==0 )
+{
+	translate([yStepperX,yStepperY,yStepperZ])
+	{
+		difference()
+		{
+			union()
+			{
+				translate([0,0,-1]) cube([42,42,4],center=true);
+				holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+				translate([-holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				//translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				translate([holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
+				translate([-(-xStepperX+3),0,-xStepperZ+5+(xStepperZ-4)/2]) cube([6,42,xStepperZ-4],center=true);
+				}
+				rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+				extr = lookup(NemaRoundExtrusionDiameter, Nema17);
+				color ("silver") translate([0,0,-3.01]) cylinder(d=extr,h=6,$fn=32);
+				color ("silver") translate([-(-xStepperX-10),7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+				color ("silver") translate([-(-xStepperX-10),-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+			}
+	}
+}
+
+// base for xy steppers
+if( drawIndex==9 || drawIndex==0 )
+{
+	difference()
+	{
+		color ("orange") 
+		{
+			//translate([-35,0,0]) cube([70,47,5]);
+			hull()
+			{
+				translate([-47.5,85+3,0]) cube([95,3,5]);
+				translate([-47.5,123,0]) cube([95,8,5]);
+			}
+		}
+		translate([xStepperX,xStepperY,xStepperZ])
+		{
+				rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+				translate([xStepperX-10,0,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
+				translate([0,15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
+				translate([0,-15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
+				translate([0,0,-xStepperZ-0.1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
+		}
+		translate([yStepperX,yStepperY,yStepperZ])
+		{
+				rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+				translate([-(xStepperX-10),0,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
+				translate([0,15,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
+				translate([0,-15,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
+				translate([0,0,-xStepperZ-0.1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
+		}
+	}
+	translate([22.5,82,0]) cube([6,6,6]);
+	translate([-22.5-6,82,0]) cube([6,6,6]);
+}
+
+
+
+// base for z stepper
+if( drawIndex==10 || drawIndex==0 )
+{
+	color ("blue") 
+	{
+		//translate([-35,0,0]) cube([70,47,5]);
+		difference()
+		{
+			union()
+			{
+				hull()
+				{
+					translate([-47.5,85,0]) cube([95,3,5]);
+					translate([-47.5,34,0]) cube([95,8,5]);
+				}
+				color ("blue") difference()
+				{
+					color ("green") translate([-24,34,0]) cube([48,5,70]);
+					color ("red") translate([-20,33,5]) cube([40,10,20]);
+				}
+				color ("green") translate([10,45,0]) cube([13,25,28]);
+				color ("green") translate([-23,45,0]) cube([13,25,28]);
+
+				#color ("green") translate([-24.3,39,0]) cube([3,10,70]);
+				#color ("green") translate([24.3-3,39,0]) cube([3,10,70]);
+			}
+			translate([40,40,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			translate([-40,40,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			//
+			translate([40,80,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			translate([-40,80,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			//
+			translate([40,60,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			translate([-40,60,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			//
+			translate([0,80,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			translate([0,45,-0.2]) color("red") cylinder(r=1.51,h=10,$fn=16);
+			translate([0,63,-0.2]) color("red") cylinder(r=5,h=10,$fn=12);
+			//
+			translate([22.5,82,-0.2]) cube([6,6,10]);
+			translate([-22.5-6,82,-0.2]) cube([6,6,10]);
+		}
+	}
+}
+
+module XYto10Clip()
+{
+	union()
+	{
+		difference()
+		{
+			union()
+			{
+				translate([xStepperX,xStepperY,0])
+				{
+					holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+					translate([holeDist,-holeDist,5]) hull()
+					{
+						translate([0,16,0]) cylinder(r=1.51+3,h=5);
+						translate([2.5,16,0]) cylinder(r=1.51+3,h=5);
+						translate([0,-15,0]) cylinder(r=1.51+3,h=5);
+						translate([2.5,-15,0]) cylinder(r=1.51+3,h=5);
+						//translate([40,94.5,5]) scale([0.6,1,1]) cylinder(r=8,h=5);
+					}
+				}
+				translate([42.5,82.5,5]) cube([5,25,10]);
+			}
+			translate([xStepperX,xStepperY,0])
+			{
+						holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+						translate([holeDist,-holeDist,-1]) cylinder(r=1.51+3,h=35);
+			}
+			translate([40,80,0]) cylinder(r=1.51,h=18,$fn=16);
+			translate([40,110,0]) cylinder(r=1.51,h=18,$fn=16);
+		}
+	}
+}
+
+if( drawIndex==11 || drawIndex==0 )
+{
+	XYto10Clip();
+}
+if( drawIndex==12 || drawIndex==0 )
+{
+	mirror() XYto10Clip();
 }
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
