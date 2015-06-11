@@ -16,7 +16,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 4;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
 drawBelts = 0;
@@ -378,19 +378,22 @@ if( drawIndex==4 || drawIndex==0 )
 
 			// extra
       height = 30;
+			///*
 			hull()
 			{
 				translate([rodOffsetX,rodOffsetY-11,-0]) rotate([0,0,45]) cylinder(r=3+8,h=height,$fn=4);
 				translate([40,0,0]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
 			}
-
+			//*/
+			///*
 			hull()
 			{
 				translate([-rodOffsetX,rodOffsetY-11,-0]) rotate([0,0,45]) cylinder(r=3+8,h=height,$fn=4);
 				translate([-40,0,0]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
 			}
+			//*/
 		}
 		translate([0,0,5]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5);
 
@@ -411,7 +414,7 @@ if( drawIndex==4 || drawIndex==0 )
 			color("red") translate([-28,13,27]) rotate([90,0,0]) scale([1,1,1]) cylinder(d=13,h=28,$fn=16);
 		}
 
-		translate([40,0,0-0.1]) 
+		translate([40,0,0.1]) 
 		{
 			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45+5,$fn=16);
 			color("red") translate([0,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
@@ -426,7 +429,8 @@ if( drawIndex==4 || drawIndex==0 )
 		color("blue") rotate([0,0,0]) scale([1,1,1])
 			cube([20,5,20]);
 
-		color("red") translate([0,0,0]) cylinder(d=Bearing625Diameter()+b625RClearance,h=Bearing625Height());
+		color("red") translate([0,0,0.5]) cylinder(d=Bearing625Diameter()+b625RClearance,h=Bearing625Height());
+		color("red") translate([0,0,-0.1]) cylinder(d=5+b625RClearance,h=5);
 
 		translate([-28,-13,0]) rotate([180,180,0]) EndSwitchBody20x11(1);
 
