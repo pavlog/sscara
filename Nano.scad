@@ -16,7 +16,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 4;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
 drawBelts = 0;
@@ -658,7 +658,8 @@ if( drawIndex==9 || drawIndex==0 )
 				translate([xStepperX-10,0,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
 				translate([0,15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
 				translate([0,-15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
-				translate([0,0,-xStepperZ-0.1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
+				translate([0,0,-xStepperZ+0.5]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
+				translate([0,0,-xStepperZ-0.1]) cylinder(d=5.1,h=10,$fn=12);
 		}
 		translate([yStepperX,yStepperY,yStepperZ])
 		{
@@ -666,7 +667,8 @@ if( drawIndex==9 || drawIndex==0 )
 				translate([-(xStepperX-10),0,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
 				translate([0,15,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
 				translate([0,-15,-xStepperZ]) cylinder(r=1.51,h=10,$fn=12);
-				translate([0,0,-xStepperZ-0.1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
+				translate([0,0,-xStepperZ+0.5]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
+				translate([0,0,-xStepperZ-0.1]) cylinder(d=5.1,h=10,$fn=12);
 		}
 	}
 	translate([22.5,82,0]) cube([6,6,6]);
@@ -776,6 +778,15 @@ if( drawIndex==11 || drawIndex==0 )
 if( drawIndex==12 || drawIndex==0 )
 {
 	mirror() XYto10Clip();
+}
+
+if( drawIndex==13 || drawIndex==0 )
+{
+	difference()
+	{
+		color ("green") translate([-48,-23,17.5]) cube([20,10,6]);
+		translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11(1);
+	}
 }
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
