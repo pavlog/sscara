@@ -20,6 +20,7 @@ drawIndex = 0;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
 drawBelts = 0;
+drawSwitchesAll = 0;
 
 isExpolode = 0;
 pulley1H = 10.5;
@@ -71,7 +72,7 @@ yStepperX = -25;
 yStepperY = 110;
 yStepperZ = 32-Bearing625Height();
 
-if( drawIndex==5 || drawIndex==0 )//) 
+if( drawIndex==0 )//|| drawIndex==5 )//) 
 {
   // z stepper
   translate([0,83,49]) rotate([90,0,0])
@@ -452,18 +453,13 @@ if( drawIndex==4 || drawIndex==0 )
 
 
 // upper pulley+tube support for bearing
-if( drawIndex==5 || drawIndex==0 )
+if( drawIndex==5 )//|| drawIndex==0 )
 {
   translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
   {
-		//if( drawIndex==0 )
+		if( drawIndex==0 || drawSwitchesAll==1)
 		{
 			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
-		}
-		difference()
-		{
-			translate([-33,7,-22]) cube([21,5,29]);
-			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11(1);
 		}
     height = Bearing608Height();
     difference()
@@ -471,6 +467,11 @@ if( drawIndex==5 || drawIndex==0 )
       color("blue") 
       union()
       {
+				difference()
+				{
+					translate([-33,7,-22]) cube([21,5,29]);
+					translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11(1);
+				}
         cylinder(d=Bearing608Diameter()+12,h=Bearing608Height());
         difference()
         {
@@ -533,6 +534,9 @@ if( drawIndex==5 || drawIndex==0 )
       translate([-rodOffsetX-0.5,rodOffsetY-10,-23]) cube([1,10,40]);
 
       translate([-rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35,$fn=16);
+      translate([-rodOffsetX+8,rodOffsetY-5,-0]) rotate([0,90,0]) rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(3)+1,h=5,$fn=6);
+
+      #translate([-rodOffsetX+67,rodOffsetY-5,-0]) rotate([0,90,0]) rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(3)+1,h=5,$fn=6);
 
       // rods holes
       translate([rodOffsetX,rodOffsetY,-23]) cylinder(r=3.2,h=35,$fn=16);
@@ -659,7 +663,7 @@ if( drawIndex==9 || drawIndex==0 )
 				translate([0,15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
 				translate([0,-15,-xStepperZ-0.1]) cylinder(r=1.51,h=10,$fn=12);
 				translate([0,0,-xStepperZ+0.5]) cylinder(d=Bearing625Diameter()+b625RClearance,h=10,$fn=12);
-				translate([0,0,-xStepperZ-0.1]) cylinder(d=5.1,h=10,$fn=12);
+				translate([0,0,-xStepperZ-0.1]) cylinder(d=5.2,h=10,$fn=12);
 		}
 		translate([yStepperX,yStepperY,yStepperZ])
 		{
@@ -778,15 +782,6 @@ if( drawIndex==11 || drawIndex==0 )
 if( drawIndex==12 || drawIndex==0 )
 {
 	mirror() XYto10Clip();
-}
-
-if( drawIndex==13 || drawIndex==0 )
-{
-	difference()
-	{
-		color ("green") translate([-48,-23,17.5]) cube([20,10,6]);
-		translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11(1);
-	}
 }
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
