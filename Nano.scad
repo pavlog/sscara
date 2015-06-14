@@ -138,12 +138,12 @@ if( drawIndex==13 )
 }
 
 // pulley1
-if( drawIndex==1 || drawIndex==0 )
+if( drawIndex==1 || drawIndex==0 )//|| drawIndex==4 )
 {
 	translate([0,0,Bearing625Height()+isExpolode*10])
 	{	
 		ArmPulley(numBigHoles=5,retainerH=endStopArmH);
-		translate([0,0,pulley1H-endStopArmH]) 
+		translate([0,0,pulley1H-endStopArmH]) rotate([0,0,0])
 		hull()
 		{
       rotate([0, 0, 197])
@@ -356,36 +356,35 @@ if( drawIndex==4 || drawIndex==0 )
 							translate([-47.5,29,0]) cube([95,5,5]);
 						}
 					}
-					color ("green") translate([-24,30,0]) cube([48,4,70]);
+					/*
+					color ("green") translate([-24,30,0]) cube([48,4,20]);
 					hull()
 					{
-						color ("green") translate([-24,27,0]) cube([4,3,70]);
-						color ("green") translate([-24,20,0]) cube([4,3,20]);
+						color ("green") translate([-24,27,0]) cube([4,3,20]);
+						color ("green") translate([-24,25,0]) cube([4,3,20]);
 					}
+					//color ("green") translate([-24,27,0]) cube([7,3,28.5]);
 					hull()
 					{
-						color ("green") translate([25-5,27,0]) cube([4,3,70]);
-						color ("green") translate([25-5,20,0]) cube([4,3,20]);
+						color ("green") translate([24-4,27,0]) cube([4,3,20]);
+						color ("green") translate([24-4,25,0]) cube([4,3,1]);
 					}
+					color ("green") translate([-24,25,0]) cube([48,9,29]);
+					*/
 				}
+				
 				color ("red") translate([-15,28,5]) cube([30,10,20]);
 				translate([0,83,49]) rotate([90,0,0])
 				{
 					translate( [0,0,45]) rotate([180,0,0]) Nema17_shaft24_Stepper(bSrewsOnly=1);
 								color ("silver") translate([0,0,45]) cylinder(d=23,h=10,$fn=32);
 				}
-/*
-				hull()
-				{
-					translate([0,34,-0]) cylinder(r=3+5,h=rodsSupportH);
-					translate([0,25,0])color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=25,h=rodsSupportH,$fn=16);
-				}
-				*/
 				translate([40,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
 				translate([-40,28,-0.2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=rodsSupportH+1,$fn=16);
+
 			}
 			// center support
-			color ("red") translate([-7.5,26,5]) cube([15,8,20]);
+			color ("red") translate([-7.5,26,5]) cube([15,8,7.8]);
 
 			// extra
       height = 30;
@@ -408,7 +407,7 @@ if( drawIndex==4 || drawIndex==0 )
 		}
 		translate([0,0,5]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5);
 
-		color("red") translate([0,38,15]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=28,$fn=16);
+		color("red") translate([0,38,8.5]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=28,$fn=16);
 
 
 		color ("magenta") hull()
@@ -458,6 +457,12 @@ if( drawIndex==4 || drawIndex==0 )
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
 		translate([34,-14,-0.10]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+
+				// hhhh
+				//#color ("silver") translate([0,0,24]) cylinder(r=outerRad+10,h=5,$fn=32);
+				color ("silver") translate([0,0,13]) cylinder(r=outerRad+9.3,h=17,$fn=32);
+
+
   }
 }
 
@@ -546,7 +551,7 @@ if( drawIndex==5 )//|| drawIndex==0 )
       translate([-rodOffsetX-10,rodOffsetY-5,-0]) rotate([0,90,0]) cylinder(d=3.2,h=35,$fn=16);
       translate([-rodOffsetX+8,rodOffsetY-5,-0]) rotate([0,90,0]) rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(3)+1,h=5,$fn=6);
 
-      #translate([-rodOffsetX+67,rodOffsetY-5,-0]) rotate([0,90,0]) rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(3)+1,h=5,$fn=6);
+      translate([-rodOffsetX+67,rodOffsetY-5,-0]) rotate([0,90,0]) rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(3)+1,h=5,$fn=6);
 
       // rods holes
       translate([rodOffsetX,rodOffsetY,-23]) cylinder(r=3.2,h=35,$fn=16);
@@ -742,12 +747,14 @@ if( drawIndex==10 || drawIndex==0 )
 			translate([22.5,82,-0.2]) cube([6,6,10]);
 			translate([-22.5-6,82,-0.2]) cube([6,6,10]);
 			//
-			color("red") translate([0,48,15]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=38,$fn=16);
+			color("red") translate([0,48,8.5]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=38,$fn=16);
 			translate([0,83,49]) rotate([90,0,0])
 			{
 				translate( [0,0,45]) rotate([180,0,0]) Nema17_shaft24_Stepper(bSrewsOnly=1);
 				color ("silver") translate([0,0,43]) cylinder(d=23,h=12,$fn=32);
 			}
+			color ("silver") translate([0,0,13]) cylinder(r=outerRad+9.3,h=17,$fn=32);
+
 		}
 	}
 }
@@ -794,6 +801,42 @@ if( drawIndex==12 || drawIndex==0 )
 	mirror() XYto10Clip();
 }
 
+
+module PulleysToZClip()
+{
+	union()
+	{
+		difference()
+		{
+			union()
+			{
+				translate([xStepperX,50,0])
+				{
+					holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+					translate([holeDist,-holeDist,5]) hull()
+					{
+						translate([-1.5,13,0]) cylinder(r=1.51+3,h=5);
+						translate([2.5,13,0]) cylinder(r=1.51+3,h=5);
+						translate([-2.5,-13,0]) cylinder(r=1.51+3,h=5);
+						translate([2.5,-13,0]) cylinder(r=1.51+3,h=5);
+						//translate([40,94.5,5]) scale([0.6,1,1]) cylinder(r=8,h=5);
+					}
+				}
+			}
+			translate([40,40,0]) cylinder(r=1.51,h=18,$fn=16);
+			translate([40,28,0]) cylinder(r=1.51,h=18,$fn=16);
+		}
+	}
+}
+
+if( drawIndex==15 || drawIndex==0 )
+{
+	color( "red") PulleysToZClip();
+}
+if( drawIndex==16 || drawIndex==0 )
+{
+	color( "red") mirror() PulleysToZClip();
+}
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
 {
 	difference()
