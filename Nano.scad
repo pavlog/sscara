@@ -16,7 +16,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
 drawBelts = 0;
@@ -124,16 +124,18 @@ if( drawIndex==0 || drawBelts==1 )
 {
   color ("black") translate([26,0,6.5]) rotate([0,0,88]) cube([110,1.5,6]);
   color ("black") translate([-20,15,6.5]) rotate([0,0,67]) cube([110,1.5,6]);
-
 	translate([31,70,6.5]) rotate([0,0,178]) BeltClip();
 
   color ("black") translate([20,15,17.5]) rotate([0,0,112]) cube([110,1.5,6]);
   color ("black") translate([-26,0,17.5]) rotate([0,0,92]) cube([110,1.5,6]);
 	translate([-33,60,23.5]) rotate([180,0,3]) BeltClip();
-
-
 }
 
+if( drawIndex==13 ) 
+{
+	translate([-7,0,9]) rotate([0,180,0]) BeltClip();
+	translate([7,20,9]) rotate([0,180,180]) BeltClip();
+}
 
 // pulley1
 if( drawIndex==1 || drawIndex==0 )
@@ -188,6 +190,14 @@ if( drawIndex==0 )
 	translate([-28,-13,Bearing625Height()+pulley1H+pulley2H-1]) rotate([180,180,0]) EndSwitchBody20x11();
 }
 
+if( drawIndex==14 || drawIndex==0)
+{
+	difference()
+	{
+		translate([-48,-23,Bearing625Height()+pulley1H+pulley2H-7]) cube([20,10,6]);
+		translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11(1);
+	}
+}
 // puter tube holder - mounted to pulley2 (top)
 if( drawIndex==3 || drawIndex==0 )
 {
