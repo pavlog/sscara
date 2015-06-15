@@ -106,9 +106,9 @@ rodOffsetX = 40;
 rodOffsetY = 15;
 
 // rods
-if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY/*+20*/,40]) color ("silver") cylinder(r=3,h=200);
+if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY/*+20*/,40+isExpolode*75]) color ("silver") cylinder(r=3,h=200);
 
-if( drawIndex==0 ) translate([-rodOffsetX,rodOffsetY,40]) color ("silver") cylinder(r=3,h=200);
+if( drawIndex==0 ) translate([-rodOffsetX,rodOffsetY,40+isExpolode*75]) color ("silver") cylinder(r=3,h=200);
 
 if( drawIndex==0 ) Bearing625();
 
@@ -198,12 +198,15 @@ if( drawIndex==14 || drawIndex==0)
 		translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11(1);
 	}
 }
+
+if( drawIndex==0 ) translate([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*45]) Bearing625();
+
 // puter tube holder - mounted to pulley2 (top)
 if( drawIndex==3 || drawIndex==0 )
 {
 	rotate([0,0,0])//90])
 	{
-    translate ([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*35]) 
+    translate ([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*55]) 
     {
         difference()
         {
@@ -276,7 +279,7 @@ if( drawIndex==3 || drawIndex==0 )
 
 if( drawIndex==0 )
 {
-	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9++isExpolode*40]) 
+	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9+isExpolode*140]) 
 		color("silver")
 	{
 		difference()
@@ -286,8 +289,6 @@ if( drawIndex==0 )
 		}
 	}
 }
-
-if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45]) Bearing608(); 
 
 //if( drawIndex==0 ) translate([30,0,0]) cube([10,10,50]);
 
@@ -468,7 +469,7 @@ if( drawIndex==4 || drawIndex==0 )
 
 
 // upper pulley+tube support for bearing
-if( drawIndex==5 )//|| drawIndex==0 )
+if( drawIndex==5 || drawIndex==0 )
 {
   translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
   {
@@ -566,10 +567,12 @@ if( drawIndex==5 )//|| drawIndex==0 )
   }
 }
 
+if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley2H+35+isExpolode*65]) Bearing608(); 
+
 // upper bearing mount
 if( drawIndex==6 || drawIndex==0 )
 {
-  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45+Bearing608Height()]) 
+  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()]) 
   {
     height = 2+3;
     difference()
@@ -693,6 +696,12 @@ if( drawIndex==9 || drawIndex==0 )
 	translate([22.5,82,0]) cube([6,6,6]);
 	translate([-22.5-6,82,0]) cube([6,6,6]);
 }
+
+
+if( drawIndex==0 ) 
+	translate([xStepperX,xStepperY,0.5]) Bearing625();
+if( drawIndex==0 ) 
+	translate([yStepperX,yStepperY,0.5]) Bearing625();
 
 
 
