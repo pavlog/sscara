@@ -435,7 +435,7 @@ if( drawIndex==4 || drawIndex==0 )
 			color("red") translate([-28,13,27]) rotate([90,0,0]) scale([1,1,1]) cylinder(d=13,h=28,$fn=16);
 		}
 
-		translate([40,0,0.1]) 
+		translate([40,0,0-0.1]) 
 		{
 			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45+5,$fn=16);
 			color("red") translate([0,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
@@ -805,7 +805,6 @@ if( drawIndex==20 || drawIndex==0 )
   }
 }
 
-
 // ramps 1.4 bottom mount
 if( drawIndex==0 )//|| drawIndex==18 || drawIndex==19 )
 {
@@ -864,7 +863,7 @@ if( drawIndex==22 || drawIndex==0 )
         }
       }
 			// bearing hole
-      color( "red") translate([0,0,height-Bearing608Height()]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.2);
+      color( "red") translate([0,0,height-Bearing608Height()]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+5);
       color( "red") translate([0,0,-1]) cylinder(r=centerTubeFixerRTop+0.5,h=Bearing608Height()+15);
 			// mount holes
       translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
@@ -875,6 +874,9 @@ if( drawIndex==22 || drawIndex==0 )
     }
   }
 }
+
+if( drawIndex==0 )
+	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+170+4]) Bearing608(); 
 
 
 // m3 threaded rods
@@ -1039,6 +1041,14 @@ if( drawIndex==10 || drawIndex==0 )
 		}
 	}
 }
+
+/*
+difference()
+{
+	color("green") translate([-48,-64,0]) cube([96,40,5]);
+	color("blue") cylinder(d=56,h=5);
+}
+*/
 
 module XYto10Clip()
 {
