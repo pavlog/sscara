@@ -7,8 +7,6 @@ use <Modules/EndStoppers.scad>
 include <Modules/MCAD/stepper.scad>
 use <Modules/Belt_Generator.scad>
 
-//http://www.thingiverse.com/thing:34621
-//translate ([100,100,100])rotate([90,0,0]) import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
 
 m5Rclearance = 0.1;
 m5Hclearance = 0.2;
@@ -16,7 +14,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
 drawBelts = 0;
@@ -71,6 +69,18 @@ xStepperZ = 32-Bearing625Height();
 yStepperX = -25;
 yStepperY = 110;
 yStepperZ = 32-Bearing625Height();
+
+
+if( drawIndex==0 )
+{
+	translate ([26,-35,240]) rotate([180,0,90]) Nema17_shaft24_Stepper();
+}
+
+if( drawIndex==0 )
+{
+	translate ([0,-65,0]) cylinder(r=3,h=300);
+}
+
 
 if( drawIndex==0 )//|| drawIndex==5 )//) 
 {
@@ -609,6 +619,253 @@ if( drawIndex==6 || drawIndex==0 )
   }
 }
 
+if( drawIndex==17 || drawIndex==0 )
+{
+	offset = drawIndex==17 ? 10 : 40;
+	difference()
+	{
+		union()
+		{
+					translate([-offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=15,$fn=16);
+					translate([offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=15,$fn=16);
+		}
+		// mount holes
+		translate([-offset,0,50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+		translate([offset,0,50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+		// m5 nuts
+		translate([-offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3),$fn=6);
+		translate([offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3),$fn=6);
+	}
+}
+
+// ramps bottom mount
+if( drawIndex==18 || drawIndex==0 )
+{
+  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*95+Bearing608Height()+20]) 
+  {
+		difference()
+		{
+			hull()
+			{
+				color("green") rotate([90,0,0]) translate([-29,12.1,3]) cylinder(d=7,h=10,$fn=12);
+				color("green") rotate([90,0,0]) translate([-29,5,3]) cylinder(d=9,h=10,$fn=12);
+			}
+			color("red") rotate([90,0,0]) translate([-29,12.1,0]) cylinder(d=3.1,h=20,$fn=12);
+		}
+
+		difference()
+		{
+			hull()
+			{
+				color("green") rotate([90,0,0]) translate([19.5,12.1,3]) cylinder(d=7,h=10,$fn=12);
+				color("green") rotate([90,0,0]) translate([19.5,5,3]) cylinder(d=9,h=10,$fn=12);
+			}
+			color("red") rotate([90,0,0]) translate([19.5,11,0]) cylinder(d=3.1,h=20,$fn=12);
+		}
+    height = 2+3;
+    difference()
+    {
+      color("blue") 
+      union()
+      {
+        cylinder(d=8+3,h=height);
+        difference()
+        {
+          hull()
+          {
+            translate([0,-16,0]) color("blue") cylinder(d=30,h=height);
+
+            translate([40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+
+            translate([-40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+          }
+          translate([-25,-35,-0.5]) cube([50,20,height+1]);
+        }
+      }
+			// bearing hole
+      //color( "red") translate([0,0,-Bearing608Height()+2]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.2);
+      color( "red") translate([0,0,-1]) cylinder(d=9,h=Bearing608Height()+15);
+			// mount holes
+      translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+      translate([40,0,-50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+			// end stopper fit
+			translate([-10,15.5,-0.1]) cube([20,10,40]);
+			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+			// ramps fit
+			translate([-40,-23,-0.1]) cube([80,10,40]);
+    }
+  }
+}
+
+// ramps middle spacer
+if( drawIndex==19 || drawIndex==0 )
+{
+	hs = 70;
+	offset = drawIndex==19 ? 7 : 40;
+	offset2 = drawIndex==19 ? hs/2 : 0;
+	offsetY = drawIndex==19 ? 12 : 0;
+	zoffset = Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18;
+	difference()
+	{
+		union()
+		{
+					translate([-offset,0,zoffset]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=hs/2,$fn=16);
+					translate([offset,0,zoffset]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=hs/2,$fn=16);
+					translate([-offset,offsetY,zoffset+hs/2-offset2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=4,r2=4,h=hs/2,$fn=16);
+					translate([offset,offsetY,zoffset+hs/2-offset2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=4,r2=4,h=hs/2,$fn=16);
+		}
+		// mount holes
+		translate([-offset,0,50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+		translate([offset,0,50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+		// mount holes
+		translate([-offset,offsetY,50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+		translate([offset,offsetY,50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+		// m5 nuts
+		translate([-offset,0,zoffset-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+		translate([offset,0,zoffset-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+	}
+}
+
+
+// ramps bottom mount
+if( drawIndex==20 || drawIndex==0 )
+{
+  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*95+Bearing608Height()+95]) 
+  {
+		difference()
+		{
+			hull()
+			{
+				color("green") rotate([90,0,0]) translate([-29,12.1,3]) cylinder(d=7,h=10,$fn=12);
+				color("green") rotate([90,0,0]) translate([-29,5,3]) cylinder(d=9,h=10,$fn=12);
+			}
+			color("red") rotate([90,0,0]) translate([-29,12.1,0]) cylinder(d=3.1,h=20,$fn=12);
+		}
+
+		difference()
+		{
+			hull()
+			{
+				color("green") rotate([90,0,0]) translate([19.5,18.5,3]) cylinder(d=7,h=10,$fn=12);
+				color("green") rotate([90,0,0]) translate([19.5,5,3]) cylinder(d=9,h=10,$fn=12);
+			}
+			color("red") rotate([90,0,0]) translate([19.5,18.5,0]) cylinder(d=3.1,h=20,$fn=12);
+		}
+    height = 2+3;
+    difference()
+    {
+      color("blue") 
+      union()
+      {
+        cylinder(d=8+3,h=height);
+        difference()
+        {
+          hull()
+          {
+            translate([0,-16,0]) color("blue") cylinder(d=30,h=height);
+
+            translate([40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+
+            translate([-40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+          }
+          translate([-25,-35,-0.5]) cube([50,20,height+1]);
+        }
+      }
+			// bearing hole
+      //color( "red") translate([0,0,-Bearing608Height()+2]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.2);
+      color( "red") translate([0,0,-1]) cylinder(d=9,h=Bearing608Height()+15);
+			// mount holes
+      translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+      translate([40,0,-50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+			// end stopper fit
+			translate([-10,15.5,-0.1]) cube([20,10,40]);
+			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+			// ramps fit
+			translate([-40,-23,-0.1]) cube([80,10,40]);
+    }
+  }
+}
+
+
+// ramps 1.4 bottom mount
+if( drawIndex==0 )//|| drawIndex==18 || drawIndex==19 )
+{
+	//http://www.thingiverse.com/thing:34621
+	translate ([0,-25,135]) rotate([0,-90,180]) import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
+}
+
+centerTubeFixerRTop = 8;
+centerTubeFixerR = 10;
+
+if( drawIndex==21 || drawIndex==0 )
+{
+  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+158]) 
+  {
+		difference()
+		{
+			union()
+			{
+				cylinder(r=centerTubeFixerR,h=9);
+				translate([0,0,9]) cylinder(r=centerTubeFixerRTop,h=15-9);
+			}
+			translate([0,0,-1]) cylinder(r=4,h=15+2);
+			translate([-20,6,5]) rotate([0,90,0]) cylinder(d=3.1,h=45,$fn=16);
+			translate([6.5,6,5]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=45,$fn=6);
+			translate([-10,6,5]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=3,$fn=6);
+			translate([0,0,-1]) cube([1,10,12]);
+		}
+	}
+}
+
+// upper bearing mount
+if( drawIndex==22 || drawIndex==0 )
+{
+  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+170]) 
+  {
+    height = 2+3+5;
+    difference()
+    {
+      color("blue") 
+      union()
+      {
+        cylinder(d=Bearing608Diameter()+12,h=height);
+        difference()
+        {
+          hull()
+          {
+            translate([0,-8,0]) color("blue") cylinder(d=30,h=height);
+
+            translate([40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+
+            translate([-40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+          }
+          translate([-25,-35,-0.5]) cube([50,20,height+1]);
+        }
+      }
+			// bearing hole
+      color( "red") translate([0,0,height-Bearing608Height()]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.2);
+      color( "red") translate([0,0,-1]) cylinder(r=centerTubeFixerRTop+0.5,h=Bearing608Height()+15);
+			// mount holes
+      translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+      translate([40,0,-50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+			// end stopper fit
+			translate([-10,15.5,-0.1]) cube([20,10,40]);
+			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+    }
+  }
+}
+
+
+// m3 threaded rods
+if( drawIndex==0 ) translate([-40,0,0]) color("silver") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=300,$fn=16);
+if( drawIndex==0 ) translate([40,0,0])  color("silver") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=300,$fn=16);
+
 // x stepper plaform
 if( drawIndex==7 || drawIndex==0 )
 {
@@ -846,6 +1103,10 @@ if( drawIndex==16 || drawIndex==0 )
 {
 	color( "red") mirror() PulleysToZClip();
 }
+
+//#translate ([-50,-60,0]) cube([100,200,300]);
+
+
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
 {
 	difference()
