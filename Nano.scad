@@ -677,8 +677,12 @@ if( drawIndex==18 || drawIndex==0 )
 
             translate([40,0,0]) 
             color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+            translate([40,-5,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
 
             translate([-40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+            translate([-40,-5,0]) 
             color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
           }
           translate([-25,-35,-0.5]) cube([50,20,height+1]);
@@ -694,7 +698,11 @@ if( drawIndex==18 || drawIndex==0 )
 			translate([-10,15.5,-0.1]) cube([20,10,40]);
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
 			// ramps fit
-			translate([-40,-23,-0.1]) cube([80,10,40]);
+			translate([-50,-23,-0.1]) cube([100,10,40]);
+			//
+			//extra holes
+      translate([-40,-8,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+      translate([40,-8,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
     }
   }
 }
@@ -768,8 +776,12 @@ if( drawIndex==20 || drawIndex==0 )
 
             translate([40,0,0]) 
             color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+            translate([40,-5,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
 
             translate([-40,0,0]) 
+            color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
+            translate([-40,-5,0]) 
             color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
           }
           translate([-25,-35,-0.5]) cube([50,20,height+1]);
@@ -786,6 +798,9 @@ if( drawIndex==20 || drawIndex==0 )
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
 			// ramps fit
 			translate([-40,-23,-0.1]) cube([80,10,40]);
+			//extra holes
+      translate([-40,-8,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+      translate([40,-8,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
     }
   }
 }
