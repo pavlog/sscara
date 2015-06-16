@@ -731,8 +731,8 @@ if( drawIndex==19 || drawIndex==0 )
 		translate([-offset,offsetY,50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
 		translate([offset,offsetY,50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
 		// m5 nuts
-		translate([-offset,0,zoffset-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-		translate([offset,0,zoffset-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+		translate([-offset,0,zoffset-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.7,$fn=6);
+		translate([offset,0,zoffset-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.7,$fn=6);
 	}
 }
 
@@ -828,8 +828,8 @@ if( drawIndex==21 || drawIndex==0 )
 			}
 			translate([0,0,-1]) cylinder(r=4,h=15+2);
 			translate([-20,6,5]) rotate([0,90,0]) cylinder(d=3.1,h=45,$fn=16);
-			translate([6.5,6,5]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=45,$fn=6);
-			translate([-10,6,5]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=3,$fn=6);
+			translate([6.5,6,5]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.7,h=45,$fn=6);
+			translate([-10,6,5]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.7,h=3,$fn=6);
 			translate([0,0,-1]) cube([1,10,12]);
 		}
 	}
@@ -1099,34 +1099,38 @@ module PulleysToZClip()
 	{
 		difference()
 		{
-			union()
+			color( "red") union()
 			{
 				translate([xStepperX,50,0])
 				{
 					holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 					translate([holeDist,-holeDist,5]) hull()
 					{
-						translate([-1.5,13,0]) cylinder(r=1.51+3,h=5);
+						translate([-1,13,0]) cylinder(r=1.51+3,h=5);
 						translate([2.5,13,0]) cylinder(r=1.51+3,h=5);
-						translate([-2.5,-13,0]) cylinder(r=1.51+3,h=5);
-						translate([2.5,-13,0]) cylinder(r=1.51+3,h=5);
-						//translate([40,94.5,5]) scale([0.6,1,1]) cylinder(r=8,h=5);
+						//translate([-2.5,-13,0]) cylinder(r=1.51+3,h=5);
+						//translate([2.5,-13,0]) cylinder(r=1.51+3,h=5);
+						translate([-5,-22.7,0]) cube([12,10,15]);
 					}
 				}
 			}
 			translate([40,40,0]) cylinder(r=1.51,h=18,$fn=16);
 			translate([40,28,0]) cylinder(r=1.51,h=18,$fn=16);
+			translate([40,15,0]) cylinder(r=1.51,h=38,$fn=16);
+			// nut place
+			color("green") translate([40,40,12]) cylinder(d=rolson_hex_nut_dia(5)+3,h=18,$fn=16);
+			color("green") translate([40,28,16]) cylinder(d=rolson_hex_nut_dia(5)+3,h=18,$fn=16);
 		}
 	}
 }
 
 if( drawIndex==15 || drawIndex==0 )
 {
-	color( "red") PulleysToZClip();
+	PulleysToZClip();
 }
 if( drawIndex==16 || drawIndex==0 )
 {
-	color( "red") mirror() PulleysToZClip();
+	mirror() PulleysToZClip();
 }
 
 //#translate ([-50,-60,0]) cube([100,200,300]);
