@@ -4,13 +4,13 @@ function ball_to_radius(n, r) = r * sin(180 / n);
 sphereFn = 8;//45
 cylinderFn = 18;//45
 genPin = 0;
-module Bearing(outer, inner, attempt, gap, hole, height) {
+module Bearing(outer, inner, attempt, gap, hole, height) 
+{
 	n = round(radius_to_balls(attempt, inner));
 	r = ball_to_radius(n, inner);
 	theta = 360 / n;
 	pinRadius = 0.5 * r;
-// The pins:
-	
+	// The pins:
 	for(i = [0 : n])
 		rotate(a = [0, 0, theta * i])
 			translate([inner, 0, 0])
@@ -18,13 +18,14 @@ module Bearing(outer, inner, attempt, gap, hole, height) {
 					sphere(r = r - gap, center = true, $fn = 45); */
 					sphere(r = r - 0.5*gap, center = true, $fn = sphereFn);
 					assign(rad = pinRadius - gap)
-  if( genPin )
-  {
-						cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = cylinderFn);
-   }
+	if( genPin )
+	{
+		cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = cylinderFn);
+	}
 				}
-// The inner race:
-	difference() {
+	// The inner race:
+	difference() 
+	{
 		assign(rad = inner - pinRadius - gap)
 			cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = cylinderFn);
 		rotate_extrude(convexity = 10)
@@ -32,8 +33,9 @@ module Bearing(outer, inner, attempt, gap, hole, height) {
 				circle(r = r + gap, $fn = 30);
 		cylinder(r1 = hole, r2 = hole, h = height + 5, center = true, $fn = cylinderFn);
 	}
-// The outer race:
-	difference() {
+	// The outer race:
+	difference() 
+	{
 		cylinder(r1 = outer, r2 = outer, h = height, center = true, $fn = cylinderFn);
 		assign(rad = inner + pinRadius + gap)
 			cylinder(r1 = rad, r2 = rad, h = height + 5, center = true, $fn = cylinderFn);
@@ -52,7 +54,7 @@ function Bearing625Diameter() = 16;
 
 module Bearing623()
 {
-  translate ([0,0,2.5]) color ("silver") Bearing(outer = 5, inner = 3, attempt = 1.5, gap = 0.2, height = 4, hole = 1.5);
+  translate ([0,0,2.5]) color ("silver") Bearing(outer = 5, inner = 3, attempt = 1.5, gap = 0.2, height = Bearing623Height(), hole = 1.5);
 }
 
 function Bearing623Height() = 4;

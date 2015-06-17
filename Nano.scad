@@ -14,7 +14,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 drawSteppers = 1;
 drawBelts = 0;
@@ -70,10 +70,85 @@ yStepperX = -25;
 yStepperY = 110;
 yStepperZ = 32-Bearing625Height();
 
+gearRadToTeethEnd = 5;
+fillamentD = 1.75;
+fillamentPenetration = 0.5;//mm
+extruderBearingDia = Bearing623Diameter();
+extruderBearingH = Bearing623Height();
+extruderClearanceH = 0.2;
 
-if( drawIndex==0 )
+// extruder
+if( drawIndex==0 || drawIndex==23 )
 {
-	translate ([26,-35,240]) rotate([180,0,90]) Nema17_shaft24_Stepper();
+	translate ([26,-35,240]) rotate([180,0,90])
+	{
+		Nema17_shaft24_Stepper();
+		translate([0,0,-3])
+		{
+			difference()
+			{
+				//cube([36,36,4]);
+				hull()
+				{
+					translate([-14,-14,0]) cylinder(r=7.5,h=4);
+					translate([14,-14,0]) cylinder(r=7.5,h=4);
+					translate([14,14,0]) cylinder(r=7.5,h=4);
+					translate([-14,14,0]) cylinder(r=7.5,h=4);
+				}
+				extr = lookup(NemaRoundExtrusionDiameter, Nema17);
+				//color ("red") translate([0,0,-3]) cylinder(d=extr+0.5,h=4,$fn=32);
+				color ("red") translate([0,0,2]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+			}
+		}
+		armH = extruderBearingH+3+3;
+		partsOffset = -13;
+		translate([0,0,partsOffset])
+		{
+			color( "silver") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,armH/4]) Bearing623();
+			//color( "gold") translate([0,0,0]) cylinder(r=gearRadToTeethEnd,h=10);
+			color( "blue") translate([-50,-gearRadToTeethEnd-fillamentD/2+fillamentPenetration,armH/2]) rotate([0,90,0]) cylinder(d=fillamentD,h=100,$fn=16);
+		}
+		translate([0,0,partsOffset])
+		{
+			difference()
+			{
+				union()
+				{
+				color( "green") hull()
+				{
+					color( "green") translate([-15.5,-15.5,0]) cylinder(d=11+2,h=armH);
+					color( "green") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,0]) cylinder(d=extruderBearingDia+6,h=armH);
+					color( "green") translate([-12,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,0]) cylinder(d=extruderBearingDia+6,h=armH);
+				}
+				color( "red") hull()
+				{
+					color( "green") translate([-15.5,-15.5,0]) cylinder(d=11+2,h=armH);
+					color( "green") translate([-15.5,14.5,0]) cylinder(d=11+2,h=armH);
+					//color( "green") translate([-11.5,-7.5,0]) cylinder(d=11,h=armH);
+				}
+				color( "blue") hull()
+				{
+					translate([-11.5,19,0]) cylinder(d=5,h=armH);
+					translate([-11.5,12,0]) cylinder(d=5,h=armH);
+					translate([-20,15.5,0]) cylinder(d=11+2,h=armH);
+					translate([-15.5,10.5,0]) cylinder(d=11,h=armH);
+				}
+				color( "gold") translate([-11,16,armH/2]) rotate([0,90,0]) cylinder(r1=5,r2=4.5,h=2,$fn=16);
+				color( "gold") translate([-11,16,armH/2]) rotate([0,90,0]) cylinder(r1=3,r2=0.5,h=5,$fn=16);
+				}
+				color( "gold") translate([0,0,-1]) cylinder(r=gearRadToTeethEnd,h=10+2);
+				hull()
+				{
+					color( "silver") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,(armH-Bearing623Height())/2-extruderClearanceH]) cylinder(r=Bearing623Diameter()/2+1,h=Bearing623Height()+extruderClearanceH*2,$fn=32);
+					color( "silver") translate([0,10-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,(armH-Bearing623Height())/2-extruderClearanceH]) cylinder(r=Bearing623Diameter()/2+1,h=Bearing623Height()+extruderClearanceH*2,$fn=32);
+				}
+				color( "blue") translate([-50,-gearRadToTeethEnd-fillamentD/2+fillamentPenetration,armH/2]) rotate([0,90,0]) cylinder(d=fillamentD+0.2,h=100,$fn=16);
+				color( "silver") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,-5]) cylinder(d=3.1,h=20,$fn=16);
+				color( "silver") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,(armH-Bearing623Height())/2-0.5]) cylinder(d=8,h=0.5,$fn=16);
+				color( "silver") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,(armH-Bearing623Height())/2+Bearing623Height()]) cylinder(d=8,h=0.5,$fn=16);
+			}
+		}
+	}
 }
 
 if( drawIndex==0 )
