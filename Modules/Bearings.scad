@@ -62,7 +62,7 @@ function Bearing623Diameter() = 10;
 
 module Bearing608()
 {
-  translate ([0,0,2.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 7, attempt = 2, gap = 0.2, height = Bearing608Height(), hole = 4);
+  translate ([0,0,3.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 7, attempt = 2, gap = 0.2, height = Bearing608Height(), hole = 4);
 }
 function Bearing608Height() = 7;
 function Bearing608Diameter() = 22;

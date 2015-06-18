@@ -78,6 +78,7 @@ namespace WindowsFormsApplication1
             NewMethod(e, l, bottomOffset, stepSize, dhalf, l2, L2, -50, bedYOffset, true);
             NewMethod(e, l, bottomOffset, stepSize, dhalf, l2, L2, 50, bedYOffset + bedH, true);
             NewMethod(e, l, bottomOffset, stepSize, dhalf, l2, L2, 50, bedYOffset, true);
+            NewMethod(e, l, bottomOffset, stepSize, dhalf, l2, L2, 0, bedYOffset, true);
             e.Graphics.DrawRectangle(Pens.Orange, panel2.Size.Width / 2 + (-bedW / 2) * stepSize - stepSize / 2, panel2.Size.Height - 0 * stepSize - stepSize / 2 - bottomOffset - bedYOffset * stepSize - bedH * stepSize, bedW * stepSize, bedH * stepSize);
             textMaxq1.Text = ConvertToDegree(maxAngleRight).ToString();
             textMaxq2.Text = ConvertToDegree(maxAngleLeft).ToString();
