@@ -14,7 +14,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 23;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 22;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 printLayout = 1;
 drawSteppers = 1;
@@ -1143,12 +1143,12 @@ if( drawIndex==22 || drawIndex==0 )
   {
     difference()
     {
-      color("blue") 
+      //
       union()
       {
         difference()
         {
-					union()
+					color("blue") union()
 					{
 						cylinder(d=Bearing608Diameter()+12,h=height);
 						hull()
@@ -1182,10 +1182,10 @@ if( drawIndex==22 || drawIndex==0 )
 					}
           translate([-25,-35,-0.5]) cube([50,20,height+1]);
 					// rods holes
-					translate([40,15,-3-0.1]) 
+					color("red") translate([rodOffsetX,rodOffsetY,-3-0.1]) 
 						rotate([0,0,0]) scale([1,1,1]) cylinder(d=6,h=height,$fn=16);
-					translate([-40,14,-3-0.1]) 
-						rotate([0,0,0]) scale([1,1,1]) cylinder(d=8,h=height+3,$fn=16);
+					color("red") translate([-rodOffsetX,rodOffsetY,-3-0.1]) 
+						rotate([0,0,0]) scale([1,1,1]) cylinder(d=6,h=height,$fn=16);
 					// cut 
 					translate([-50,-23,-1]) cube([100,10,40]);
 				}
