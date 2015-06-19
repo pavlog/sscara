@@ -41,7 +41,7 @@ namespace WindowsFormsApplication1
             float l = float.Parse(textBoxl.Text);
             float L = float.Parse(textBoxLL.Text);
             float d = float.Parse(textBoxd.Text);
-            float bottomOffset = 10;
+            float bottomOffset = 30;
             float stepSize = (float)Math.Floor((panel2.Size.Height - bottomOffset) / (maxY - minY));
             float dhalf = d / 2;
             float l2 = l * l;
