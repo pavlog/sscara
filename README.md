@@ -1,6 +1,8 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
+Current Status: WIP (please do not print anything until i get first prints on #sscara)
+
 Dimensions: 
 * 120x180x250mm (Height configurable)
 
@@ -31,6 +33,8 @@ Materials:
 
 SCAD:
 * use drawIndex variable to control parts visibility
+* use printLayout to control parts/subparts layout (0 for design, 1 for export)
+* isExpolode - variable to control explode mode view (WIP)
 
 Slicer:
 * Slic3r

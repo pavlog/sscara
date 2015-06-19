@@ -14,9 +14,12 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 22;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
-printLayout = 1;
+// more printer friedly layout (note: not all parts are done)
+printLayout = 0;
+
+
 drawSteppers = 1;
 drawBelts = 0;
 drawSwitchesAll = 0;
@@ -51,7 +54,7 @@ yStepperX = -25;
 yStepperY = 110;
 yStepperZ = 32-Bearing625Height();
 
-gearRadToTeethEnd = 7.3/2;// semms like mk8
+gearRadToTeethEnd = 7.3/2;// seems like mk8
 gearRad = 9.5/2;// semms like mk8
 fillamentD = 1.75;
 fillamentPenetration = 0.5;//mm
@@ -148,7 +151,7 @@ if( drawIndex==23 || drawIndex==0 )
 				//color( "gold") translate([-11,16,armH/2]) rotate([0,90,0]) cylinder(r1=3,r2=0.5,h=5,$fn=16);
 				}
 				color( "gold") translate([-13,16,armH/2]) rotate([0,90,0]) cylinder(r=4,h=5,$fn=16);
-				color( "gold") translate([0,0,-1]) cylinder(r=gearRad,h=10+2);
+				color( "gold") translate([0,0,-1]) cylinder(r=gearRad+0.3,h=10+2);
 				hull()
 				{
 					color( "silver") translate([0,-gearRadToTeethEnd-Bearing623Diameter()/2-fillamentD/2,(armH-Bearing623Height())/2-extruderClearanceH]) cylinder(r=Bearing623Diameter()/2+1,h=Bearing623Height()+extruderClearanceH*2,$fn=32);
