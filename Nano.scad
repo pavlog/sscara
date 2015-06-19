@@ -63,7 +63,7 @@ extruderBearingH = Bearing623Height();
 extruderClearanceH = 0.2;
 
 armsZ = 250;
-armsZExtra = 5;//15;
+armsZExtra = 15;//15;
 armsExtruderExtra = 0;
 extrudeMountZOffset = 0;
 
@@ -227,9 +227,13 @@ q22 = 2 * atan(qq22);
 
 if( drawIndex==0 )
 {
-	translate ([x,y,armsZ+armsZExtra-20])
+	translate ([x,y,armsZ+armsZExtra-15])
 	{
 		color("red") cylinder(r=3,h=40);
+		translate ([0,0,-6])
+			color("red") cylinder(r1=1,r2=5,h=6);
+		translate ([-5,-7,0])
+			color("red") cube([10,20,10]);
 	}
 }
 
@@ -274,7 +278,7 @@ if( drawIndex==24 || drawIndex==0 )
 
 	translate ([0,0,armsZ+armsZExtra]) rotate([0,0,q22])
 	{
-		color("red") translate([0,0,-armsZExtra-2]) cylinder(r=ArmNearestW-1,h=armsZExtra+2);
+		color("red") translate([0,0,-armsZExtra-2]) cylinder(r=ArmNearestW-0.5,h=armsZExtra+2);
 	}
 
 

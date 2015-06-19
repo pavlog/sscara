@@ -256,7 +256,7 @@
             this.textBoxYOffs.Name = "textBoxYOffs";
             this.textBoxYOffs.Size = new System.Drawing.Size(79, 20);
             this.textBoxYOffs.TabIndex = 25;
-            this.textBoxYOffs.Text = "20";
+            this.textBoxYOffs.Text = "35";
             // 
             // label10
             // 
