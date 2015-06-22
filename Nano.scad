@@ -5,8 +5,10 @@ use <Modules/ISOThread.scad>
 use <Modules/Bearings.scad>
 use <Modules/EndStoppers.scad>
 include <Modules/MCAD/stepper.scad>
-use <Modules/Belt_Generator.scad>
 
+//
+// TODO: space for belt clips on xy psteppers platform
+//
 
 m5Rclearance = 0.1;
 m5Hclearance = 0.2;
@@ -14,7 +16,7 @@ b625RClearance = 0.2;
 b608Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 13;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
 printLayout = 0;
@@ -223,8 +225,6 @@ q21 = 2 * atan(qq21);
 qq22 = (-B + sqrt(Det2)) / (F - E);
 q22 = 2 * atan(qq22);
 
-//echo (q22);
-
 if( drawIndex==0 )
 {
 	translate ([x,y,armsZ+armsZExtra-15])
@@ -276,11 +276,17 @@ if( drawIndex==24 || drawIndex==0 )
 	}
 }
 
+if( drawIndex==31 || drawIndex==0 )
+{
 	translate ([0,0,armsZ+armsZExtra]) rotate([0,0,q22])
 	{
+		difference()
+		{
 		color("red") translate([0,0,-armsZExtra-2]) cylinder(r=ArmNearestW-0.5,h=armsZExtra+2);
+		color("red") translate([0,0,-armsZExtra-3]) cylinder(d=8,h=armsZExtra+4);
+		}
 	}
-
+}
 
 if( drawIndex==25 || drawIndex==0 )
 {
@@ -402,8 +408,9 @@ if( drawIndex==0 || drawBelts==1 )
 
 if( drawIndex==13 ) 
 {
-	translate([-7,0,9]) rotate([0,180,0]) BeltClip();
-	translate([7,20,9]) rotate([0,180,180]) BeltClip();
+	a =  180;
+	translate([-7,0,9]) rotate([0,180,0+a]) BeltClip(4,1);
+	translate([7,0,9]) rotate([0,180,180+a]) BeltClip(4,1);
 }
 
 // pulley1
@@ -1157,14 +1164,12 @@ if( drawIndex==29 || drawIndex==0 )
 }
 
 // top bearing spacer
-//
-//WIP
 if( drawIndex==30 || drawIndex==0 )
 {
-	hs = 28;
+	hs = 42;
 	offset = drawIndex==30 ? 7 : 40;
 	offsetY = drawIndex==30 ? 12 : 0;
-	zoffset = Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18+75;
+	zoffset = Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18+75+32;
 	difference()
 	{
 		union()
@@ -1696,18 +1701,170 @@ module Pulley16Teeth()
 		);
 }
 
-module BeltClip()
+// modified by pavlo gryb
+// adapted to small scara
+// Tough Belt Clip
+// Design by Marius Gheorghescu, December 2013
+
+
+// how many teeth on each side
+teeth = 3;
+
+// width of the belt in mm incl clearance (use 6.25 for typical GT2 belt)
+belt_width = 6.5;
+
+// thickness of the belt in mm (use 1.5 for GT2 belt)
+belt_thickness = 1.5;
+
+// belt pitch in mm (use 2.0 for GT2 belt)
+pitch = 2.0;
+
+// this controls the strength of the bracket 
+shell = 1;
+
+/* [Hidden] */
+cutout_width = 6 + belt_thickness + shell;
+len = 2*teeth*pitch + cutout_width;
+round_corner_epsilon = 1;
+epsilon = 0.01;
+
+
+module belt()
 {
-	difference()
-	{
-		translate ([-2.9,0,0]) cube([6.1,20,9]);
-			rotate([0,0,90]) scale([1,1.3,1])belting("straight","GT2_2mm", belt_length = 60, belting_width = 7 );	// 13 seconds
-		translate ([0,9.5,0]) cube([12,1,7]);
-		//translate ([-11.3,-5,0]) rotate([0,0,10])  cube([10,10,10]);
-		//translate ([-13,15,0]) rotate([0,0,-10])  cube([10,10,10]);
+	// reinforcement
+	//cube([len, 2, h], center=true);
+
+	for(i=[pitch/4:pitch:len]) {
+		translate([i-len/2, 1.25, 0])
+			cube([pitch - round_corner_epsilon, belt_thickness + round_corner_epsilon, belt_width], center=true);
+
 	}
-	//translate ([-11,-5,0]) rotate([0,0,10])  cube([10,10,10]);
-	//translate ([-13,15,0]) rotate([0,0,-10])  cube([10,10,10]);
+
+}
+
+
+
+module clip() {
+difference()  {
+
+	union() {
+		offset = -0.7;
+		// general shape of the clip
+		linear_extrude(belt_width + 2*shell, center=true) {
+			polygon(points=[
+				[len/2,0],
+				[3,-2.5], 
+				[-3,-2.5], 
+				[-len/2,0], 
+				[-len/2, shell + belt_thickness+offset], 
+				[len/2, shell + belt_thickness+offset]
+			]);
+		}
+
+
+		
+	}
+
+	// left belt turn
+	rotate([0,0,-45])
+	translate([-3.2/2 - shell - belt_thickness/2,0,0])
+		cube([belt_thickness, 20 + 2*shell, belt_width], center=true);
+
+	// right belt turn
+	rotate([0,0,45])
+//+ belt_thicknes/2 + shell
+	translate([3.2/2 + shell + belt_thickness/2,0,0])
+		cube([belt_thickness, 20 + 2*shell, belt_width], center=true);
+
+	// cutouts
+	//translate([len/2 - teeth*pitch, shell + belt_thickness/2, 0])
+	//	cube([pitch + epsilon, belt_thickness + epsilon, belt_width], center=true);
+
+	//translate([-len/2 + teeth*pitch, shell + belt_thickness/2, 0])
+	//	cube([pitch + epsilon, belt_thickness + epsilon, belt_width], center=true);
+
+
+	// m3 hole
+	rotate([90,0,0])
+		cylinder(r=1.51, h=10 + 2*shell, center=true,$fn=16);
+
+	// hex nut
+	translate([0, -2, 0])
+	rotate([90,90,0])
+		cylinder(r1=1.51,r2=3.51, h=2, center=true, $fn=12);
+
+}
+
+
+}
+
+
+module clipCover() {
+difference()  {
+
+	union() {
+		// general shape of the clip
+		linear_extrude(belt_width + 2*shell, center=true) {
+			polygon(points=[
+				[len/2,0],
+				[3,-1.5], 
+				[-3,-1.5], 
+				[-len/2,0], 
+				[-len/2, shell + belt_thickness], 
+				[len/2, shell + belt_thickness]
+			]);
+		}
+
+
+		
+	}
+
+	// cutouts
+	//translate([len/2 - teeth*pitch, shell + belt_thickness/2, 0])
+	//	cube([pitch + epsilon, belt_thickness + epsilon, belt_width], center=true);
+
+	//translate([-len/2 + teeth*pitch, shell + belt_thickness/2, 0])
+	//	cube([pitch + epsilon, belt_thickness + epsilon, belt_width], center=true);
+
+
+	// m3 hole
+	rotate([90,0,0])
+		cylinder(r=1.51, h=10 + 2*shell, center=true,$fn=16);
+
+	// hex nut
+	translate([0, -2.8, 0])
+	rotate([90,90,0])
+		cylinder(r=3.35, h=4, center=true, $fn=6);
+
+	// belt teeth
+	for(i=[1:1:teeth]) {
+
+		// left side
+		color([1,0, 0])
+		translate([len/2 + pitch/4 - i*pitch, shell + belt_thickness/2, 0])
+			cube([pitch/2, belt_thickness + epsilon, belt_width], center=true);
+
+		// right side 
+		color([1,0, 0])
+		translate([-len/2 - pitch/4 + i*pitch, shell + belt_thickness/2, 0])
+			cube([pitch/2, belt_thickness + epsilon, belt_width], center=true);
+	}
+
+}
+
+
+}
+
+
+module BeltClip(partsOffset=0,printLayout=0)
+{
+		a =  printLayout ?  180 : 0;
+
+	translate([0,0,3]) rotate([0,0,90])
+	{
+		translate([0,-3,0]) rotate([0,0,a]) clip();
+		translate([0,-0+partsOffset,0]) rotate([0,0,180+a]) clipCover();
+	}
 }
 
 // MY NEMA with 24mm length shafts
