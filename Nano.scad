@@ -17,10 +17,10 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 25;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
-printLayout = 0;
+printLayout = 1;
 
 
 drawSteppers = 1;
@@ -298,7 +298,7 @@ if( drawIndex==25 || drawIndex==0 )
 {
 	xd = -dhalf + l * cos(q22);
   yd = l * sin(q22);
-	a = atan((y-yd)/(x-xd));
+	a = printLayout ? 0 : atan((y-yd)/(x-xd));
 	color("brown") translate ([xd,yd,armsZ+bottomArmH+armsZExtra+2.5])
 		rotate([0,0,a]) 
 	{
@@ -329,7 +329,7 @@ if( drawIndex==25 || drawIndex==0 )
 			translate([Arm2Len-13,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
 		}
 		translate([Arm2Len,0,-1]) cylinder(d=10,h=30,$fn=32);
-		translate([Arm2Len,0,4]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
+		//translate([Arm2Len,0,4]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
 		translate([0,0,-1]) cylinder(d=3.0,h=30,$fn=32);
 
 			translate([Arm2Len-20,-0.5,-1]) cube([20.5,1,bottomArmH+2]);
