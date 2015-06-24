@@ -69,12 +69,28 @@ function Bearing608Diameter() = 22;
 
 module Bearing6800()
 {
-  translate ([0,0,2.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 7, attempt = 2, gap = 0.2, height = Bearing6800Height(), hole = 5);
+  translate ([0,0,2.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 8, attempt = 2, gap = 0.2, height = Bearing6800Height(), hole = 5);
 }
 function Bearing6800Height() = 5;
 function Bearing6800Diameter() = 19;
+
+module BearingLM6UU()
+{
+  color ("silver") 
+	{
+		difference()
+	{
+		cylinder(d=12,h=19);
+		translate([0,0,-1]) cylinder(d=6,h=19+2);
+	}
+	}
+}
+function BearingLM6UUHeight() = 19;
+function BearingLM6UUDiameter() = 12;
+
 
 Bearing625();
 translate ([0,0,20]) Bearing623();
 translate ([0,0,40]) Bearing608();
 translate ([0,0,60]) Bearing6800();
+translate ([0,0,80]) BearingLM6UU();
