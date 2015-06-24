@@ -17,15 +17,16 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 25;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
-printLayout = 1;
+printLayout = 0;
 
 
 drawSteppers = 1;
 drawBelts = 0;
-drawSwitchesAll = 0;
+drawZBelts = 1;
+drawSwitchesAll = 1;
 
 isExpolode = 0;
 pulley1H = 10.5;
@@ -75,6 +76,13 @@ ArmNearestW = 8;
 
 x = 0;
 y = 35;// offset from axis to printed area
+z = 0;
+//z = 140;
+
+zminZCoord = 230;
+
+BedYOffset = 30;
+BedZOffset = BearingLM6UUHeight()+15;
 
 // extruder
 if( drawIndex==23 || drawIndex==0 )
@@ -482,6 +490,12 @@ if( drawIndex==0 )
 	translate ([0,-65,0]) cylinder(r=3,h=300);
 }
 
+  // z stepper
+  translate([0,83,49]) rotate([90,0,0])
+  {
+    translate ([0,0,52]) Pulley16Teeth();
+  }
+
 
 if( drawIndex==0 )//|| drawIndex==5 )//) 
 {
@@ -510,9 +524,6 @@ if( drawIndex==0 )//|| drawIndex==5 )//)
 // bottom
 //if( drawIndex==0 ) translate([-50,-30,-5]) color ("grey") cube([100,160,5]);
 
-// bed
-//if( drawIndex==0 ) translate([-50,25,85]) color ([1,0.5,0.5,0.3]) cube([100,100,3]);
-
 rodOffsetX = 40;
 rodOffsetY = 15;
 
@@ -528,9 +539,207 @@ if( drawIndex==0 ) Bearing625();
 if( drawIndex==0 ) translate ([0,0,Bearing625Height()+isExpolode*5]) color( "Silver") hex_nut(5);
 
 // rods bearing
-if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY,65]) color ("silver") cylinder(d=12,h=19);
-//if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY,65+19]) color ("silver") cylinder(d=12,h=19);
+if( drawIndex==0 ) translate([rodOffsetX,rodOffsetY,65]) BearingLM6UU();
+if( drawIndex==0 ) translate([-rodOffsetX,rodOffsetY,65]) BearingLM6UU();
 
+/*
+translate([rodOffsetX,rodOffsetY,65])
+{
+	difference()
+	{
+		union()
+		{
+		hull()
+		{
+			cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+			translate([0,15,0]) cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+			//
+			translate([-1,0,0]) cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+			translate([-1,15,0]) cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+			translate([1,0,0]) cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+			translate([1,15,0]) cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+		}
+		//hull()
+		//{
+//			#translate([-10,8,-1]) cylinder(d=5,h=BearingLM6UUHeight());
+			//#translate([10,8,-1]) cylinder(d=5,h=BearingLM6UUHeight());
+		//}
+		hull()
+		{
+			cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+			translate([-20,0,0]) cylinder(d=BearingLM6UUDiameter()+2.5,h=BearingLM6UUHeight());
+		}
+		}
+		hull()
+		{
+			translate([-10,17,-1]) cylinder(d=5,h=BearingLM6UUHeight()+2);
+			translate([10,17,-1]) cylinder(d=5,h=BearingLM6UUHeight()+2);
+			translate([-10,37,-1]) cylinder(d=5,h=BearingLM6UUHeight()+2);
+			translate([10,37,-1]) cylinder(d=5,h=BearingLM6UUHeight()+2);
+		}
+		hull()
+		{
+			translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
+			translate([0,20,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
+		}
+	}
+	color( "green") translate([0,0,0]) difference()
+	{
+		hull()
+		{
+			cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight());
+			translate([0,15,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight());
+		}
+		translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter()+0.1,h=BearingLM6UUHeight()+2);
+	}
+}
+*/
+
+//translate([-rodOffsetX,rodOffsetY/2,65])
+///{
+	///cube([rodOffsetX*2,10,BearingLM6UUHeight()]);
+//}
+
+module HolesBearingMount()
+{
+		translate([BearingLM6UUDiameter()/2+1.7,50,6.2]) rotate([90,0,0]) cylinder(d=3.1,h=100,$fn=32);
+		translate([BearingLM6UUDiameter()/2+1.7,50,12.8]) rotate([90,0,0]) cylinder(d=3.1,h=100,$fn=32);
+		//
+		translate([-50,BearingLM6UUDiameter()/2+1.7,16]) rotate([0,90,0]) cylinder(d=3.1,h=100,$fn=32);
+		translate([-50,BearingLM6UUDiameter()/2+1.7,3]) rotate([0,90,0]) cylinder(d=3.1,h=100,$fn=32);
+}
+
+module CarretSide1(index)
+{
+	translate([-rodOffsetX,rodOffsetY,65])
+	{
+		if( index==0 )
+		{
+			translate([0,0,0]) color( "magenta") difference()
+			{
+				union()
+				{
+						translate([0,-BearingLM6UUDiameter()/2,0]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()]);
+						translate([10,-BearingLM6UUDiameter()/2,0]) cube([30,10,BearingLM6UUHeight()]);
+						translate([12,-BearingLM6UUDiameter()/2-1.2,0]) cube([28,1.2,BearingLM6UUHeight()]);
+				}
+				translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
+				//translate([rodOffsetX-7,0,-1]) cube([10,10,BearingLM6UUHeight()+2]);
+				translate([rodOffsetX-1,4,-1]) scale([1,0.5,1]) cylinder(r=7,h=BearingLM6UUHeight()+2);
+				HolesBearingMount();
+			}
+		}
+		else
+		{
+			translate([0,0,0]) difference()
+			{
+				union()
+				{
+					color( "green") hull()
+					{
+						translate([11,-1.2,0]) scale([0.1,1,1]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight(),$fn=32);
+						translate([-3,-1.2,0]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight(),$fn=32);
+						//color( "green") translate([-BearingLM6UUDiameter()/2-4,-BearingLM6UUDiameter()/2-1,0]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+15,BearingLM6UUHeight()]);
+						//color( "green") translate([BearingLM6UUDiameter()/2-6,-BearingLM6UUDiameter()/2-1,0]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()]);
+					}
+					color( "green") hull()
+					{
+						translate([-3,-1.2,0]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight(),$fn=32);
+						translate([-3,12,0]) translate([0,0,0]) scale([1,0.1,1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight(),$fn=32);
+					}
+					translate([0,0,BearingLM6UUHeight()/2]) color( "green") hull()
+					{
+						translate([-3,-1.2,0]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
+						translate([-3,30,0]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
+					}
+					translate([0,0,0]) color( "green") hull()
+					{
+						translate([-3,7,0]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
+						translate([-3,30,BearingLM6UUHeight()/2]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
+					}
+				}
+				translate([0,-BearingLM6UUDiameter()/2,0]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()]);
+				translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
+				HolesBearingMount();
+				color( "red") translate([-4,12,-1]) cylinder(d=3.1,h=BearingLM6UUHeight()+2,$fn=32);
+				color( "red") translate([-3,28,-1]) cylinder(d=3.1,h=BearingLM6UUHeight()+2,$fn=32);
+			}
+		}
+	}
+}
+
+// 0 inner
+module Carret(index)
+{
+	difference()
+	{
+		union()
+		{
+			CarretSide1(index);
+			{
+				mirror()
+				{		
+					difference()
+					{
+						CarretSide1(index);
+					//#translate([-5,rodOffsetY+1,65-1]) cube([5,11,BearingLM6UUHeight()+2]);
+					}
+				}
+			}
+			translate([0,0,-2.5])
+				hull() 
+			{
+				translate([-12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+				translate([-12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+			}
+			translate([0,0,-2.5])
+				hull() 
+			{
+				translate([12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+				translate([12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+			}
+		}
+		// d for m3 tap
+		translate([-12,15,47.5]) cylinder(d=2.5,h=40,$fn=16);
+		hull()
+		{
+			translate([-12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+			translate([-12,25,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+		}
+		// d for m3 tap
+		translate([12,15,47.5]) cylinder(d=2.5,h=40,$fn=16);
+		hull()
+		{
+			translate([12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+			translate([12,25,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+		}
+	}
+	mountTh = 4;
+	beltOffset = 4;
+	translate([-mountTh,0,0]) 
+	{
+		difference() 
+		{
+			union()
+			{
+				translate([beltOffset,rodOffsetY,65]) cube([mountTh,11,BearingLM6UUHeight()]);
+				translate([beltOffset+beltOffset,rodOffsetY,65]) cylinder(r=1.5,h=BearingLM6UUHeight(),$fn=16);
+				translate([beltOffset+beltOffset-mountTh,rodOffsetY,65]) cylinder(r=1.5,h=BearingLM6UUHeight(),$fn=16);
+			}
+			translate([beltOffset-1,rodOffsetY+1.6,65+2.5]) cube([4+2,6.7,1.5]);
+			translate([beltOffset-1,rodOffsetY+1.6,65+7]) cube([4+2,6.7,1.5]);
+			translate([beltOffset-1,rodOffsetY+1.6,65+11]) cube([4+2,6.7,1.5]);
+			translate([beltOffset-1,rodOffsetY+1.6,65+15]) cube([4+2,6.7,1.5]);
+		}
+	}
+	//#translate([0,0,0]) cube([10,10,65]);
+}
+
+translate([0,0,z]) 
+{
+	Carret(0);
+	Carret(1);
+}
 
 // belts
 if( drawIndex==0 || drawBelts==1 ) 
@@ -542,6 +751,16 @@ if( drawIndex==0 || drawBelts==1 )
   color ("black") translate([20,15,17.5]) rotate([0,0,112]) cube([110,1.5,6]);
   color ("black") translate([-26,0,17.5]) rotate([0,0,92]) cube([110,1.5,6]);
 	translate([-33,60,23.5]) rotate([180,0,3]) BeltClip();
+
+  color ("black") translate([4,17,50]) cube([1.5,6,200]);
+  color ("black") translate([-5.5,17,50]) cube([1.5,6,200]);
+}
+
+// belts
+if( drawIndex==0 || drawZBelts==1 ) 
+{
+  color ("black") translate([4,17,50]) cube([1.5,6,200]);
+  color ("black") translate([-5.5,17,50]) cube([1.5,6,200]);
 }
 
 if( drawIndex==13 ) 
@@ -598,13 +817,13 @@ if( drawIndex==2 || drawIndex==0 )
 
 if( drawIndex==0 ) translate ([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*30]) color( "Silver") hex_nut(5);
 
-if( drawIndex==0 )
+if( drawIndex==0 || drawSwitchesAll==1 )
 {
 	translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11();
 	translate([-28,-13,Bearing625Height()+pulley1H+pulley2H-1]) rotate([180,180,0]) EndSwitchBody20x11();
 }
 
-if( drawIndex==14 || drawIndex==0)
+if( drawIndex==14 || drawIndex==0 )
 {
 	difference()
 	{
@@ -882,16 +1101,19 @@ if( drawIndex==4 || drawIndex==0 )
   }
 }
 
+if( drawIndex==0 || drawSwitchesAll==1)
+{
+	translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
+	{
+			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
+	}
+}
 
 // upper pulley+tube support for bearing
 if( drawIndex==5 || drawIndex==0 )
 {
   translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
   {
-		if( drawIndex==0 || drawSwitchesAll==1)
-		{
-			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
-		}
     height = Bearing608Height();
     difference()
     {
@@ -1448,7 +1670,7 @@ if( drawIndex==22 || drawIndex==0 )
       translate([-20,-23,5.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=50,$fn=16);
       translate([-20,-16,4]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=50,$fn=16);
 			// min switch
-			translate([12,17.5,-8]) rotate([-90,180,180]) EndSwitchBody20x11(1);
+			#translate([12,17.5,zminZCoord-(armsZ-UpperBearingMountH-UpperBearingMountOffset+armsExtruderExtra)]) rotate([-90,180,180]) EndSwitchBody20x11(1);
 			// belt rope axis
       color( "red") translate([0,5,2+height-Bearing608Height()]) rotate([-90,0,0]) cylinder(d=3.05,h=50,$fn=12);
       color( "red") translate([0,8,2+height-Bearing608Height()]) rotate([-90,0,0]) cylinder(r=3,h=3,$fn=12);
@@ -1462,7 +1684,7 @@ if( drawIndex==22 || drawIndex==0 )
 
 if( drawIndex==0 || drawSwitchesAll==1)
 {
-	translate([12,17.5,230]) rotate([-90,180,180]) EndSwitchBody20x11();
+	translate([12,17.5,zminZCoord]) rotate([-90,180,180]) EndSwitchBody20x11();
 }
 
 if( drawIndex==0 )
@@ -1732,6 +1954,8 @@ if( drawIndex==16 || drawIndex==0 )
 }
 
 //#translate ([-50,-60,0]) cube([100,200,300]);
+// bed
+if( drawIndex==0 ) translate([-50,BedYOffset,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([100,100,3]);
 
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
@@ -2029,3 +2253,4 @@ module Nema17_shaft24_Stepper(bSrewsOnly=0)
 		color ("silver") translate([0,0,.01]) cylinder(d=extr,h=2,$fn=32);
 	}
 }
+
