@@ -17,16 +17,16 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 32;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
-printLayout = 0;
+printLayout = 1;
 
 
 drawSteppers = 1;
 drawBelts = 0;
-drawZBelts = 1;
-drawSwitchesAll = 1;
+drawZBelts = 0;
+drawSwitchesAll = 0;
 
 isExpolode = 0;
 pulley1H = 10.5;
@@ -348,19 +348,6 @@ if( drawIndex==25 || drawIndex==0 )
 	}
 }
 
-if( drawIndex==0 )
-{
-	xd = -dhalf + l * cos(q22);
-  yd = l * sin(q22);
-	a = atan((y-yd)/(x-xd));
-	translate ([xd,yd,armsZ+bottomArmH+armsZExtra+2.5])
-		rotate([0,0,a]) 
-	{
-			translate([Arm2Len,0,bottomArmH-Bearing6800Height()-1]) Bearing6800();
-	}
-}
-
-
 // top arm
 if( drawIndex==26 || drawIndex==0 )
 {
@@ -414,7 +401,7 @@ if( drawIndex==27 || drawIndex==0 )
 {
   xd = dhalf + l * cos(q11);
   yd = l * sin(q11);
-	a = atan((y-yd)/(x-xd));
+	a = printLayout ? 0 : atan((y-yd)/(x-xd));
 	//echo (a);
 	translate ([xd,yd,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5])
 		rotate([0,0,a+180]) 
@@ -446,7 +433,7 @@ if( drawIndex==27 || drawIndex==0 )
 				translate([Arm2Len-13,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
 			}
 			translate([Arm2Len,0,-1]) cylinder(d=10,h=30,$fn=32);
-			translate([Arm2Len,0,+3]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
+			translate([Arm2Len,0,+1]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
 			translate([0,0,-1]) cylinder(d=3.0,h=30,$fn=32);
 
 			translate([Arm2Len-20,-0.5,-1]) cube([20.5,1,bottomArmH+2]);
@@ -465,10 +452,11 @@ if( drawIndex==0 )
   yd = l * sin(q11);
 	a = atan((y-yd)/(x-xd));
 	//echo (a);
-	translate ([xd,yd,armsZ+bottomArmH+armsZExtra-Bearing625Height()-1.5])
+	translate ([xd,yd,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5])
 		rotate([0,0,a+180]) 
 	{
-		translate([Arm2Len,0,+3]) Bearing6800();
+		translate([Arm2Len,0,+1]) Bearing6800();
+		translate([Arm2Len,0,+1+Bearing6800Height()]) Bearing6800();
 	}
 }
 
@@ -490,12 +478,13 @@ if( drawIndex==0 )
 	translate ([0,-65,0]) cylinder(r=3,h=300);
 }
 
+/*
   // z stepper
   translate([0,83,49]) rotate([90,0,0])
   {
     translate ([0,0,52]) Pulley16Teeth();
   }
-
+*/
 
 if( drawIndex==0 )//|| drawIndex==5 )//) 
 {
@@ -735,10 +724,14 @@ module Carret(index)
 	//#translate([0,0,0]) cube([10,10,65]);
 }
 
+if( drawIndex==0 || drawIndex==32 ) 
+{
+
 translate([0,0,z]) 
 {
 	Carret(0);
-	Carret(1);
+	//Carret(1);
+}
 }
 
 // belts
