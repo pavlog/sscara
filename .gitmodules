@@ -4,3 +4,6 @@
 [submodule "Software/ReprapHeatedBedGenerator"]
 	path = Software/ReprapHeatedBedGenerator
 	url = https://github.com/pavlog/ReprapHeatedBedGenerator.git
+[submodule "Software/Marlin"]
+	path = Software/Marlin
+	url = https://github.com/pavlog/Marlin
