@@ -11,6 +11,7 @@ Hardware:
 * Ramps 1.4 (better with drv8825)
 * External power supply 5A (without Heated bed, not final)
 * Heated bed ????? depends on (but seems like require in 4x time less current than MK2B - because of 4 times lower area)
+* 4 small (20x11x7mm) end stoppers
 
 Mass:
 * 2kg (because of steppers) - still not measured
@@ -24,6 +25,7 @@ Materials:
 * 4 - Nema17 (24mm shaft length)
 * 2 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
+* 2 - 6800 bearings (ID-10mm,OD-19mm,H-5mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - Length still not determined
 * 1 - m5 threaded rod - Length still not determined
 * m3 bolts and nuts - a few/lot of them (will be calculated later on project finish)
@@ -43,5 +45,6 @@ Slicer:
 Included Software:
 * SScaraVisualizer - c# application to preview and  visualize dimensions and different parameters
 * ReprapHeatedBedGenerator heated bed generator (forked from https://github.com/tlalexander/ReprapHeatedBedGenerator)
+* Marlin - Marlin firmware(forked from https://github.com/MarlinFirmware/Marlin)
 
 Development blog - https://3dgems.blogspot.com
