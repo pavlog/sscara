@@ -7,4 +7,3 @@
 [submodule "Marlin"]
 	path = Software/Marlin
 	url = https://github.com/pavlog/Marlin
-	branch = Release
