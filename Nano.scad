@@ -17,7 +17,7 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 33;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
 printLayout = 0;
