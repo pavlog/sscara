@@ -646,6 +646,8 @@ module CarretSide1(index)
 						translate([-3,7,0]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
 						translate([-3,30,BearingLM6UUHeight()/2]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
 					}
+					color( "red") translate([-4,12,0]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
+					color( "red") translate([-3,28,4]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
 				}
 				translate([0,-BearingLM6UUDiameter()/2,0]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()]);
 				translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
@@ -675,50 +677,59 @@ module Carret(index)
 					}
 				}
 			}
-			translate([0,0,-2.5])
-				hull() 
+			if( index==0 )
+			{
+				translate([0,0,-2.5])
+					hull() 
+				{
+					translate([-12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+					translate([-12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+				}
+				translate([0,0,-2.5])
+					hull() 
+				{
+					translate([12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+					translate([12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+				}
+			}
+		}
+		if( index==0 )
+		{
+			// d for m3 tap
+			translate([-12,15,47.5]) cylinder(d=2.5,h=40,$fn=16);
+			hull()
 			{
 				translate([-12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-				translate([-12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+				translate([-12,25,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
 			}
-			translate([0,0,-2.5])
-				hull() 
+			// d for m3 tap
+			translate([12,15,47.5]) cylinder(d=2.5,h=40,$fn=16);
+			hull()
 			{
 				translate([12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-				translate([12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+				translate([12,25,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
 			}
-		}
-		// d for m3 tap
-		translate([-12,15,47.5]) cylinder(d=2.5,h=40,$fn=16);
-		hull()
-		{
-			translate([-12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-			translate([-12,25,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-		}
-		// d for m3 tap
-		translate([12,15,47.5]) cylinder(d=2.5,h=40,$fn=16);
-		hull()
-		{
-			translate([12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-			translate([12,25,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
 		}
 	}
-	mountTh = 4;
-	beltOffset = 4;
-	translate([-mountTh,0,0]) 
+	if( index==0 )
 	{
-		difference() 
+		mountTh = 4;
+		beltOffset = 4;
+		translate([-mountTh,0,0]) 
 		{
-			union()
+			difference() 
 			{
-				translate([beltOffset,rodOffsetY,65]) cube([mountTh,11,BearingLM6UUHeight()]);
-				translate([beltOffset+beltOffset,rodOffsetY,65]) cylinder(r=1.5,h=BearingLM6UUHeight(),$fn=16);
-				translate([beltOffset+beltOffset-mountTh,rodOffsetY,65]) cylinder(r=1.5,h=BearingLM6UUHeight(),$fn=16);
+				union()
+				{
+					translate([beltOffset,rodOffsetY,65]) cube([mountTh,11,BearingLM6UUHeight()]);
+					translate([beltOffset+beltOffset,rodOffsetY,65]) cylinder(r=1.5,h=BearingLM6UUHeight(),$fn=16);
+					translate([beltOffset+beltOffset-mountTh,rodOffsetY,65]) cylinder(r=1.5,h=BearingLM6UUHeight(),$fn=16);
+				}
+				translate([beltOffset-1,rodOffsetY+1.6,65+2.5]) cube([4+2,6.7,1.5]);
+				translate([beltOffset-1,rodOffsetY+1.6,65+7]) cube([4+2,6.7,1.5]);
+				translate([beltOffset-1,rodOffsetY+1.6,65+11]) cube([4+2,6.7,1.5]);
+				translate([beltOffset-1,rodOffsetY+1.6,65+15]) cube([4+2,6.7,1.5]);
 			}
-			translate([beltOffset-1,rodOffsetY+1.6,65+2.5]) cube([4+2,6.7,1.5]);
-			translate([beltOffset-1,rodOffsetY+1.6,65+7]) cube([4+2,6.7,1.5]);
-			translate([beltOffset-1,rodOffsetY+1.6,65+11]) cube([4+2,6.7,1.5]);
-			translate([beltOffset-1,rodOffsetY+1.6,65+15]) cube([4+2,6.7,1.5]);
 		}
 	}
 	//#translate([0,0,0]) cube([10,10,65]);
@@ -731,6 +742,15 @@ translate([0,0,z])
 {
 	Carret(0);
 	//Carret(1);
+}
+}
+
+if( drawIndex==0 || drawIndex==33 ) 
+{
+
+translate([0,0,z]) 
+{
+	Carret(1);
 }
 }
 
