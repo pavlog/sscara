@@ -17,7 +17,7 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 29;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
 printLayout = 0;
@@ -84,6 +84,42 @@ zminZCoord = 230;
 BedYOffset = 30;
 BedZOffset = BearingLM6UUHeight()+15;
 
+// 2004 smart lcd controller
+module LCD20x4SmartController()
+{
+
+difference()
+{
+	color("brown") cube([2,150,55]);
+	// holes
+	color("red") translate([-3,3,3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
+	color("red") translate([-3,150-3,3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
+	color("red") translate([-3,150-3,55-3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
+	color("red") translate([-3,3,55-3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
+}
+
+translate([-(2+2),38,3]) color("green") cube([2,98,60]);
+translate([-13,38.5,12]) color("blue") cube([9,98,40]);
+translate([0,61,24]) color("white") cube([25,45,10]);
+translate([2,135,24]) color("white") cube([8,8,8]);
+}
+
+if(  drawIndex==0 )
+{
+translate([-58,-25,0]) LCD20x4SmartController();
+}
+
+module LAlum(len=200)
+{
+	cube([1.5,len,15]);
+	cube([15,len,1.5]);
+}
+
+if(  drawIndex==0 )
+{
+	color("silver") translate([-49.5,-60,-1.5]) LAlum();
+	mirror() color("silver") translate([-49.5,-60,-1.5]) LAlum();
+}
 // extruder
 if( drawIndex==23 || drawIndex==0 )
 {
@@ -152,15 +188,19 @@ if( drawIndex==23 || drawIndex==0 )
 					{
 						color( "green") translate([-15.5,-15.5,0]) cylinder(d=11+2,h=armH);
 						color( "green") translate([-15.5,14.5,0]) cylinder(d=11+2,h=armH);
-						//color( "green") translate([-11.5,-7.5,0]) cylinder(d=11,h=armH);
+					}
+					color( "green") hull()
+					{
+						color( "green") translate([-15.5,-15.5,0]) cylinder(d=11+2,h=armH);
+						color( "green") translate([25.5,-25.5,0]) cylinder(d=11+2,h=armH);
 					}
 					color( "blue") hull()
 					{
 						translate([-11.5,19,0]) cylinder(d=5,h=armH);
 						translate([-11.5,12,0]) cylinder(d=5,h=armH);
-						translate([-20,15.5,0]) cylinder(d=11+2,h=armH);
+						translate([-18,15.5,0]) cylinder(d=11+2,h=armH);
 						translate([-15.5,5,0]) cylinder(d=11,h=armH);
-						translate([-26,5.5,0]) cylinder(d=11+2,h=armH);
+						//#translate([-26,5.5,0]) cylinder(d=11+2,h=armH);
 					}
 					//color( "gold") translate([-11,16,armH/2]) rotate([0,90,0]) cylinder(r1=5,r2=4.5,h=2,$fn=16);
 					//color( "gold") translate([-11,16,armH/2]) rotate([0,90,0]) cylinder(r1=3,r2=0.5,h=5,$fn=16);
@@ -616,6 +656,7 @@ module CarretSide1(index)
 				//translate([rodOffsetX-7,0,-1]) cube([10,10,BearingLM6UUHeight()+2]);
 				translate([rodOffsetX-1,4,-1]) scale([1,0.5,1]) cylinder(r=7,h=BearingLM6UUHeight()+2);
 				HolesBearingMount();
+				translate([7.8,-BearingLM6UUDiameter()/2,-1]) scale([1,0.7,1]) cylinder(r=3,h=BearingLM6UUHeight()+2,$fn=12);
 			}
 		}
 		else
@@ -648,8 +689,15 @@ module CarretSide1(index)
 					}
 					color( "red") translate([-4,12,0]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
 					color( "red") translate([-3,28,4]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
+					
+
 				}
-				translate([0,-BearingLM6UUDiameter()/2,0]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()]);
+				difference()
+				{
+				translate([0,-BearingLM6UUDiameter()/2,-1]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()+2]);
+					// new design
+				translate([7.8,-BearingLM6UUDiameter()/2,-1]) scale([1,0.7,1]) cylinder(r=3,h=BearingLM6UUHeight()+2,$fn=12);
+				}
 				translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
 				HolesBearingMount();
 				color( "red") translate([-4,12,-1]) cylinder(d=3.1,h=BearingLM6UUHeight()+2,$fn=32);
@@ -668,8 +716,10 @@ module Carret(index)
 		{
 			CarretSide1(index);
 			{
-				mirror()
-				{		
+				offset = printLayout ? 102 : 0;
+				offsetr = printLayout ? 0 : 0;
+				mirror() translate([offset,0,0]) rotate([0,0,offsetr]) 
+				{
 					difference()
 					{
 						CarretSide1(index);
@@ -683,13 +733,13 @@ module Carret(index)
 					hull() 
 				{
 					translate([-12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-					translate([-12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+					translate([-12,17,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
 				}
 				translate([0,0,-2.5])
 					hull() 
 				{
 					translate([12,15,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
-					translate([12,19,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
+					translate([12,17,67.5]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.3,$fn=6);
 				}
 			}
 		}
@@ -1214,6 +1264,18 @@ if( drawIndex==5 || drawIndex==0 )
 			translate([-10,15.5,-0.1]) cube([20,10,40]);
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
     }
+		// wires holder
+		//difference()
+		{
+		translate([22,-10,-7]) rotate([0,0,-5]) cube([2.5,15,10]);
+			hull()
+			{
+		translate([26,-10,-14]) rotate([0,-45,-5]) cube([2.5,15,1]);
+		translate([22.3,-10,-7.7]) rotate([0,-20,-5]) cube([2,15,1]);
+			}
+				//#translate([23,-10,-10]) cube([4,15,10]);
+			//#translate([23,20,-10]) rotate([90,0,0]) cylinder(r=2,h=20);
+		}
   }
 }
 
@@ -1256,6 +1318,9 @@ if( drawIndex==6 || drawIndex==0 )
 			// end stopper fit
 			translate([-10,15.5,-0.1]) cube([20,10,40]);
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+			// rods fits
+			translate([-45,5.5,-0.1]) cube([20,10,40]);
+			translate([25,5.5,-0.1]) cube([20,10,40]);
     }
   }
 }
@@ -1338,6 +1403,9 @@ if( drawIndex==18 || drawIndex==0 )
 			// end stopper fit
 			translate([-10,15.5,-0.1]) cube([20,10,40]);
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+			// rods fits
+			translate([-45,5.5,-0.1]) cube([20,10,40]);
+			translate([25,5.5,-0.1]) cube([20,10,40]);
 			// ramps fit
 			translate([-50,-23,-0.1]) cube([100,10,40]);
 			//
@@ -1437,6 +1505,9 @@ if( drawIndex==20 || drawIndex==0 )
 			// end stopper fit
 			translate([-10,15.5,-0.1]) cube([20,10,40]);
 			translate([-13.7,12.5,-0.1]) cube([5,5,40]);
+			// rods fit
+			translate([-45,5.5,-0.1]) cube([20,10,40]);
+			translate([25,5.5,-0.1]) cube([20,10,40]);
 			// ramps fit
 			translate([-40,-23,-0.1]) cube([80,10,40]);
 			//extra holes
@@ -1529,6 +1600,9 @@ if( drawIndex==29 || drawIndex==0 )
 			// mount holes
       translate([-40,0,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
       translate([40,0,-50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
+			// rods fit
+			translate([-45,5.5,-0.1]) cube([20,10,40]);
+			translate([25,5.5,-0.1]) cube([20,10,40]);
 			//extra holes
       translate([-40,-8,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
       translate([40,-8,-50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
