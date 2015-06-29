@@ -17,7 +17,7 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 29;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // more printer friedly layout (note: not all parts are done)
 printLayout = 0;
@@ -113,6 +113,21 @@ module LAlum(len=200)
 {
 	cube([1.5,len,15]);
 	cube([15,len,1.5]);
+}
+
+module LAlum10x10x1p5(len=200)
+{
+	color("silver")
+	{
+	cube([1.5,len,10]);
+	cube([10,len,1.4]);
+	}
+}
+
+//if(  drawIndex==0 )
+{
+translate([-50.5,20,10+75+1]) rotate([0,90,0]) LAlum10x10x1p5(130);
+translate([50.5,20,10+75+1]) rotate([0,180,0]) LAlum10x10x1p5(130);
 }
 
 if(  drawIndex==0 )
