@@ -98,12 +98,12 @@ difference()
 	// holes
 	color("red") translate([-3,3,3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
 	color("red") translate([-3,150-3,3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
-	color("red") translate([-3,150-3,55-3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
-	color("red") translate([-3,3,55-3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
+	color("red") translate([-3,150-3,56-3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
+	color("red") translate([-3,3,56-3]) rotate([0,90,0]) cylinder(d=3,h=50,$fn=12);
 }
 
-translate([-(2+2),38,3]) color("green") cube([2,98,60]);
-translate([-13,38.5,12]) color("blue") cube([9,98,40]);
+translate([-(2+2),38,-6]) color("green") cube([2,98,60]);
+translate([-13,38.5,3]) color("blue") cube([9,98,40]);
 translate([0,61,24]) color("white") cube([25,45,10]);
 translate([2,135,24]) color("white") cube([8,8,8]);
 }
@@ -112,15 +112,15 @@ else
 	// holes
 	color("red") translate([-30,3,3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
 	color("red") translate([-30,150-3,3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
-	color("red") translate([-30,150-3,55-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
-	color("red") translate([-30,3,55-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+	color("red") translate([-30,150-3,56-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+	color("red") translate([-30,3,56-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
 }
 }
 
 LCDX = -58;
 LCDY = -31;
-LCDZ = 5;
-if(  drawIndex==0 )
+LCDZ = 15;
+if(  dawIndex==0 )
 {
 translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController();
 }
@@ -135,7 +135,7 @@ if( drawIndex==0 || drawIndex==34 )
 	{
 		color( "green") union()
 		{
-			translate([-53.5,LCDY-offsetS,0]) cube([4,8,60]);
+			translate([-53.5,LCDY-offsetS,0]) cube([4,8,73]);
 			translate([-48,LCDY-offsetS,5]) cube([4,8,15]);
 			hull()
 			{
@@ -152,23 +152,26 @@ if( drawIndex==0 || drawIndex==34 )
 			//#translate([-44,LCDY+offsetS-2,11.5]) scale([1,1,1]) cylinder(d=4,h=6);
 			//#translate([-42,LCDY-offsetS,12]) scale([1,1,0.7]) cylinder(d=2,h=6);
 		}
+				color("red") translate([LCDX,LCDY+3,LCDZ-7]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+
 	}
-	dist = printLayout ? -144 : 0;
-	dist2 = printLayout ? -17 : 0;
+	dist = printLayout ? -145 : 0;
+	dist2 = printLayout ? -15 : 0;
 	translate([dist2,0,dist]) 	 rotate([rot,0,0]) difference() 
 	{
 		color( "green") union()
 		{
-			translate([-53.5,LCDY+144,0]) cube([4,8,60]);
+			translate([-53.5,LCDY+144,0]) cube([4,8,73]);
 			translate([-48,LCDY+144,5]) cube([4,8,6+5]);
 			hull()
 			{
-				translate([-48,LCDY+144,15]) cube([4,8,1]);
-				translate([-52,LCDY+144,15]) cube([4,8,1]);
+				translate([-48,LCDY+144,13]) cube([4,8,1]);
+				translate([-52,LCDY+144,13]) cube([4,8,1]);
 				translate([-52,LCDY+144,35]) cube([1,8,3]);
 			}
 		}
 		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);
+				color("red") translate([LCDX,LCDY+148,LCDZ-7]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
 	}
 
 
