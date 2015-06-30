@@ -19,8 +19,10 @@ outerRad = (80*2/3.14*0.5);
 
 drawIndex = 0;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
+// reexport part 4,12,34
+
 // more printer friedly layout (note: not all parts are done)
-printLayout = 0;
+printLayout =0;
 
 
 drawSteppers = 1;
@@ -85,9 +87,11 @@ BedYOffset = 30;
 BedZOffset = BearingLM6UUHeight()+15;
 
 // 2004 smart lcd controller
-module LCD20x4SmartController()
+module LCD20x4SmartController(holesOnly=0)
 {
 
+if( holesOnly==0 )
+{
 difference()
 {
 	color("brown") cube([2,150,55]);
@@ -103,11 +107,74 @@ translate([-13,38.5,12]) color("blue") cube([9,98,40]);
 translate([0,61,24]) color("white") cube([25,45,10]);
 translate([2,135,24]) color("white") cube([8,8,8]);
 }
+else
+{
+	// holes
+	color("red") translate([-30,3,3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+	color("red") translate([-30,150-3,3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+	color("red") translate([-30,150-3,55-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+	color("red") translate([-30,3,55-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
+}
+}
 
+LCDX = -58;
+LCDY = -31;
+LCDZ = 5;
 if(  drawIndex==0 )
 {
-translate([-58,-25,0]) LCD20x4SmartController();
+translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController();
 }
+
+if( drawIndex==0 || drawIndex==34 )
+{
+	rot = printLayout ? 90 : 0;
+
+	offsetS = 1;
+	rotate([rot,0,0]) 
+	difference()
+	{
+		color( "green") union()
+		{
+			translate([-53.5,LCDY-offsetS,0]) cube([4,8,60]);
+			translate([-48,LCDY-offsetS,5]) cube([4,8,15]);
+			hull()
+			{
+				translate([-49,LCDY-offsetS,13.5]) cube([4,8,7]);
+				translate([-52,LCDY-offsetS,13.5]) cube([4,8,7]);
+				translate([-52,LCDY-offsetS,43.5]) cube([1,8,3]);
+			}
+		}
+		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);
+		hull()
+		{
+			translate([-44,LCDY+offsetS+7,14.5]) scale([1,1,1]) rotate([90,45,0]) cylinder(d=8,h=4,$fn=4);
+			translate([-39,LCDY+offsetS,14.5]) scale([1,1,1]) rotate([90,45,0]) cylinder(d=8,h=6,$fn=4);
+			//#translate([-44,LCDY+offsetS-2,11.5]) scale([1,1,1]) cylinder(d=4,h=6);
+			//#translate([-42,LCDY-offsetS,12]) scale([1,1,0.7]) cylinder(d=2,h=6);
+		}
+	}
+	dist = printLayout ? -144 : 0;
+	dist2 = printLayout ? -17 : 0;
+	translate([dist2,0,dist]) 	 rotate([rot,0,0]) difference() 
+	{
+		color( "green") union()
+		{
+			translate([-53.5,LCDY+144,0]) cube([4,8,60]);
+			translate([-48,LCDY+144,5]) cube([4,8,6+5]);
+			hull()
+			{
+				translate([-48,LCDY+144,15]) cube([4,8,1]);
+				translate([-52,LCDY+144,15]) cube([4,8,1]);
+				translate([-52,LCDY+144,35]) cube([1,8,3]);
+			}
+		}
+		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);
+	}
+
+
+}
+
+
 
 module LAlum(len=200)
 {
@@ -124,7 +191,7 @@ module LAlum10x10x1p5(len=200)
 	}
 }
 
-//if(  drawIndex==0 )
+if(  drawIndex==0 )
 {
 translate([-50.5,20,10+75+1]) rotate([0,90,0]) LAlum10x10x1p5(130);
 translate([50.5,20,10+75+1]) rotate([0,180,0]) LAlum10x10x1p5(130);
@@ -1011,16 +1078,16 @@ if( drawIndex==4 || drawIndex==0 )
   {
     union()
     {
-      translate([-48,-24,0]) 
+      translate([-48,-40,0]) 
         color("red") rotate([0,0,0]) scale([1,1,1])
-          cube([60,24,5]);
+          cube([95.7,44,5]);
 
       translate([-48,-24,0]) 
         color("blue") rotate([0,0,0]) scale([1,1,1])
           cube([20,24,11]);
 
-			translate([13,-24,0]) 
-				color("red") rotate([0,0,0]) scale([1,1,1]) cube([35,24,5]);
+			//translate([13,-24,0]) 
+			//	color("red") rotate([0,0,0]) scale([1,1,1]) cube([35,24,5]);
 
       hull()
       {
@@ -1169,6 +1236,11 @@ if( drawIndex==4 || drawIndex==0 )
 		translate([42,-20,-0.10]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
 		translate([34,-14,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+
+		translate([42,-33,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+		translate([-42,-33,-0.10]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
 
 				// hhhh
@@ -2007,11 +2079,15 @@ module XYto10Clip()
 
 if( drawIndex==11 || drawIndex==0 )
 {
-	XYto10Clip();
+		XYto10Clip();
 }
 if( drawIndex==12 || drawIndex==0 )
 {
-	mirror() XYto10Clip();
+	difference()
+	{
+		mirror() XYto10Clip();
+		translate([-48,LCDY+143,5]) cube([4+1,8+1,6+5]);
+	}
 }
 
 
