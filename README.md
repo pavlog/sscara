@@ -35,7 +35,7 @@ Materials:
 
 SCAD:
 * use drawIndex variable to control parts visibility
-* use printLayout to control parts/subparts layout (0 for design, 1 for export)
+* use printLayout to control parts/subparts layout (0 for design, 1 for export) (Some parts need to be rotated to 180 Y) (WIP)
 * isExpolode - variable to control explode mode view (WIP)
 
 Slicer:
