@@ -11,7 +11,9 @@ Hardware:
 * Ramps 1.4 (better with drv8825)
 * External power supply 5A (without Heated bed, not final)
 * Heated bed ????? depends on (but seems like require in 4x time less current than MK2B - because of 4 times lower area)
-* 4 small (20x11x7mm) end stoppers
+* 3(4 if you want z min) small (20x11x7mm) end stoppers
+Optional:
+* HC-05 bluetooth module
 
 Mass:
 * 2kg (because of steppers) - still not measured
