@@ -79,6 +79,7 @@ z = 0;
 zminZCoord = 230;
 
 BedYOffset = 30;
+BedYOffsetMarginY = 5;
 BedZOffset = BearingLM6UUHeight()+15;
 
 LCDX = -58;
@@ -184,21 +185,69 @@ module LAlum(len=200)
 	cube([15,len,1.5]);
 }
 
-module LAlum10x10x1p5(len=200)
+module LAlum10x10x1p2(len=200,extraThickness=0)
 {
 	color("silver")
 	{
-		cube([1.5,len,10]);
-		cube([10,len,1.4]);
+		cube([1.2+extraThickness,len,10]);
+		cube([10,len,1.2+extraThickness]);
 	}
 }
 
 if(  drawIndex==0 )
 {
-	translate([-50.5,20,10+75+1]) rotate([0,90,0]) LAlum10x10x1p5(130);
-	translate([50.5,20,10+75+1]) rotate([0,180,0]) LAlum10x10x1p5(130);
+	translate([-50.2,7,10+75+1]) rotate([0,90,0]) LAlum10x10x1p2(150-7);
+	translate([50.3,7,10+75+1]) rotate([0,180,0]) LAlum10x10x1p2(150-7);
 }
 
+if( drawIndex==0 || drawIndex==35 )
+{
+	aY = printLayout ? 15 : 145;
+	aZ = printLayout ? 81 : 82;
+	rY = printLayout ? -90 : 0;
+	translate([0,aY,aZ]) rotate([rY,0,0])
+	{
+		difference()
+		{
+			union()
+			{
+			translate([0,0,0]) cube([98.6,10,6],center=true);
+			translate([0,6,-1]) cube([101,2,	10],center=true);
+			}
+		translate([45,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([-45,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([0,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([35,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([-35,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([16,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([-16,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		}
+	}
+	offsZ = 79;
+	offsY = 30.5;
+	translate([0,offsY,offsZ])
+	{
+		difference()
+		{
+			union()
+			{
+			translate([0,0,0]) cube([74.6,9,10],center=true);
+			//translate([-32.5,-1,0]) cube([9,10,10],center=true);
+			//translate([32.5,-1,0]) cube([9,10,10],center=true);
+			}
+			translate([0,-5.5,0]) cube([9,4,11],center=true);
+		translate([44,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([-44,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([0,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+			translate([0,-offsY,-offsZ]) 	translate([-rodOffsetX,rodOffsetY,65]) HolesBearingMount();
+			mirror() translate([0,-offsY,-offsZ]) 	translate([-rodOffsetX,rodOffsetY,65]) HolesBearingMount();
+		translate([27,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([-27,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([16,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		translate([-16,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+		}
+	}
+}
 if(  drawIndex==0 )
 {
 	color("silver") translate([-49.5,-60,-1.5]) LAlum();
@@ -2053,7 +2102,10 @@ if( drawIndex==16 || drawIndex==0 )
 
 //#translate ([-50,-60,0]) cube([100,200,300]);
 // bed
-if( drawIndex==0 ) translate([-50,BedYOffset,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([100,100,3]);
+if( drawIndex==0 )
+{
+	translate([-50,BedYOffset-BedYOffsetMarginY,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([100,100+BedYOffsetMarginY,3]);
+}
 
 
 module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
