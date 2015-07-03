@@ -19,10 +19,10 @@ outerRad = (80*2/3.14*0.5);
 
 drawIndex = 0;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
-// reexport part 4,12,34
+// seems like 3rd rod is required 
 
 // more printer friedly layout (note: not all parts are done)
-printLayout =0;
+printLayout = 0;
 
 
 drawSteppers = 1;
@@ -73,7 +73,7 @@ ArmNearestW = 8;
 
 x = 0;
 y = 35+50;// offset from axis to printed area
-z = 0;
+z = 5;
 //z = 140;
 
 zminZCoord = 230;
@@ -94,6 +94,135 @@ centerTubeFixerR = 10;
 
 UpperBearingMountH = 2+3+5;
 UpperBearingMountOffset = 2;
+
+WIP = 0;
+
+module DCJack5p5()
+{
+difference()
+{
+	cylinder(d=10,h=20);
+	cylinder(d=5.5,h=21);
+}
+}
+
+module PowerButton()
+{
+	color("green") cylinder(d=14,h=20);
+}
+
+module fillet(r, h)
+{
+    translate([r / 2, r / 2, 0])
+       difference() 
+			{
+            cube([r + 0.01, r + 0.01, h], center = true);
+
+            translate([r/2, r/2, 0])
+                cylinder(r = r, h = h + 1, center = true);
+
+        }
+}
+
+if( WIP )
+{
+
+
+
+translate([100,-100,0]) fillet(r=10,h=100);
+
+translate([20,-50,10]) rotate([90,0,0]) DCJack5p5();
+
+translate([-65,-43,25]) rotate([0,90,0]) PowerButton();
+
+
+// power mount
+/*
+translate([0,0,0]) 	 rotate([0,0,0]) difference() 
+{
+	offss = 29;
+	color( "magenta") union()
+	{
+		translate([-53.5,LCDY-offss,0]) cube([4,8,80]);
+		translate([-48,LCDY-offss,5]) cube([4,8,6+5]);
+		hull()
+		{
+			translate([-48,LCDY-offss,13]) cube([4,8,1]);
+			translate([-52,LCDY-offss,13]) cube([4,8,1]);
+			translate([-52,LCDY-offss,35]) cube([1,8,3]);
+		}
+	}
+}
+*/
+
+//translate([-50,-63,80+1.5]) cube([100,3,5]);
+//translate([-50,-63,-1.5]) cube([100,3,80+1.5]);
+//translate([-68,-63,-1.5]) cube([100,3,80+1.5]);
+//translate([47,-63,-1.5]) cube([8,3,80+1.5]);
+translate([39,-56+2,0]) cube([12,3,80]);
+translate([41+5,-56,0]) cube([5,4,80]);
+translate([41+5-1,-51,0]) cube([3,7,80]);
+//#translate([47,-63,-1.5]) cube([5,3,80+1.5]);
+//#translate([-43-5,-60,-1.5]) cube([5,8,80+1.5]);
+//#translate([-68,-60,-1.5]) cube([5,8,80+1.5]);
+
+
+translate([-69+1.5,-56+2,0]) cube([12,3,80]);
+translate([-71+5-1.5,-56,0]) cube([5,4,80]);
+translate([-71+4.5,-51,0]) cube([3,7,80]);
+
+
+// m3 threaded rods
+/*
+if( drawIndex==0 )
+{
+	color("silver") 
+	{
+		translate([-42,-48,0]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+		translate([42,-48,0])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+	}
+}
+*/
+
+//hull()
+{
+//	translate([-50,-47,-1.5]) cylinder(r=16,h=80+1.5);
+//	translate([-50,147,-1.5]) cylinder(r=16,h=80+1.5);
+}
+
+
+
+//minkowski()
+{
+	union()
+	{
+	difference()
+	{
+		union()
+		{
+			translate([-48,-60+4,0]) cube([96,16,5]);
+			translate([-69.5+2,-60+4,-1.5]) cube([18,16,5+1.5]);
+			translate([-60,-60+4,0]) cube([18,5,5]);
+			translate([-48,-60+4,-1.5]) cube([99,5,1.5]);
+			translate([-60,-60+4,-1.5]) cube([18,5,1.5]);
+
+			translate([-48,-60+4,0]) cube([96,16,5]);
+			//translate([-68,-60+4+2,75]) cube([119,10,8]);
+			//color("red") translate([-68,-60+4,80]) cube([119,12,8]);
+
+		}
+		translate([42,-48,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+		translate([-42,-48,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+	}
+	}
+	//sphere(r=1);
+}
+
+//
+
+}
 
 // 2004 smart lcd controller
 module LCD20x4SmartController(holesOnly=0)
@@ -196,14 +325,14 @@ module LAlum10x10x1p2(len=200,extraThickness=0)
 
 if(  drawIndex==0 )
 {
-	translate([-50.2,7,10+75+1]) rotate([0,90,0]) LAlum10x10x1p2(150-7);
-	translate([50.3,7,10+75+1]) rotate([0,180,0]) LAlum10x10x1p2(150-7);
+	translate([-50.2,7,z+10+75+1]) rotate([0,90,0]) LAlum10x10x1p2(150-7);
+	translate([50.3,7,z+10+75+1]) rotate([0,180,0]) LAlum10x10x1p2(150-7);
 }
 
 if( drawIndex==0 || drawIndex==35 )
 {
 	aY = printLayout ? 15 : 145;
-	aZ = printLayout ? 81 : 82;
+	aZ = printLayout ? 81 : 82+z;
 	rY = printLayout ? -90 : 0;
 	translate([0,aY,aZ]) rotate([rY,0,0])
 	{
@@ -223,7 +352,7 @@ if( drawIndex==0 || drawIndex==35 )
 		translate([-16,0,-10]) cylinder(r=1.51,h=30,$fn=12);
 		}
 	}
-	offsZ = 79;
+	offsZ = 79+z;
 	offsY = 30.5;
 	translate([0,offsY,offsZ])
 	{
@@ -250,8 +379,8 @@ if( drawIndex==0 || drawIndex==35 )
 }
 if(  drawIndex==0 )
 {
-	color("silver") translate([-49.5,-60,-1.5]) LAlum();
-	mirror() color("silver") translate([-49.5,-60,-1.5]) LAlum();
+	color("silver") translate([-49.5,-51,-1.5]) LAlum();
+	mirror() color("silver") translate([-49.5,-51,-1.5]) LAlum();
 }
 // extruder
 if( drawIndex==23 || drawIndex==0 )
@@ -701,8 +830,8 @@ if( drawIndex==0 )
 // rods bearing
 if( drawIndex==0 )
 {
-	translate([rodOffsetX,rodOffsetY,65]) BearingLM6UU();
-	translate([-rodOffsetX,rodOffsetY,65]) BearingLM6UU();
+	translate([rodOffsetX,rodOffsetY,65+z]) BearingLM6UU();
+	translate([-rodOffsetX,rodOffsetY,65+z]) BearingLM6UU();
 }
 
 module HolesBearingMount()
@@ -764,20 +893,20 @@ module CarretSide1(index)
 						translate([-3,30,BearingLM6UUHeight()/2]) translate([0,0,0]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()/2,$fn=32);
 					}
 					color( "red") translate([-4,12,0]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
-					color( "red") translate([-3,28,4]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
+					color( "red") translate([-4,28,4]) cylinder(d=BearingLM6UUDiameter()-3,h=10,$fn=32);
 					
 
 				}
 				difference()
 				{
-				translate([0,-BearingLM6UUDiameter()/2,-1]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()+2]);
+					translate([0,-BearingLM6UUDiameter()/2,-1]) cube([BearingLM6UUDiameter(),BearingLM6UUDiameter()+5,BearingLM6UUHeight()+2]);
 					// new design
-				translate([7.8,-BearingLM6UUDiameter()/2,-1]) scale([1,0.7,1]) cylinder(r=3,h=BearingLM6UUHeight()+2,$fn=12);
+					translate([7.8,-BearingLM6UUDiameter()/2,-1]) scale([1,0.7,1]) cylinder(r=3,h=BearingLM6UUHeight()+2,$fn=12);
 				}
 				translate([0,0,-1]) cylinder(d=BearingLM6UUDiameter(),h=BearingLM6UUHeight()+2,$fn=32);
 				HolesBearingMount();
 				color( "red") translate([-4,12,-1]) cylinder(d=3.1,h=BearingLM6UUHeight()+2,$fn=32);
-				color( "red") translate([-3,28,-1]) cylinder(d=3.1,h=BearingLM6UUHeight()+2,$fn=32);
+				color( "red") translate([-4,28,-1]) cylinder(d=3.1,h=BearingLM6UUHeight()+2,$fn=32);
 			}
 		}
 	}
@@ -907,7 +1036,7 @@ if( drawIndex==13 )
 }
 
 // pulley1
-if( drawIndex==1 || drawIndex==0 )//|| drawIndex==4 )
+if( drawIndex==1 || drawIndex==0 )
 {
 	translate([0,0,Bearing625Height()+isExpolode*10])
 	{	
