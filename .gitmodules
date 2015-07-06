@@ -7,3 +7,6 @@
 [submodule "Marlin"]
 	path = Software/Marlin
 	url = https://github.com/pavlog/Marlin
+[submodule "Modules/Write.scad"]
+	path = Modules/Write.scad
+	url = https://github.com/pavlog/Write.scad

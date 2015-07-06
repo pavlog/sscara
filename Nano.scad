@@ -4,6 +4,7 @@ use <Modules/Pulley_T-MXL-XL-HTD-GT2_N-tooth.scad>
 use <Modules/ISOThread.scad>
 use <Modules/Bearings.scad>
 use <Modules/EndStoppers.scad>
+use <Modules/Write.scad/Write.scad>
 include <Modules/MCAD/stepper.scad>
 
 //
@@ -17,7 +18,7 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 0;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 38;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // seems like 3rd rod is required 
 
@@ -956,6 +957,101 @@ if( drawIndex==0 )
 {
 	translate([rodOffsetX,rodOffsetY,65+z]) BearingLM6UU();
 	translate([-rodOffsetX,rodOffsetY,65+z]) BearingLM6UU();
+}
+
+
+if( drawIndex==0 || drawIndex==38 ) 
+{
+
+
+
+difference()
+{
+	translate([-60,10,300]) cube([120,140,1]);
+	hull()
+	{
+		translate([rodOffsetX,rodOffsetY/*+20*/,250]) color ("silver") cylinder(r=3.1,h=200);
+		translate([rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
+	}
+	hull()
+	{
+		translate([-rodOffsetX,rodOffsetY,250]) color ("silver") cylinder(r=3.1,h=200);
+		translate([-rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
+	}
+
+color("red") translate([0,20,300+1])
+{
+	cube([120,0.5,1],center=true);
+	translate([-3,1,-0.5]) write("20",h=5,t=0.5);
+}
+
+color("red") translate([0,30,300+1]) cube([120,0.5,1],center=true);
+
+color("red") translate([0,35,300+1]) cube([120,0.5,1],center=true);
+
+color("red") translate([0,50,300+1]) 
+{
+	cube([120,0.5,1],center=true);
+	translate([-3,1,-0.5]) write("50",h=5,t=0.5);
+}
+
+color("red") translate([0,70,300+1]) cube([120,0.5,1],center=true);
+
+color("red") translate([0,90,300+1]) cube([120,0.5,1],center=true);
+
+color("red") translate([0,100,300+1])
+{
+	cube([120,0.5,1],center=true);
+	translate([-5,1,-0.5]) write("100",h=5,t=0.5);
+}
+
+
+color("red") translate([0,120,300+1])
+{
+	cube([120,0.5,1],center=true);
+	translate([-5,1,-0.5]) write("120",h=5,t=0.5);
+}
+
+color("red") translate([0,140,300+1]) cube([120,0.5,1],center=true);
+
+color("red") translate([0,80,300+1]) cube([0.5,120,1],center=true);
+
+color("red") translate([-50,80,300+1]) cube([0.5,120,1],center=true);
+
+color("red") translate([-25,80,300+1])
+{
+	cube([0.5,120,1],center=true);
+	translate([-6.5,1,-0.5]) write("-25",h=5,t=0.5);
+}
+
+color("red") translate([50,80,300+1]) cube([0.5,120,1],center=true);
+
+color("red") translate([25,80,300+1])
+{
+	cube([0.5,120,1],center=true);
+		translate([-3,1,-0.5]) write("25",h=5,t=0.5);
+}
+
+}
+
+//color("green") translate([0,25,300+0.5]) cube([120,1.5,1],center=true);
+
+color("green") translate([0,40,300+0.5]) cube([120,1.5,1],center=true);
+
+color("green") translate([0,60,300+0.5]) cube([120,1.5,1],center=true);
+color("green") translate([0,80,300+0.5]) cube([120,1.5,1],center=true);
+//color("green") translate([0,90,300+0.5]) cube([120,1.5,1],center=true);
+
+color("green") translate([0,120,300+0.5]) cube([120,1.5,1],center=true);
+color("green") translate([0,110,300+0.5]) cube([120,1.5,1],center=true);
+color("green") translate([0,130,300+0.5]) cube([120,1.5,1],center=true);
+
+color("green") translate([12.5,80,300+0.5]) cube([1.5,120,1],center=true);
+color("green") translate([-12.5,80,300+0.5]) cube([1.5,120,1],center=true);
+color("green") translate([25+12.5,80,300+0.5]) cube([1.5,120,1],center=true);
+color("green") translate([-25-12.5,80,300+0.5]) cube([1.5,120,1],center=true);
+
+
 }
 
 module HolesBearingMount()
