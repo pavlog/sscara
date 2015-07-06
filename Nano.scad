@@ -72,7 +72,7 @@ ArmNearestD = 8+8;
 ArmNearestW = 8;
 
 x = 0;
-y = 35+50;// offset from axis to printed area
+y = 30;// offset from axis to printed area
 z = 5;
 //z = 140;
 
@@ -95,20 +95,72 @@ centerTubeFixerR = 10;
 UpperBearingMountH = 2+3+5;
 UpperBearingMountOffset = 2;
 
-WIP = 0;
+
+
+l = Arm1Len;
+L = Arm2Len;
+
+l2 = l * l;
+L2 = L * L;
+
+dhalf = 0;
+A = -2 * l * (x - dhalf);
+B = -2 * y * l;
+C = (x - dhalf) * (x - dhalf) + y * y + l2 - L2;
+F = (x + dhalf) * (x + dhalf) + y * y + l2 - L2;
+E = -2  * l * (x+dhalf);
+Det1 = B * B - (C * C - A * A);
+Det2 = B * B - (F * F - E * E);
+
+qq11 = (-B - sqrt(Det1)) / (C - A);
+q11 = 2 * atan(qq11);
+qq12 = (-B + sqrt(Det1)) / (C - A);
+q12 = 2 * atan(qq12);
+
+qq21 = (-B - sqrt(Det2)) / (F - E);
+q21 = 2 * atan(qq21);
+qq22 = (-B + sqrt(Det2)) / (F - E);
+q22 = 2 * atan(qq22);
+
+q22Pos = q22 < 0 ? 360+q22 : q22;
+
+echo(q22Pos);
+echo(q11);
+
+      xd = -dhalf + l * cos(q22);
+       yd = l * sin(q22);
+
+       xb = -dhalf + l * cos(q11);
+       yb = l * sin(q11);
+
+       hx = xb-xd;
+       hy = yb-yd;
+       H = sqrt(hx*hx+hy*hy);
+       LH = L/H;
+       cosa = (H*H)/(2*L*H);
+       sina = -sqrt(1-cosa*cosa);
+       xp = (hx*cosa+hy*sina)*LH+xd;
+       yp = (-hx*sina+hy*cosa)*LH+yd;
+
+//echo (xp);
+//echo(yp);
+//color("green") translate([xp,yp,200]) cylinder(r=3,h=100);
+
+
+WIP = 1;
 
 module DCJack5p5()
 {
-difference()
+color("red") difference()
 {
-	cylinder(d=10,h=20);
+	cylinder(d=8,h=20);
 	cylinder(d=5.5,h=21);
 }
 }
 
 module PowerButton()
 {
-	color("green") cylinder(d=14,h=20);
+	color("green") cylinder(d=9.5,h=20);
 }
 
 module fillet(r, h)
@@ -126,95 +178,133 @@ module fillet(r, h)
 
 if( WIP )
 {
-
-
-
-translate([100,-100,0]) fillet(r=10,h=100);
-
-translate([20,-50,10]) rotate([90,0,0]) DCJack5p5();
-
-translate([-65,-43,25]) rotate([0,90,0]) PowerButton();
-
-
-// power mount
-/*
-translate([0,0,0]) 	 rotate([0,0,0]) difference() 
-{
-	offss = 29;
-	color( "magenta") union()
-	{
-		translate([-53.5,LCDY-offss,0]) cube([4,8,80]);
-		translate([-48,LCDY-offss,5]) cube([4,8,6+5]);
-		hull()
-		{
-			translate([-48,LCDY-offss,13]) cube([4,8,1]);
-			translate([-52,LCDY-offss,13]) cube([4,8,1]);
-			translate([-52,LCDY-offss,35]) cube([1,8,3]);
-		}
-	}
-}
-*/
-
-//translate([-50,-63,80+1.5]) cube([100,3,5]);
-//translate([-50,-63,-1.5]) cube([100,3,80+1.5]);
-//translate([-68,-63,-1.5]) cube([100,3,80+1.5]);
-//translate([47,-63,-1.5]) cube([8,3,80+1.5]);
-translate([39,-56+2,0]) cube([12,3,80]);
-translate([41+5,-56,0]) cube([5,4,80]);
-translate([41+5-1,-51,0]) cube([3,7,80]);
-//#translate([47,-63,-1.5]) cube([5,3,80+1.5]);
-//#translate([-43-5,-60,-1.5]) cube([5,8,80+1.5]);
-//#translate([-68,-60,-1.5]) cube([5,8,80+1.5]);
-
-
-translate([-69+1.5,-56+2,0]) cube([12,3,80]);
-translate([-71+5-1.5,-56,0]) cube([5,4,80]);
-translate([-71+4.5,-51,0]) cube([3,7,80]);
-
-
-// m3 threaded rods
-/*
-if( drawIndex==0 )
-{
-	color("silver") 
-	{
-		translate([-42,-48,0]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
-		translate([42,-48,0])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
-	}
-}
-*/
-
-//hull()
-{
-//	translate([-50,-47,-1.5]) cylinder(r=16,h=80+1.5);
-//	translate([-50,147,-1.5]) cylinder(r=16,h=80+1.5);
 }
 
-
-
-//minkowski()
+if( drawIndex==0 || drawIndex==36 )
 {
+
+	rot = printLayout ? 0 : 0;
+
+
+translate([0,-10,0]) rotate([0,rot,0]) 
+{
+	baseH = 85;
+	leftOffset = printLayout ? -55 : 11.5;
 	union()
 	{
 	difference()
 	{
 		union()
 		{
-			translate([-48,-60+4,0]) cube([96,16,5]);
-			translate([-69.5+2,-60+4,-1.5]) cube([18,16,5+1.5]);
-			translate([-60,-60+4,0]) cube([18,5,5]);
-			translate([-48,-60+4,-1.5]) cube([99,5,1.5]);
-			translate([-60,-60+4,-1.5]) cube([18,5,1.5]);
+				translate([41+5-1+leftOffset+0.5,-53,-1.5]) cube([6.5-0.5,16,baseH+1.5]);
+	
+			difference()
+			{
+				translate([43+leftOffset-16.5,-56+3,-1.5]) cube([25,5,baseH+1.5]);
+				translate([43+leftOffset-16.5,-56+5,-1.5-1]) cube([5,1.5,baseH+1.5+2]);
+			}
+			color( "brown") translate([43+leftOffset-5,-60+10+1,-1.5]) cube([9,10,5+1.5]);
+			
+			translate([45+leftOffset+1,-48,5]) 
+						color("magenta") rotate([0,0,45]) scale([1,1,1]) cylinder(r=2.5,h=baseH-5,$fn=16);
 
-			translate([-48,-60+4,0]) cube([96,16,5]);
-			//translate([-68,-60+4+2,75]) cube([119,10,8]);
-			//color("red") translate([-68,-60+4,80]) cube([119,12,8]);
+			translate([43+leftOffset-5,-56+5+11,-1.5]) cube([7.5,3,baseH+1.5]);
 
+		difference()
+			{
+				color( "brown") translate([26.5+leftOffset,-60+12,-1.5]) cube([10,8,5+15+1.5]);
+				color( "brown") translate([26.5+leftOffset,-60+12,-1.5]) cube([11.5,1,1.5]);
+			}
+		color( "brown") translate([38+leftOffset,-60+12,-1.5]) cube([8,8,5+1.5+15]);
+		color( "green") translate([26.5+leftOffset,-60+12,-1.5+15]) cube([25,8,7]);
+
+			
+		translate([-69+1.5,-56+3,0]) cube([8,3,baseH]);
+		difference()
+		{
+				translate([-71+3.5,-51,-1.5]) cube([6,25,baseH+1.5]);
+				translate([-71+3.5+2,-51+18+2,-1.5-1]) cube([1.5,5,baseH+1.5+2]);
 		}
-		translate([42,-48,-0.10]) 
+		//color("blue") translate([-63,-53,5]) cube([109,1.2,baseH-5]);
+		//color("green") translate([-64,-56+4,77+5]) cube([109,8,3]);
+		translate([-62,-48,5]) 
+					color("magenta") rotate([0,0,45]) scale([1,1,1]) cylinder(r=2.5,h=baseH-5,$fn=16);
+
+		difference()
+		{
+			translate([-69.5+2,-56+3,-1.5]) cube([29.5,5,baseH+1.5]);
+			translate([-59+16,-56+5,-1.5-1]) cube([5,1.5,baseH+1.5+2]);
+		}
+		translate([-69.5+2+6,-56+3+21,-1.5]) cube([8,3,baseH+1.5]);
+
+
+//
+			
+		
+		difference()
+		{
+			color( "brown") translate([-48,-60+12,-1.5]) cube([10,8,5+15+1.5]);
+			color( "brown") translate([-49.5,-60+12,-1.5]) cube([12,1,1.5]);
+		}
+		color( "brown") translate([-63,-60+12,-1.5]) cube([13.5,8,5+1.5+15]);
+		color( "green") translate([-63,-60+12,-1.5+15]) cube([25,8,7]);
+		color( "brown") translate([-63,-60+20,-1.5]) cube([13.5,11,1.5]);
+	}
+	
+					translate([41+5-1+4.5+leftOffset+0.5-2,-42,-1.5-1]) cube([1.5,5,baseH+1.5+2]);
+				//translate([41+5-1+4.5+leftOffset+0.5-2,-47.5,-1.5-1]) cube([1.5,5,15+2]);
+
+	
+	
+		translate([31.5+leftOffset,-44,-1.5-1]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
-		translate([-42,-48,-0.10]) 
+		translate([-42,-44,-1.5-1]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
+
+		//
+		translate([46+leftOffset,-48,-3]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=150,$fn=16);
+		translate([46+leftOffset,-48,-1.5-0.1]) 
+					color("red") rotate([0,0,-20]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5+2,$fn=6);
+		translate([-62,-48,-0.10]) 
+					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=150,$fn=16);
+		translate([-62,-48,-1.5-0.1]) 
+					color("red") rotate([0,0,17]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5,$fn=6);
+
+
+	color("silver") 
+	{
+		translate([-58,-35,5]) rotate([-90,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+		translate([-58,-35,79]) rotate([-90,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+
+		translate([42+leftOffset,-55+9,5]) rotate([-90,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+		translate([42+leftOffset,-55+9,79]) rotate([-90,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+
+	}
+
+
+
+		hull()
+	{
+		translate([42+leftOffset,-55+15,5]) 
+					color("red") rotate([90,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5,$fn=6);
+		translate([42+leftOffset,-55+15,-30]) 
+					color("red") rotate([90,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5,$fn=6);
+	}
+		// button
+		translate([-63,-39,30]) rotate([0,90,0]) cylinder(d=13,h=15);
+		translate([-70,-39,30]) rotate([0,90,0]) cylinder(d=9.8,h=15);
+
+
+// jack place
+//translate([20+leftOffset,-50,15]) rotate([90,0,0]) cylinder(d=8,h=20);
+
+
+translate([-67.5,-56+3,50-5]) fillet(r=6,h=150);
+translate([52.5-1+leftOffset,-56+3,50-5]) rotate([0,0,90]) fillet(r=6,h=150);
+
+translate([0+leftOffset,-56,-1.5]) rotate([90,0,90]) fillet(r=3,h=150);
+
 	}
 	}
 	//sphere(r=1);
@@ -379,8 +469,8 @@ if( drawIndex==0 || drawIndex==35 )
 }
 if(  drawIndex==0 )
 {
-	color("silver") translate([-49.5,-51,-1.5]) LAlum();
-	mirror() color("silver") translate([-49.5,-51,-1.5]) LAlum();
+	color("silver") translate([-49.5,-58,-1.5]) LAlum();
+	mirror() color("silver") translate([-49.5,-58,-1.5]) LAlum();
 }
 // extruder
 if( drawIndex==23 || drawIndex==0 )
@@ -510,31 +600,6 @@ if( drawIndex==23 || drawIndex==0 )
 		}
 	}
 }
-
-l = Arm1Len;
-L = Arm2Len;
-
-l2 = l * l;
-L2 = L * L;
-
-dhalf = 0;
-A = -2 * l * (x - dhalf);
-B = -2 * y * l;
-C = (x - dhalf) * (x - dhalf) + y * y + l2 - L2;
-F = (x + dhalf) * (x + dhalf) + y * y + l2 - L2;
-E = -2  * l * (x+dhalf);
-Det1 = B * B - (C * C - A * A);
-Det2 = B * B - (F * F - E * E);
-
-qq11 = (-B - sqrt(Det1)) / (C - A);
-q11 = 2 * atan(qq11);
-qq12 = (-B + sqrt(Det1)) / (C - A);
-q12 = 2 * atan(qq12);
-
-qq21 = (-B - sqrt(Det2)) / (F - E);
-q21 = 2 * atan(qq21);
-qq22 = (-B + sqrt(Det2)) / (F - E);
-q22 = 2 * atan(qq22);
 
 if( drawIndex==0 )
 {
@@ -1196,9 +1261,9 @@ if( drawIndex==4 || drawIndex==0 )
   {
     union()
     {
-      translate([-48,-40,0]) 
+      translate([-48,-49,0]) 
         color("red") rotate([0,0,0]) scale([1,1,1])
-          cube([95.7,44,5]);
+          cube([95.7,49,5]);
 
       translate([-48,-24,0]) 
         color("blue") rotate([0,0,0]) scale([1,1,1])
