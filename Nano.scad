@@ -18,7 +18,7 @@ b608Clearance = 0.3;
 b6800Clearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
-drawIndex = 38;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
+drawIndex = 0;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
 
 // seems like 3rd rod is required 
 
@@ -781,17 +781,22 @@ module ArmCableClamp()
 				color("blue") 
 				hull() 
 				{
-					cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Arm2Len,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					cylinder(r=ArmNearestW/2+0.4,h=bottomArmH);
+					translate([Arm2Len,0,0]) cylinder(r=ArmNearestW/2+0.4,h=bottomArmH);
 				}
 			}
-			translate([29,-10,0.5]) cube([7,10,9]);
+			translate([29,-10,1]) cube([7,10,8]);
 		}
 		minkowski()
 		{
 			difference()
 			{
-				translate([30.5,5,0.5]) cube([4,5,9]);
+				hull()
+				{
+								//translate([30.5,0,-1]) cube([1,10,12]);
+								translate([30.5,5,-1]) cube([4,0.1,12]);
+								translate([30.5,5,0.5]) cube([4,5,9]);
+				}
 				translate([29,4.5,1]) cube([7,5.3,8]);
 			}
 			//#translate([30,5,1.5]) cube([5,4.2,1]);
@@ -799,7 +804,7 @@ module ArmCableClamp()
 		}
 }
 
-if( drawIndex==37 || drawIndex==0 )
+if( drawIndex==3700 || drawIndex==0 ) // not required
 {
   xd = dhalf + l * cos(q11);
   yd = l * sin(q11);
@@ -967,7 +972,7 @@ if( drawIndex==0 || drawIndex==38 )
 
 difference()
 {
-	translate([-60,10,300]) cube([120,140,1]);
+	translate([-55,10,300]) cube([110,100,1]);
 	hull()
 	{
 		translate([rodOffsetX,rodOffsetY/*+20*/,250]) color ("silver") cylinder(r=3.1,h=200);
@@ -1036,20 +1041,20 @@ color("red") translate([25,80,300+1])
 
 //color("green") translate([0,25,300+0.5]) cube([120,1.5,1],center=true);
 
-color("green") translate([0,40,300+0.5]) cube([120,1.5,1],center=true);
+color("green") translate([0,40,300+0.5]) cube([100,1.5,1],center=true);
 
-color("green") translate([0,60,300+0.5]) cube([120,1.5,1],center=true);
-color("green") translate([0,80,300+0.5]) cube([120,1.5,1],center=true);
+color("green") translate([0,60,300+0.5]) cube([100,1.5,1],center=true);
+color("green") translate([0,80,300+0.5]) cube([100,1.5,1],center=true);
 //color("green") translate([0,90,300+0.5]) cube([120,1.5,1],center=true);
 
-color("green") translate([0,120,300+0.5]) cube([120,1.5,1],center=true);
-color("green") translate([0,110,300+0.5]) cube([120,1.5,1],center=true);
-color("green") translate([0,130,300+0.5]) cube([120,1.5,1],center=true);
+//color("green") translate([0,120,300+0.5]) cube([120,1.5,1],center=true);
+color("green") translate([0,110,300+0.5]) cube([100,1.5,1],center=true);
+//color("green") translate([0,130,300+0.5]) cube([120,1.5,1],center=true);
 
-color("green") translate([12.5,80,300+0.5]) cube([1.5,120,1],center=true);
-color("green") translate([-12.5,80,300+0.5]) cube([1.5,120,1],center=true);
-color("green") translate([25+12.5,80,300+0.5]) cube([1.5,120,1],center=true);
-color("green") translate([-25-12.5,80,300+0.5]) cube([1.5,120,1],center=true);
+color("green") translate([12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+color("green") translate([-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+color("green") translate([25+12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+color("green") translate([-25-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
 
 
 }
