@@ -766,6 +766,65 @@ if( drawIndex==26 || drawIndex==0 )
 	}
 }
 
+module ArmCableClamp()
+{
+		difference()
+		{
+					minkowski()
+		{
+			translate([30.5,-5,-1]) cube([4,10,12]);
+			sphere(d=1,$fn=12);
+		}
+			union()
+			{
+				color("blue") 
+				hull() 
+				{
+					cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([Arm2Len,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+				}
+			}
+			translate([29,-10,0.5]) cube([7,10,9]);
+		}
+		minkowski()
+		{
+			difference()
+			{
+				translate([30.5,5,0.5]) cube([4,5,9]);
+				translate([29,4.5,1]) cube([7,5.3,8]);
+			}
+			//#translate([30,5,1.5]) cube([5,4.2,1]);
+			sphere(d=1,$fn=12);
+		}
+}
+
+if( drawIndex==37 || drawIndex==0 )
+{
+  xd = dhalf + l * cos(q11);
+  yd = l * sin(q11);
+	a = printLayout ? 0 : atan((y-yd)/(x-xd));
+	a1 = printLayout ? 90 : 0;
+	lay = printLayout ? 0 : 1;
+	a3 = printLayout ? 0 : 1;
+	a4 = printLayout ? 20 : 1;
+	a5 = printLayout ? 20 : 1;
+	a6 = printLayout ? -35 : 0;
+	a7 = printLayout ? 35 : 0;
+	//echo (a);
+	translate ([xd,yd,(armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5)*lay])
+		rotate([0,a1,a+180]) 
+	{
+		translate([30*a3,0,0]) ArmCableClamp();
+		translate([-10*a3,a4,0]) ArmCableClamp();
+	}
+	translate ([0,0,(armsZ+bottomArmH+armsZExtra+Bearing625Height())*lay]) rotate([0,a1,q11*a3])
+	{
+		translate([20*a3,0+a6,a7]) ArmCableClamp();
+		translate([-20*a3,a5+a6,a7]) ArmCableClamp();
+	}
+}
+
+
 if( drawIndex==25 || drawIndex==0 )
 {
   xd = dhalf + l * cos(q11);
@@ -779,37 +838,37 @@ if( drawIndex==25 || drawIndex==0 )
 		{
 			union()
 			{
-			color("blue") 
-			hull()
-			{
-				cylinder(r=ArmNearestD/2,h=bottomArmH);
-				translate([Arm1Len*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-			}
+				color("blue") 
+				hull()
+				{
+					cylinder(r=ArmNearestD/2,h=bottomArmH);
+					translate([Arm1Len*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+				}
 
-			color("blue") 
-			hull() 
-			{
-				cylinder(r=ArmNearestW/2,h=bottomArmH);
-				translate([Arm2Len,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-			}
+				color("blue") 
+				hull() 
+				{
+					cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([Arm2Len,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+				}
 
-			color("blue") 
-			hull()
-			{
-				translate([Arm2Len,0,0]) cylinder(r=Bearing6800Diameter()/2+2.5,h=bottomArmH);
-				translate([Arm2Len*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+				color("blue") 
+				hull()
+				{
+					translate([Arm2Len,0,0]) cylinder(r=Bearing6800Diameter()/2+2.5,h=bottomArmH);
+					translate([Arm2Len*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+				}
+				translate([Arm2Len-13,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
 			}
-			translate([Arm2Len-13,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
-		}
-		translate([Arm2Len,0,-1]) cylinder(d=10,h=30,$fn=32);
-		//translate([Arm2Len,0,4]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
-		translate([0,0,-1]) cylinder(d=3.0,h=30,$fn=32);
+			translate([Arm2Len,0,-1]) cylinder(d=10,h=30,$fn=32);
+			//translate([Arm2Len,0,4]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
+			translate([0,0,-1]) cylinder(d=3.0,h=30,$fn=32);
 
 			translate([Arm2Len-20,-0.5,-1]) cube([20.5,1,bottomArmH+2]);
 			color("red") translate([Arm2Len-13,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100);
 			color("red") translate([Arm2Len-13,16,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
 			color("red") translate([Arm2Len-13,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-	}
+		}
 	}
 }
 
