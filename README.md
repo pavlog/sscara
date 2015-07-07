@@ -4,7 +4,14 @@ Small size 3d printer with SCARA based mechanics
 Current Status: WIP (please do not print anything until i get first prints on #sscara)
 
 Dimensions: 
-* 120x180x250mm (Height configurable)
+* 140x180x250mm (Height configurable)
+
+Precision:
+WIP
+XY: 
+
+Z:
+ 
 
 Hardware: 
 * 4 Nema17 (24mm length shaft)
@@ -19,7 +26,7 @@ Mass:
 * 2kg (because of steppers) - still not measured
 
 Firmware:
-* Marlin (modified - in Software folder)
+* Marlin (modified)
 
 Materials:
 * ~1.5 meters(hard to measure) - GT2 timing belt 6mm(width)
@@ -49,5 +56,31 @@ Included Software:
 * SScaraVisualizer - c# application to preview/visualize dimensions and different parameters
 * ReprapHeatedBedGenerator heated bed generator (forked from https://github.com/tlalexander/ReprapHeatedBedGenerator)
 * Marlin - Marlin firmware(forked from https://github.com/MarlinFirmware/Marlin)
+
+Calibration Guide:
+
+WIP
+XY calibration:
+
+Arms initially shouble established in position exactly about home location or a little bit left and bottom from home position (home position should equals min xy).
+Enable EEPROM in you firmware.
+1) M206 X0 Y0 - resets home offsets
+2) G28 goto home
+3) Measure distance from nozzle center to home position (MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS) see Configuration.h
+4) M206 X#xx Y#yy - where #xx and #yy is a NEGATIVE distances from homed nozzle center and required home pos (MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS). 
+6) G28 goto home
+7) G90
+8) G1 X##MANUAL_X_HOME_POS Y##MANUAL_Y_HOME_POS - in this step nozzle center should be above home position (MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS)
+9) M500 to save data to EEPROM
+
+NOTE: use calibration plate from scad file (part #38 in stl folder)
+
+Z calibration
+WIP
+
+
+TODO:
+Part #38 - missed hole for z bels
+
 
 Development blog - https://3dgems.blogspot.com
