@@ -18,20 +18,21 @@ Optional:
 Mass:
 * 2kg (because of steppers) - still not measured
 
-Software:
-* Marlin (seems like potentially without modifications (maybe homing will be changed))
+Firmware:
+* Marlin (modified - in Software folder)
 
 Materials:
-* ??? meters(need to be measured) - GT2 timing belt 6mm
+* ~1.5 meters(hard to measure) - GT2 timing belt 6mm(width)
 * 3 - GT2 16 teeth pulleys
 * 4 - Nema17 (24mm shaft length)
 * 2 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
 * 2 - 6800 bearings (ID-10mm,OD-19mm,H-5mm)
-* 1 - aluminium tube (ID-6mm,OD-8mm) - Length still not determined
-* 1 - m5 threaded rod - Length still not determined
-* m3 bolts and nuts - a few/lot of them (will be calculated later on project finish)
-* m5 nuts - a few/lot of them (will be calculated later on project finish)
+* 1 - aluminium tube (ID-6mm,OD-8mm) - 350mm max
+* 1 - m5 threaded rod - 500mm max
+* 1 - m3 threaded rod - 2 meters max
+* m3 bolts and nuts - a few/lot of them
+* m5 nuts - a few
 * ??? kg (need to be measured) - ABS fillaments to print parts
 
 
@@ -45,7 +46,7 @@ Slicer:
 * ABS - 0.4mm nozzle, 25% infill, 0.25mm layer height
 
 Included Software:
-* SScaraVisualizer - c# application to preview and  visualize dimensions and different parameters
+* SScaraVisualizer - c# application to preview/visualize dimensions and different parameters
 * ReprapHeatedBedGenerator heated bed generator (forked from https://github.com/tlalexander/ReprapHeatedBedGenerator)
 * Marlin - Marlin firmware(forked from https://github.com/MarlinFirmware/Marlin)
 
