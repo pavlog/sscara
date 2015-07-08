@@ -27,6 +27,10 @@ Mass:
 
 Firmware:
 * Marlin (modified)
+** FIVE_BAR define added for SCARA define
+** added M450 - xyz min limits
+** added M451 - xyz max limits
+** added M452 - xyz home pos
 
 Materials:
 * ~1.5 meters(hard to measure) - GT2 timing belt 6mm(width)
