@@ -16,6 +16,7 @@ m5Hclearance = 0.2;
 b625RClearance = 0.2;
 b608Clearance = 0.3;
 b6800Clearance = 0.3;
+BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 drawIndex = 0;//20;//0;//28;//23;//19;//18;//17;//14;//4;//0;//4;//6;//5;//4;//5;//4;//4;//0;//3;//0;
@@ -646,7 +647,7 @@ if( drawIndex==24 || drawIndex==0 )
 			translate([Arm1Len,0,-1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=bottomArmH+2);
 			//translate([0,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
 			translate([0,0,-1]) cylinder(r=4,h=bottomArmH+2);
-			color("blue") translate([0,0,bottomArmH-0.5]) cylinder(r=2.5+2,h=0.5+0.1);
+			color("blue") translate([0,0,bottomArmH-1]) cylinder(d=BearingF512MDiameter()+BearingRClearance*2,h=1+1);
 			translate([0,-0.5,-1]) cube([10.5,1,bottomArmH+2]);
 			color("red") translate([6,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100);
 			color("red") translate([6,16,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
@@ -663,9 +664,10 @@ if( drawIndex==24 || drawIndex==0 )
 
 if( drawIndex==0 )
 {
-	translate ([0,0,armsZ+bottomArmH+armsZExtra])
+	translate ([0,0,armsZ+bottomArmH+armsZExtra-1])
 	{
-		Bearing625();
+		BearingF512M();
+		color("silver") translate ([0,0,4]) rolson_hex_nut(5);
 	}
 }
 
@@ -749,11 +751,15 @@ if( drawIndex==26 || drawIndex==0 )
 			//translate([0,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
 			translate([0,0,-1]) cylinder(d=5.0,h=bottomArmH+2);
 			translate([0,-0.5,-1]) cube([10.5,1,bottomArmH+2]);
-			difference()
-			{
-			color("blue") translate([0,0,-0.1]) cylinder(r=ArmNearestD/2+0.5,h=0.5+0.1);
-			color("blue") translate([0,0,-0.1]) cylinder(r=ArmNearestD/2-2.3,h=0.5+0.1);
-			}
+			color("blue") translate([0,0,-0.1]) cylinder(d=BearingF512MDiameter()+BearingRClearance*2,h=1.1);
+			//color("blue") translate([0,0,-0.1]) cylinder(d=rolson_hex_nut_dia(5)+1,h=1.1,$fn=12);
+			
+
+//			difference()
+			//{
+			//color("blue") translate([0,0,-0.1]) cylinder(r=ArmNearestD/2+0.5,h=0.5+0.1);
+			//color("blue") translate([0,0,-0.1]) cylinder(r=ArmNearestD/2-2.3,h=0.5+0.1);
+			//}
 			color("red") translate([6,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100);
 			color("red") translate([6,16,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
 			color("red") translate([6,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
@@ -967,96 +973,93 @@ if( drawIndex==0 )
 
 if( drawIndex==0 || drawIndex==38 ) 
 {
-
-
-
-difference()
-{
-	translate([-55,10,300]) cube([110,100,1]);
-	hull()
+	difference()
 	{
-		translate([rodOffsetX,rodOffsetY/*+20*/,250]) color ("silver") cylinder(r=3.1,h=200);
-		translate([rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
+		translate([-55,10,300]) cube([110,100,1]);
+		hull()
+		{
+			translate([rodOffsetX,rodOffsetY/*+20*/,250]) color ("silver") cylinder(r=3.1,h=200);
+			translate([rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
+		}
+		hull()
+		{
+			translate([-rodOffsetX,rodOffsetY,250]) color ("silver") cylinder(r=3.1,h=200);
+			translate([-rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
+		}
+
+		color("red") translate([0,30,300+1])
+		{
+			cube([120,0.5,1],center=true);
+			translate([-3,1,-0.5]) write("30",h=5,t=0.5);
+		}
+
+		color("red") translate([0,30,300+1]) cube([120,0.5,1],center=true);
+
+		color("red") translate([0,35,300+1]) cube([120,0.5,1],center=true);
+
+		color("red") translate([0,50,300+1]) 
+		{
+			cube([120,0.5,1],center=true);
+			translate([-3,1,-0.5]) write("50",h=5,t=0.5);
+		}
+
+		color("red") translate([0,70,300+1]) cube([120,0.5,1],center=true);
+
+		color("red") translate([0,90,300+1]) cube([120,0.5,1],center=true);
+
+		color("red") translate([0,100,300+1])
+		{
+			cube([120,0.5,1],center=true);
+			translate([-5,1,-0.5]) write("100",h=5,t=0.5);
+		}
+
+
+		color("red") translate([0,120,300+1])
+		{
+			cube([120,0.5,1],center=true);
+			translate([-5,1,-0.5]) write("120",h=5,t=0.5);
+		}
+
+		color("red") translate([0,140,300+1]) cube([120,0.5,1],center=true);
+
+		color("red") translate([0,80,300+1]) cube([0.5,120,1],center=true);
+
+		color("red") translate([-50,80,300+1]) cube([0.5,120,1],center=true);
+
+		color("red") translate([-25,80,300+1])
+		{
+			cube([0.5,120,1],center=true);
+			translate([-6.5,1,-0.5]) write("-25",h=5,t=0.5);
+		}
+
+		color("red") translate([50,80,300+1]) cube([0.5,120,1],center=true);
+
+		color("red") translate([25,80,300+1])
+		{
+			cube([0.5,120,1],center=true);
+				translate([-3,1,-0.5]) write("25",h=5,t=0.5);
+		}
+
+		color("green") translate([-10,0,300-1]) cube([20,30,5]);
+
 	}
-	hull()
-	{
-		translate([-rodOffsetX,rodOffsetY,250]) color ("silver") cylinder(r=3.1,h=200);
-		translate([-rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
-	}
 
-color("red") translate([0,20,300+1])
-{
-	cube([120,0.5,1],center=true);
-	translate([-3,1,-0.5]) write("20",h=5,t=0.5);
-}
+	//color("green") translate([0,25,300+0.5]) cube([120,1.5,1],center=true);
 
-color("red") translate([0,30,300+1]) cube([120,0.5,1],center=true);
+	color("green") translate([0,40,300+0.5]) cube([100,1.5,1],center=true);
 
-color("red") translate([0,35,300+1]) cube([120,0.5,1],center=true);
+	color("green") translate([0,60,300+0.5]) cube([100,1.5,1],center=true);
+	color("green") translate([0,80,300+0.5]) cube([100,1.5,1],center=true);
+	//color("green") translate([0,90,300+0.5]) cube([120,1.5,1],center=true);
 
-color("red") translate([0,50,300+1]) 
-{
-	cube([120,0.5,1],center=true);
-	translate([-3,1,-0.5]) write("50",h=5,t=0.5);
-}
+	//color("green") translate([0,120,300+0.5]) cube([120,1.5,1],center=true);
+	color("green") translate([0,110,300+0.5]) cube([100,1.5,1],center=true);
+	//color("green") translate([0,130,300+0.5]) cube([120,1.5,1],center=true);
 
-color("red") translate([0,70,300+1]) cube([120,0.5,1],center=true);
-
-color("red") translate([0,90,300+1]) cube([120,0.5,1],center=true);
-
-color("red") translate([0,100,300+1])
-{
-	cube([120,0.5,1],center=true);
-	translate([-5,1,-0.5]) write("100",h=5,t=0.5);
-}
-
-
-color("red") translate([0,120,300+1])
-{
-	cube([120,0.5,1],center=true);
-	translate([-5,1,-0.5]) write("120",h=5,t=0.5);
-}
-
-color("red") translate([0,140,300+1]) cube([120,0.5,1],center=true);
-
-color("red") translate([0,80,300+1]) cube([0.5,120,1],center=true);
-
-color("red") translate([-50,80,300+1]) cube([0.5,120,1],center=true);
-
-color("red") translate([-25,80,300+1])
-{
-	cube([0.5,120,1],center=true);
-	translate([-6.5,1,-0.5]) write("-25",h=5,t=0.5);
-}
-
-color("red") translate([50,80,300+1]) cube([0.5,120,1],center=true);
-
-color("red") translate([25,80,300+1])
-{
-	cube([0.5,120,1],center=true);
-		translate([-3,1,-0.5]) write("25",h=5,t=0.5);
-}
-
-}
-
-//color("green") translate([0,25,300+0.5]) cube([120,1.5,1],center=true);
-
-color("green") translate([0,40,300+0.5]) cube([100,1.5,1],center=true);
-
-color("green") translate([0,60,300+0.5]) cube([100,1.5,1],center=true);
-color("green") translate([0,80,300+0.5]) cube([100,1.5,1],center=true);
-//color("green") translate([0,90,300+0.5]) cube([120,1.5,1],center=true);
-
-//color("green") translate([0,120,300+0.5]) cube([120,1.5,1],center=true);
-color("green") translate([0,110,300+0.5]) cube([100,1.5,1],center=true);
-//color("green") translate([0,130,300+0.5]) cube([120,1.5,1],center=true);
-
-color("green") translate([12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-color("green") translate([-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-color("green") translate([25+12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-color("green") translate([-25-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-
-
+	color("green") translate([12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([25+12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([-25-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
 }
 
 module HolesBearingMount()
@@ -2213,16 +2216,15 @@ if( drawIndex==7 || drawIndex==0 )
 {
 	translate([xStepperX,xStepperY,xStepperZ])
 	{
+		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 		difference()
 		{
 			union()
 			{
 				translate([0,0,-1]) cube([42,42,4],center=true);
-				holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 				translate([-holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				translate([holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
-				//translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				translate([-xStepperX+3,0,-xStepperZ+5+(xStepperZ-4)/2]) cube([6,42,xStepperZ-4],center=true);
 			}
 			rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
@@ -2230,6 +2232,12 @@ if( drawIndex==7 || drawIndex==0 )
 			color ("silver") translate([0,0,-3.01]) cylinder(d=extr,h=6,$fn=32);
 			color ("silver") translate([-xStepperX+10,7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
 			color ("silver") translate([-xStepperX+10,-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+			// tensioner bearing place
+			translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(d=Bearing623Diameter()+1,h=xStepperZ-7);
+		}
+		if( drawIndex==0 )
+		{
+				translate([-holeDist,-holeDist,-xStepperZ+7]) Bearing623();
 		}
 	}
 }
@@ -2238,24 +2246,30 @@ if( drawIndex==8 || drawIndex==0 )
 {
 	translate([yStepperX,yStepperY,yStepperZ])
 	{
+		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 		difference()
 		{
 			union()
 			{
 				translate([0,0,-1]) cube([42,42,4],center=true);
-				holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 				translate([-holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				//translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				translate([holeDist,holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				translate([-holeDist,-holeDist,-xStepperZ+5]) cylinder(r=1.51+3,h=xStepperZ-5);
 				translate([-(-xStepperX+3),0,-xStepperZ+5+(xStepperZ-4)/2]) cube([6,42,xStepperZ-4],center=true);
-				}
-				rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
-				extr = lookup(NemaRoundExtrusionDiameter, Nema17);
-				color ("silver") translate([0,0,-3.01]) cylinder(d=extr,h=6,$fn=32);
-				color ("silver") translate([-(-xStepperX-10),7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
-				color ("silver") translate([-(-xStepperX-10),-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
 			}
+			rotate([0,0,-90]) Nema17_shaft24_Stepper(bSrewsOnly=1);
+			extr = lookup(NemaRoundExtrusionDiameter, Nema17);
+			color ("silver") translate([0,0,-3.01]) cylinder(d=extr,h=6,$fn=32);
+			color ("silver") translate([-(-xStepperX-10),7,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+			color ("silver") translate([-(-xStepperX-10),-8,-xStepperZ/2+3])rotate([0,-90,0]) cylinder(d=3.1,h=20,$fn=32);
+			// tensioner bearing place
+			translate([holeDist,-holeDist,-xStepperZ+5]) cylinder(d=Bearing623Diameter()+1,h=xStepperZ-7);
+		}
+		if( drawIndex==0 )
+		{
+				translate([holeDist,-holeDist,-xStepperZ+17]) Bearing623();
+		}
 	}
 }
 

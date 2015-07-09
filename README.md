@@ -35,6 +35,8 @@ Materials:
 * 2 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
 * 2 - 6800 bearings (ID-10mm,OD-19mm,H-5mm)
+* 3 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
+* 1 - F5-12M thrust bearing - (ID-5mm,OD-12mm,H-4mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - 350mm max
 * 1 - m5 threaded rod - 500mm max
 * 1 - m3 threaded rod - 2 meters max
@@ -69,19 +71,21 @@ Enable EEPROM in you firmware.
 * Measure distance from nozzle center to home position (MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS) see Configuration.h
 * M206 X#xx Y#yy - where #xx and #yy is a NEGATIVE distances from homed nozzle center and required home pos (MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS). 
 * G28 goto home
-* G1 Z0 (to lift platform near to nozzle)
+* G1 Z0 (to lift platform closer to nozzle)
 * G1 X##MANUAL_X_HOME_POS Y##MANUAL_Y_HOME_POS - in this step nozzle center should be above home position (MANUAL_X_HOME_POS,MANUAL_Y_HOME_POS)
 * M500 to save data to EEPROM
 
 NOTE: use calibration plate from scad file (part #38 in stl folder)
+
+Steps Per Unit calibration:
+WIP
+
 
 Z calibration
 WIP
 
 
 TODO:
-Part #38 - missed hole for z bels
-LOWER ARM ADD SPACE FOR F05
 
 
 Development blog - https://3dgems.blogspot.com

@@ -88,9 +88,27 @@ module BearingLM6UU()
 function BearingLM6UUHeight() = 19;
 function BearingLM6UUDiameter() = 12;
 
+module BearingF512M()
+{
+  color ("silver") 
+	{
+		difference()
+		{
+			union()
+			{
+				cylinder(d=12,h=1.5);
+				translate([0,0,2.5]) cylinder(d=12,h=1.5);
+			}
+			translate([0,0,-1]) cylinder(d=5,h=4+2);
+		}
+	}
+}
+function BearingF512MHeight() = 4;
+function BearingF512MDiameter() = 12;
 
 Bearing625();
 translate ([0,0,20]) Bearing623();
 translate ([0,0,40]) Bearing608();
 translate ([0,0,60]) Bearing6800();
 translate ([0,0,80]) BearingLM6UU();
+translate ([0,0,120]) BearingF512M();
