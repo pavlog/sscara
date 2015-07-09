@@ -90,6 +90,9 @@ WIP
 
 
 TODO:
+extruder - rebuild - 2 parts 
+ extruder arm without supports - m3 inside
+extruder gear 11.5
 
 
 Development blog - https://3dgems.blogspot.com
