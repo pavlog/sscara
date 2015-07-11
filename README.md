@@ -1,16 +1,18 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
-Current Status: WIP (please do not print anything until i get first prints on #sscara)
+Current Status: WIP - first prints on the way(please do not print anything until i get first prints on #sscara)
 
 Dimensions: 
-* 140x180x250mm (Height configurable)
+* 150x2100x300mm (Height configurable)
+
+Mass:
+* ~2.5 kg (looks like 3kg max)
 
 Precision:
 WIP
 XY: 
-
-Z:
+Z: GT2 16 teeth pulley with 32 microsteps 5 μm (http://reprap.org/wiki/Step_rates)
  
 
 Hardware: 
@@ -20,10 +22,7 @@ Hardware:
 * Heated bed ????? depends on (but seems like require in 4x time less current than MK2B - because of 4 times lower area)
 * 3(4 if you want z min) small (20x11x7mm) end stoppers
 Optional:
-* HC-05 bluetooth module
-
-Mass:
-* 2kg (because of steppers) - still not measured
+* HC-05 bluetooth module (but i use and happy, even firmaware flashing done via bluetooth)
 
 Firmware:
 * Marlin (modified)
@@ -33,19 +32,19 @@ Firmware:
 ** added M452 - xyz home pos
 
 Materials:
-* ~1.5 meters(hard to measure) - GT2 timing belt 6mm(width)
+* ~1.5 meters(2m max) - GT2 timing belt 6mm(width)
 * 3 - GT2 16 teeth pulleys
 * 4 - Nema17 (24mm shaft length)
 * 2 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
 * 2 - 6800 bearings (ID-10mm,OD-19mm,H-5mm)
-* 3 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
+* 5 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
 * 1 - F5-12M thrust bearing - (ID-5mm,OD-12mm,H-4mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - 350mm max
 * 1 - m5 threaded rod - 500mm max
 * 1 - m3 threaded rod - 2 meters max
-* m3 bolts and nuts - a few/lot of them
-* m5 nuts - a few
+* m3 bolts and nuts
+* m5 nuts
 * ??? kg (need to be measured) - ABS fillaments to print parts
 
 
@@ -90,9 +89,5 @@ WIP
 
 
 TODO:
-extruder - rebuild - 2 parts 
- extruder arm without supports - m3 inside
-extruder gear 11.5
-
 
 Development blog - https://3dgems.blogspot.com
