@@ -4,7 +4,7 @@ Small size 3d printer with SCARA based mechanics
 Current Status: WIP - first prints on the way(please do not print anything until i get first prints on #sscara)
 
 Dimensions: 
-* 150x2100x300mm (Height configurable)
+* 140x210x300mm (Height configurable)
 
 Mass:
 * ~2.5 kg (looks like 3kg max)
@@ -89,5 +89,8 @@ WIP
 
 
 TODO:
+Ramps Fan mounts
+Mount for walls for build areas
+ 
 
 Development blog - https://3dgems.blogspot.com
