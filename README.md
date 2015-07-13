@@ -1,7 +1,7 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
-Current Status: WIP - first prints on the way(please do not print anything until i get first prints on #sscara)
+Current Status: WIP - first prints is on the way (please do not print anything - wait for status other than WIP)
 
 Dimensions: 
 * 140x210x300mm (Height configurable)
@@ -12,7 +12,7 @@ Mass:
 Precision:
 WIP
 XY: 
-Z: GT2 16 teeth pulley with 32 microsteps 5 μm (http://reprap.org/wiki/Step_rates)
+Z: GT2 16 teeth pulley with 32 microsteps - 5 μm (http://reprap.org/wiki/Step_rates)
  
 
 Hardware: 
@@ -64,7 +64,14 @@ Included Software:
 
 Calibration Guide:
 
-WIP
+Steps Per Unit calibration:
+* G28 XY
+* G1 X-50
+* G1 X50
+* Measure real distance and correct units (M92 X## Y##) until travel distance will become 100mm
+* Do all steps again
+* When calibrated - M500 to save data to EEPROM
+
 XY calibration:
 
 Arms initially shouble established in position exactly about home location or a little bit left and bottom from home position (home position should equals min xy).
@@ -80,13 +87,9 @@ Enable EEPROM in you firmware.
 
 NOTE: use calibration plate from scad file (part #38 in stl folder)
 
-Steps Per Unit calibration:
-WIP
-
 
 Z calibration
 WIP
-
 
 TODO:
 Ramps Fan mounts

@@ -184,7 +184,7 @@ if( WIP )
 {
 }
 
-if( drawIndex==0 || drawIndex==36 || drawIndex2==37 )
+if( drawIndex==0 || drawIndex==36 )
 {
 
 	rot = printLayout ? 0 : 0;
@@ -318,7 +318,7 @@ translate([0+leftOffset,-56,-1.5]) rotate([90,0,90]) fillet(r=3,h=150);
 
 }
 
-module Part37()
+module Part37(LAlumOffset=0)
 {
 {
 	baseH = 85;
@@ -333,21 +333,21 @@ module Part37()
 	
 			color( "blue") difference()
 			{
-				translate([43+leftOffset-16.5-5,-45+3,-1.5]) cube([30,5,baseH+1.5]);
-				translate([43+leftOffset-16.5-5,-45+5,-1.5-1]) cube([5,1.5,baseH+1.5+2]);
+				translate([43+leftOffset-16.5-5-LAlumOffset/2,-45+3,-1.5]) cube([30,5,baseH+1.5]);
+				translate([43+leftOffset-16.5-5-LAlumOffset/2,-45+5,-1.5-1]) cube([5,1.5,baseH+1.5+2]);
 			}
-			color( "brown") translate([43+leftOffset-5,-62+10+1,-1.5]) cube([9,10,5+1.5]);
+			color( "brown") translate([43+leftOffset-5-LAlumOffset/2,-62+10+1,-1.5]) cube([9+LAlumOffset/2,10,5+1.5]);
 			
 			translate([45+leftOffset+1,-42,5]) 
 						color("magenta") rotate([0,0,45]) scale([1,1,1]) cylinder(r=2.5,h=baseH-5,$fn=16);
 
 			translate([43+leftOffset-5,-69+5+11,-1.5]) cube([7.5,3,baseH+1.5]);
-			translate([43+leftOffset-19.5-2,-66+5+11,-1.5]) cube([3,8,baseH+1.5]);
+			translate([43+leftOffset-19.5-2-LAlumOffset/2,-66+5+11,-1.5]) cube([3,8,baseH+1.5-15]);
 
 			difference()
 			{
-				color( "brown") translate([26.5+leftOffset-2,-62+12,-1.5]) cube([10+2,8,5+15+1.5]);
-				color( "yellow") translate([26.5+leftOffset-2,-55+12,-1.5]) cube([11.5+2,1,1.5]);
+				color( "brown") translate([26.5+leftOffset-2-LAlumOffset/1.2,-62+12,-1.5]) cube([10+2+LAlumOffset/3,8,5+15+1.5]);
+				color( "yellow") translate([26.5+leftOffset-5-LAlumOffset/2,-55+12,-1.5]) cube([11.5+5,1,1.5]);
 			}
 			color( "brown") translate([38+leftOffset,-62+12,-1.5]) cube([8,8,5+1.5+15]);
 			color( "green") translate([26.5+leftOffset-2,-62+12,-1.5+15]) cube([25+2,8,7]);
@@ -356,7 +356,7 @@ module Part37()
 					translate([41+5-1+4.5+leftOffset+0.5-2,-53,-1.5-1]) cube([1.5,5,baseH+1.5+2]);
 	
 		// bottom holes
-		translate([31.5+leftOffset,-46,-1.5-1]) 
+		translate([31.5+leftOffset-LAlumOffset/2,-46,-1.5-1]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
 		translate([-42,-46,-1.5-1]) 
 					color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r=1.51,h=50,$fn=16);
@@ -390,12 +390,12 @@ module Part37()
 	{
 		translate([42+leftOffset-13,-55+9,5]) rotate([-90,0,90]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
 		translate([42+leftOffset-13,-55+9,35]) rotate([-90,0,90]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
-		translate([42+leftOffset,-55+9,79]) rotate([-90,0,90]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+		translate([42+leftOffset,-55+9,64]) rotate([-90,0,90]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
 
 	}
 
 
-		hull()
+	hull()
 	{
 		translate([42+leftOffset,-62+15,5]) 
 					color("red") rotate([90,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5,$fn=6);
@@ -406,9 +406,9 @@ module Part37()
 
 	hull()
 	{
-		translate([25+leftOffset,-62+16,5]) 
+		translate([25+leftOffset-LAlumOffset/2,-62+16,5]) 
 					color("red") rotate([90,0,90]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5,$fn=6);
-		translate([25+leftOffset,-62+16,-30]) 
+		translate([25+leftOffset-LAlumOffset/2,-62+16,-30]) 
 					color("red") rotate([90,0,90]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3.5,$fn=6);
 	}
 
@@ -422,9 +422,11 @@ translate([52.5-1+leftOffset,-40+3,50-5]) rotate([0,0,180]) fillet(r=6,h=150);
 }
 }
 
+//translate([-40,131,-10]) cylinder(r=14,h=5,$fn=4);
+
 if( drawIndex==0 || drawIndex==37 )
 {
-	yoffset = 180;
+	yoffset = 187;
 		rot = printLayout ? 90 : 0;
 		xoffset = printLayout ? -58 : 0;
 
@@ -435,7 +437,7 @@ translate([xoffset,yoffset,0]) rotate([0,0,rot])
 }
 mirror() translate([xoffset+4.5,yoffset,0]) rotate([0,0,rot]) 
 {
-	Part37();
+	Part37(9);
 }
 }
 
@@ -540,13 +542,13 @@ module LAlum10x10x1p2(len=200,extraThickness=0)
 
 if(  drawIndex==0 )
 {
-	translate([-50.2,7,z+10+75+1]) rotate([0,90,0]) LAlum10x10x1p2(150-7);
-	translate([50.3,7,z+10+75+1]) rotate([0,180,0]) LAlum10x10x1p2(150-7);
+	translate([-50.2,7,z+10+75+1]) rotate([0,90,0]) LAlum10x10x1p2(150-15);
+	translate([50.3,7,z+10+75+1]) rotate([0,180,0]) LAlum10x10x1p2(150-15);
 }
 
 if( drawIndex==0 || drawIndex==35 )
 {
-	aY = printLayout ? 15 : 145;
+	aY = printLayout ? 15 : 137;
 	aZ = printLayout ? 81 : 82+z;
 	rY = printLayout ? -90 : 0;
 	translate([0,aY,aZ]) rotate([rY,0,0])
@@ -592,10 +594,10 @@ if( drawIndex==0 || drawIndex==35 )
 		}
 	}
 }
-if(  drawIndex==0 )
+if(  drawIndex==0 )//|| drawIndex==37)
 {
-	color("silver") translate([-49.5,-58,-1.5]) LAlum();
-	mirror() color("silver") translate([-49.5,-58,-1.5]) LAlum();
+	color("silver") translate([-49.5,-68,-1.5]) LAlum(213);
+	mirror() color("silver") translate([-49.5,-68,-1.5]) LAlum(213);
 }
 // extruder
 if( drawIndex==23 || drawIndex==0 )
@@ -1204,7 +1206,7 @@ if( drawIndex==31 || drawIndex==0 )
 
 if( drawIndex==0 )
 {
-	translate ([0,-65,0]) cylinder(r=3,h=300);
+	//translate ([0,-65,0]) cylinder(r=3,h=300);
 }
 
 
@@ -2765,7 +2767,7 @@ if( drawIndex==16 || drawIndex==0 )
 // bed
 if( drawIndex==0 )
 {
-	translate([-50,BedYOffset-BedYOffsetMarginY,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([100,100+BedYOffsetMarginY,3]);
+	translate([-65,BedYOffset-BedYOffsetMarginY,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([125,120+BedYOffsetMarginY,3]);
 }
 
 
