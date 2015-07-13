@@ -336,7 +336,7 @@ module Part37(LAlumOffset=0)
 				translate([43+leftOffset-16.5-5-LAlumOffset/2,-45+3,-1.5]) cube([30,5,baseH+1.5]);
 				translate([43+leftOffset-16.5-5-LAlumOffset/2,-45+5,-1.5-1]) cube([5,1.5,baseH+1.5+2]);
 			}
-			color( "brown") translate([43+leftOffset-5-LAlumOffset/2,-62+10+1,-1.5]) cube([9+LAlumOffset/2,10,5+1.5]);
+			color( "brown") translate([43+leftOffset-5-LAlumOffset/2,-62+10+2,-1.5]) cube([9+LAlumOffset/2,10,5+1.5]);
 			
 			translate([45+leftOffset+1,-42,5]) 
 						color("magenta") rotate([0,0,45]) scale([1,1,1]) cylinder(r=2.5,h=baseH-5,$fn=16);
@@ -349,8 +349,8 @@ module Part37(LAlumOffset=0)
 				color( "brown") translate([26.5+leftOffset-2-LAlumOffset/1.2,-62+12,-1.5]) cube([10+2+LAlumOffset/3,8,5+15+1.5]);
 				color( "yellow") translate([26.5+leftOffset-5-LAlumOffset/2,-55+12,-1.5]) cube([11.5+5,1,1.5]);
 			}
-			color( "brown") translate([38+leftOffset,-62+12,-1.5]) cube([8,8,5+1.5+15]);
-			color( "green") translate([26.5+leftOffset-2,-62+12,-1.5+15]) cube([25+2,8,7]);
+			color( "brown") translate([38+leftOffset-LAlumOffset/2,-62+12,-1.5]) cube([8+LAlumOffset/2,8,5+1.5+15]);
+			color( "green") translate([26.5+leftOffset-2-LAlumOffset/2,-62+12,-1.5+15]) cube([25+2+LAlumOffset/2,8,7]);
 	}
 	
 					translate([41+5-1+4.5+leftOffset+0.5-2,-53,-1.5-1]) cube([1.5,5,baseH+1.5+2]);
