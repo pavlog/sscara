@@ -3,6 +3,9 @@ Small size 3d printer with SCARA based mechanics
 
 Current Status: WIP - first prints is on the way (please do not print anything - wait for status other than WIP)
 
+Videos:
+http://youtu.be/tXSMMPmcKVQ
+ 
 Dimensions: 
 * 140x210x300mm (Height configurable)
 
@@ -14,6 +17,9 @@ WIP
 XY: 
 Z: GT2 16 teeth pulley with 32 microsteps - 5 μm (http://reprap.org/wiki/Step_rates)
  
+Others:
+* Noiseless
+
 
 Hardware: 
 * 4 Nema17 (24mm length shaft)
