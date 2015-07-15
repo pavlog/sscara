@@ -7,10 +7,6 @@ use <Modules/EndStoppers.scad>
 use <Modules/Write.scad/Write.scad>
 include <Modules/MCAD/stepper.scad>
 
-//
-// TODO: space for belt clips on xy psteppers platform
-//
-
 m5Rclearance = 0.1;
 m5Hclearance = 0.2;
 b625RClearance = 0.2;
@@ -1103,6 +1099,7 @@ module ArmCableClamp()
 		}
 }
 
+/*
 if( drawIndex==3700 || drawIndex==0 ) // not required
 {
   xd = dhalf + l * cos(q11);
@@ -1128,7 +1125,7 @@ if( drawIndex==3700 || drawIndex==0 ) // not required
 		translate([-20*a3,a5+a6,a7]) ArmCableClamp();
 	}
 }
-
+*/
 
 if( drawIndex==25 || drawIndex==0 )
 {
@@ -1333,7 +1330,7 @@ if( drawIndex==0 || drawIndex==38 )
 				translate([-3,1,-0.5]) write("25",h=5,t=0.5);
 		}
 
-		color("green") translate([-10,0,300-1]) cube([20,30,5]);
+		color("green") translate([-20,0,300-1]) cube([40,30,5]);
 
 	}
 
@@ -2462,7 +2459,7 @@ if( drawIndex==22 || drawIndex==0 )
 					translate([-9,-15,height/2-6]) color("blue") rotate([0,90,0]) cylinder(d=3,h=clampSize);
 					translate([-9,-27,height/2-1]) color("blue") rotate([0,90,0]) cylinder(d=2.6,h=clampSize,$fn=12);
 				}
-				translate([12.5,7.5,-8]) cube([20,5,18]);
+				//translate([12.5,7.5,-8]) cube([20,5,18]);
       }
 			// bearing hole
       color( "red") translate([0,0,height-Bearing608Height()]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+5);
@@ -2476,23 +2473,22 @@ if( drawIndex==22 || drawIndex==0 )
 			//extruder mount
       translate([-20,-23,5.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=50,$fn=16);
       translate([-20,-16,4]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=50,$fn=16);
-			// min switch
-			translate([12,17.5,zminZCoord-(armsZ-UpperBearingMountH-UpperBearingMountOffset+armsExtruderExtra)]) rotate([-90,180,180]) EndSwitchBody20x11(1);
+			// min switch			//translate([12,17.5,zminZCoord-(armsZ-UpperBearingMountH-UpperBearingMountOffset+armsExtruderExtra)]) rotate([-90,180,180]) EndSwitchBody20x11(1);
 			// belt rope axis
       color( "red") translate([0,5,2+height-Bearing608Height()]) rotate([-90,0,0]) cylinder(d=3.05,h=50,$fn=12);
       color( "red") translate([0,8,2+height-Bearing608Height()]) rotate([-90,0,0]) cylinder(r=3,h=3,$fn=12);
       color( "red") translate([0,10.8,2+height-Bearing608Height()]) rotate([-90,0,0]) cylinder(r1=2.5,r2=1.5,h=2,$fn=12);
 			//
-      color( "red") translate([17,3.5,-1]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=4,$fn=6);
-      color( "red") translate([26,3.5,-1]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=4,$fn=6);
+      //color( "red") translate([17,3.5,-1]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=4,$fn=6);
+      //color( "red") translate([26,3.5,-1]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=4,$fn=6);
     }
   }
 }
 
-if( drawIndex==0 || drawSwitchesAll==1)
-{
-	translate([12,17.5,zminZCoord]) rotate([-90,180,180]) EndSwitchBody20x11();
-}
+//if( drawIndex==0 || drawSwitchesAll==1)
+//{
+//	translate([12,17.5,zminZCoord]) rotate([-90,180,180]) EndSwitchBody20x11();
+//}
 
 if( drawIndex==0 )
 	translate ([0,0,armsZ-Bearing608Height()-UpperBearingMountOffset+armsExtruderExtra]) Bearing608(); 
