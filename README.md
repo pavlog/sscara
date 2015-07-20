@@ -22,7 +22,7 @@ Other features:
 
 Hardware: 
 * 4 Nema17 (24mm length shaft)
-* Ramps 1.4 (better with drv8825)
+* Ramps 1.4 (better with drv8825 due to 1/32 microstepping)
 * External power supply 5A (without Heated bed, not final)
 * Heated bed ????? depends on (but seems like require in 4x time less current than MK2B - because of 4 times lower area)
 * 3 small (20x11x7mm) end stoppers
@@ -42,8 +42,7 @@ Materials:
 * 4 - Nema17 (24mm shaft length)
 * 4 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
-* 2 - 6800 bearings (ID-10mm,OD-19mm,H-5mm)
-* 5 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
+* 7 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
 * 1 - F5-12M thrust bearing - (ID-5mm,OD-12mm,H-4mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - 350mm max
 * 1 - m5 threaded rod - 500mm max
@@ -82,6 +81,7 @@ XY calibration:
 NOTE: it is possible to use use calibration plate from scad file (part #38 in stl folder)
 
 Steps Per Unit calibration:
+Theory: stepperUnitsPerRevolution*driverMicrostepping*gearboxration/360, sscara (with drv8825 1/32) = 200*32*5/360 = 88.888
 * G28 XY
 * G1 X-50
 * G1 X50
