@@ -35,6 +35,7 @@ Firmware:
 ** added M450 - xyz min limits
 ** added M451 - xyz max limits
 ** added M452 - xyz home pos
+** added M370 X#Angle Y#Angle
 
 Materials:
 * ~1.5 meters(2m max) - GT2 timing belt 6mm(width)
@@ -77,6 +78,7 @@ XY calibration:
 * M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative)
 * G28 goto home
 * M500 to save data to EEPROM
+NOTE2: home offset is an angles not a mm (also can be used for fine tuning - especially with M370 command)
 
 NOTE: it is possible to use use calibration plate from scad file (part #38 in stl folder)
 
@@ -87,6 +89,9 @@ Theory: stepperUnitsPerRevolution*driverMicrostepping*gearboxration/360, sscara 
 * G1 X50
 * Measure real distance and correct units (M92 X## Y##) until travel distance will become 100mm
 * M500 to save data to EEPROM
+NOTE2: home offset is an angles not a mm (also can be use for fine tuning calibration especially with M370 command)
+
+Repeat XY and Units calibration a few times
 
 Z calibration
 * G28 Z
