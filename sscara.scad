@@ -1394,79 +1394,79 @@ if( drawArray==[] || search(38,drawArray)!=[] )
 			translate([-rodOffsetX,rodOffsetY-20,250]) color ("silver") cylinder(r=1,h=200);
 		}
 
-		color("red") translate([0,30,300+1])
+		color("red") translate([0,30,400+1])
 		{
 			cube([120,0.5,1],center=true);
 			translate([-3,1,-0.5]) write("30",h=5,t=0.5);
 		}
 
-		color("red") translate([0,30,300+1]) cube([120,0.5,1],center=true);
+		color("red") translate([0,30,400+1]) cube([120,0.5,1],center=true);
 
-		color("red") translate([0,35,300+1]) cube([120,0.5,1],center=true);
+		color("red") translate([0,35,400+1]) cube([120,0.5,1],center=true);
 
-		color("red") translate([0,50,300+1]) 
+		color("red") translate([0,50,400+1]) 
 		{
 			cube([120,0.5,1],center=true);
 			translate([-3,1,-0.5]) write("50",h=5,t=0.5);
 		}
 
-		color("red") translate([0,70,300+1]) cube([120,0.5,1],center=true);
+		color("red") translate([0,70,400+1]) cube([120,0.5,1],center=true);
 
-		color("red") translate([0,90,300+1]) cube([120,0.5,1],center=true);
+		color("red") translate([0,90,400+1]) cube([120,0.5,1],center=true);
 
-		color("red") translate([0,100,300+1])
+		color("red") translate([0,100,400+1])
 		{
 			cube([120,0.5,1],center=true);
 			translate([-5,1,-0.5]) write("100",h=5,t=0.5);
 		}
 
 
-		color("red") translate([0,120,300+1])
+		color("red") translate([0,120,400+1])
 		{
 			cube([120,0.5,1],center=true);
 			translate([-5,1,-0.5]) write("120",h=5,t=0.5);
 		}
 
-		color("red") translate([0,140,300+1]) cube([120,0.5,1],center=true);
+		color("red") translate([0,140,400+1]) cube([120,0.5,1],center=true);
 
-		color("red") translate([0,80,300+1]) cube([0.5,120,1],center=true);
+		color("red") translate([0,80,400+1]) cube([0.5,120,1],center=true);
 
-		color("red") translate([-50,80,300+1]) cube([0.5,120,1],center=true);
+		color("red") translate([-50,80,400+1]) cube([0.5,120,1],center=true);
 
-		color("red") translate([-25,80,300+1])
+		color("red") translate([-25,80,400+1])
 		{
 			cube([0.5,120,1],center=true);
 			translate([-6.5,1,-0.5]) write("-25",h=5,t=0.5);
 		}
 
-		color("red") translate([50,80,300+1]) cube([0.5,120,1],center=true);
+		color("red") translate([50,80,400+1]) cube([0.5,120,1],center=true);
 
-		color("red") translate([25,80,300+1])
+		color("red") translate([25,80,400+1])
 		{
 			cube([0.5,120,1],center=true);
 				translate([-3,1,-0.5]) write("25",h=5,t=0.5);
 		}
 
-		color("green") translate([-20,0,300-1]) cube([40,30,5]);
+		color("green") translate([-20,0,400-1]) cube([40,30,5]);
 
 	}
 
-	//color("green") translate([0,25,300+0.5]) cube([120,1.5,1],center=true);
+	//color("green") translate([0,25,400+0.5]) cube([120,1.5,1],center=true);
 
-	color("green") translate([0,40,300+0.5]) cube([100,1.5,1],center=true);
+	color("green") translate([0,40,400+0.5]) cube([100,1.5,1],center=true);
 
-	color("green") translate([0,60,300+0.5]) cube([100,1.5,1],center=true);
-	color("green") translate([0,80,300+0.5]) cube([100,1.5,1],center=true);
-	//color("green") translate([0,90,300+0.5]) cube([120,1.5,1],center=true);
+	color("green") translate([0,60,400+0.5]) cube([100,1.5,1],center=true);
+	color("green") translate([0,80,400+0.5]) cube([100,1.5,1],center=true);
+	//color("green") translate([0,90,400+0.5]) cube([120,1.5,1],center=true);
 
-	//color("green") translate([0,120,300+0.5]) cube([120,1.5,1],center=true);
-	color("green") translate([0,110,300+0.5]) cube([100,1.5,1],center=true);
-	//color("green") translate([0,130,300+0.5]) cube([120,1.5,1],center=true);
+	//color("green") translate([0,120,400+0.5]) cube([120,1.5,1],center=true);
+	color("green") translate([0,110,400+0.5]) cube([100,1.5,1],center=true);
+	//color("green") translate([0,130,400+0.5]) cube([120,1.5,1],center=true);
 
-	color("green") translate([12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-	color("green") translate([-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-	color("green") translate([25+12.5,65,300+0.5]) cube([1.5,90,1],center=true);
-	color("green") translate([-25-12.5,65,300+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([12.5,65,400+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([-12.5,65,400+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([25+12.5,65,400+0.5]) cube([1.5,90,1],center=true);
+	color("green") translate([-25-12.5,65,400+0.5]) cube([1.5,90,1],center=true);
 }
 
 module HolesBearingMount()
@@ -2812,95 +2812,6 @@ if( drawArray==[] || search(10,drawArray)!=[] )
 	}
 }
 
-module XYto10Clip()
-{
-	union()
-	{
-		difference()
-		{
-			union()
-			{
-				translate([xStepperX,xStepperY,0])
-				{
-					holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
-					translate([holeDist,-holeDist,5]) hull()
-					{
-						translate([0,16,0]) cylinder(r=1.51+3,h=5);
-						translate([2.5,16,0]) cylinder(r=1.51+3,h=5);
-						translate([0,-15,0]) cylinder(r=1.51+3,h=5);
-						translate([2.5,-15,0]) cylinder(r=1.51+3,h=5);
-						//translate([40,94.5,5]) scale([0.6,1,1]) cylinder(r=8,h=5);
-					}
-				}
-				translate([42.5,82.5,5]) cube([5,25,10]);
-			}
-			translate([xStepperX,xStepperY,0])
-			{
-						holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
-						translate([holeDist,-holeDist,-1]) cylinder(r=1.51+3,h=35);
-			}
-			translate([40,80,0]) cylinder(r=1.51,h=18,$fn=16);
-			translate([40,110,0]) cylinder(r=1.51,h=18,$fn=16);
-		}
-	}
-}
-
-/*
-if( drawArray==[] || search(11,drawArray)!=[] )
-{
-		XYto10Clip();
-}
-if( drawArray==[] || search(12,drawArray)!=[] )
-{
-	difference()
-	{
-		mirror() XYto10Clip();
-		translate([-48,LCDY+143,5]) cube([4+1,8+1,6+5]);
-	}
-}
-*/
-/*
-module PulleysToZClip()
-{
-	union()
-	{
-		difference()
-		{
-			color( "red") union()
-			{
-				translate([xStepperX,50,0])
-				{
-					holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
-					translate([holeDist,-holeDist,5]) hull()
-					{
-						translate([-1,13,0]) cylinder(r=1.51+3,h=5);
-						translate([2.5,13,0]) cylinder(r=1.51+3,h=5);
-						//translate([-2.5,-13,0]) cylinder(r=1.51+3,h=5);
-						//translate([2.5,-13,0]) cylinder(r=1.51+3,h=5);
-						translate([-5,-22.7,0]) cube([12,10,15]);
-					}
-				}
-			}
-			translate([40,40,0]) cylinder(r=1.51,h=18,$fn=16);
-			translate([40,28,0]) cylinder(r=1.51,h=18,$fn=16);
-			translate([40,15,0]) cylinder(r=1.51,h=38,$fn=16);
-			// nut place
-			color("green") translate([40,40,12]) cylinder(d=rolson_hex_nut_dia(5)+3,h=18,$fn=16);
-			color("green") translate([40,28,16]) cylinder(d=rolson_hex_nut_dia(5)+3,h=18,$fn=16);
-		}
-	}
-}
-
-if( drawArray==[] || search(15,drawArray)!=[] )
-{
-	PulleysToZClip();
-}
-if( drawArray==[] || search(16,drawArray)!=[] )
-{
-	mirror() PulleysToZClip();
-}
-*/
-//#translate ([-50,-60,0]) cube([100,200,300]);
 // bed
 if( drawArray==[] )
 {
