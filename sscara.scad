@@ -6,6 +6,7 @@ use <Modules/Bearings.scad>
 use <Modules/EndStoppers.scad>
 use <Modules/Write.scad/Write.scad>
 include <Modules/MCAD/stepper.scad>
+use <Modules/HotEnds.scad>
 
 
 //

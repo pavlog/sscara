@@ -1,10 +1,22 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
-Current Status: WIP - first prints is on the way (please do not print anything - wait for status other than WIP)
+Current Status: V2 - WIP (a low of improvements on the way)
+
+Details:
+• x8 or x9 gear ratio (current is 5, with x8 precision will increased in 1.6)
+• Belt path will be shortened twice (no belt couplers at all, less stetch errors)
+• No teeth on big pulleys at all (more precision, easy to print).
+• Smaller dimensions (but with the same print area).
+• A lot of improvements - more modular and service friendly
+• Z axis will be improved (at least 2 bearing for each rod and may be threaded rod, more modular way to attach - currently is hard to upgrade without disassembly)
+
+History:
+• 27.07.2015 - V1 - DONE
+• 27.04.2015 - V1 - WIP
 
 Videos:
-http://youtu.be/tXSMMPmcKVQ
+https://youtu.be/Ef477o_Nw88
  
 Dimensions: 
 * 140x210x300mm (Height configurable)
@@ -14,7 +26,7 @@ Mass:
 
 Precision:
 WIP
-XY: 
+XY: 0.03 mm with 32 microsteps at 150 mm radius from axes center. (chord length c=2*R*sin(alpha/2), alpha = 1.8/5/32 (stepper/gearratio/nummicrosteps);
 Z: GT2 16 teeth pulley with 32 microsteps - 5 μm (http://reprap.org/wiki/Step_rates)
  
 Other features:
