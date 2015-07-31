@@ -30,7 +30,7 @@ BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 drawHotEnd = 0;//1;
-drawArray = [1];//[1,7,8];
+drawArray = [1,7];//[1,7,8];
 // 1 - bottom big pulley
 //
 //
@@ -68,7 +68,7 @@ bottomArmH = 10;
 topArmH = 10;
 
 xStepperX = 35;
-xStepperY = -50;
+xStepperY = -35;
 xStepperZ = 32-Bearing625Height();
 xStepperRZ = 0;
 
@@ -252,59 +252,6 @@ echo(yd);
 WIP = 1;
 
 
-module gt2_segment(ht=10)
-{
-	GT2_2mm(ht-2);
-	translate([-1,-0.5,0]) cube([2,0.5,ht]);
-}
-
-	beltMountW = 8;
-
-	module beltMount()
-	{
-	wi = beltMountW;
-	hei = 7;
-	depth = 10;
-	difference()
-	{
-		union()
-		{
-	translate([-wi/2,0,-hei/2]) cube([wi,depth,7]);
-			translate([-wi/2-3.25,+10,-hei/2]) cube([wi+6.5,5,7]);
-			translate([-wi/2-3.25,+10,-hei/2-1.5]) cube([wi+6.5,5,1.5]);
-			translate([-wi/2-3.25,+10,hei/2]) cube([wi+6.5,5,1.5]);
-		}
-	translate([wi/2-0.5,0,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([wi/2-0.5,2,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([wi/2-0.5,4,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([wi/2-0.5,6,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([wi/2-0.5,8,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([wi/2-0.5,10,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([(wi/2-0.5),10.2,-hei/2]) rotate([0,0,45]) scale([1,1.2,1])  cylinder(d=2,h=hei,$fn=12);
-	///#translate([wi/2,+10-0.5,-hei/2-0.1]) cube([wi/2,1,10]);
-	//translate([(wi/2-0.5),10.5,-hei/2-0.1]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(10);
-	translate([(wi/2-0.5)+2,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
-	translate([(wi/2-0.5)+4,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
-		//
-	translate([-(wi/2-0.5),0,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([-(wi/2-0.5),2,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([-(wi/2-0.5),4,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([-(wi/2-0.5),6,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([-(wi/2-0.5),8,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
-	translate([-(wi/2-0.5),10,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
-	// bolt
-		translate([0,0,0]) rotate([-90,0,0])   cylinder(d=3,h=20,$fn=32);
-		//translate([-wi/2-3.25,+10-0.5,-hei/2-0.1]) cube([wi/2,1,10]);
-	//#translate([-(wi/2-0.5),10.5,-hei/2-0.1]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(10);
-	translate([-(wi/2-0.5),10.2,-hei/2]) rotate([0,0,-45]) scale([1,1.2,1])  cylinder(d=2,h=hei,$fn=12);
-	translate([-(wi/2-0.5)-2,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
-	translate([-(wi/2-0.5)-4,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
-	}
-	
-	//#translate([-wi/2-.25,0,-hei/2]) cube([wi+.5,10,7]);
-}
-
-
 module DCJack5p5()
 {
 color("red") difference()
@@ -333,10 +280,65 @@ module fillet(r, h)
 }
 
 
+
+module gt2_segment(ht=10)
+{
+	GT2_2mm(ht-2);
+	translate([-1,-0.5,0]) cube([2,0.5,ht]);
+}
+
+	beltMountW = 8;
+
+	module beltMount()
+	{
+	wi = beltMountW;
+	hei = 7;
+	depth = 10;
+	difference()
+	{
+		union()
+		{
+			translate([-wi/2,0,-hei/2]) cube([wi,depth,7]);
+			translate([-wi/2-3.25,+10,-hei/2]) cube([wi+6.5,5,7]);
+			translate([-wi/2-3.25,+10,-hei/2-1.5]) cube([wi+6.5,5,1.5]);
+			translate([-wi/2-3.25,+10,hei/2]) cube([wi+6.5,5,1.5]);
+		}
+		translate([wi/2-0.5,0,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([wi/2-0.5,2,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([wi/2-0.5,4,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([wi/2-0.5,6,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([wi/2-0.5,8,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([wi/2-0.5,10,-hei/2]) rotate([0,0,90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([(wi/2-0.5),10.2,-hei/2]) rotate([0,0,45]) scale([1,1.2,1])  cylinder(d=2,h=hei,$fn=12);
+		///#translate([wi/2,+10-0.5,-hei/2-0.1]) cube([wi/2,1,10]);
+		//translate([(wi/2-0.5),10.5,-hei/2-0.1]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(10);
+		translate([(wi/2-0.5)+2,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
+		translate([(wi/2-0.5)+4,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
+		//
+		translate([-(wi/2-0.5),0,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([-(wi/2-0.5),2,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([-(wi/2-0.5),4,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([-(wi/2-0.5),6,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([-(wi/2-0.5),8,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
+		translate([-(wi/2-0.5),10,-hei/2]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(7);
+		// bolt
+		translate([0,0,0]) rotate([-90,0,0])   cylinder(d=3,h=20,$fn=32);
+		//translate([-wi/2-3.25,+10-0.5,-hei/2-0.1]) cube([wi/2,1,10]);
+		//#translate([-(wi/2-0.5),10.5,-hei/2-0.1]) rotate([0,0,-90]) scale([1,1.2,1]) gt2_segment(10);
+		translate([-(wi/2-0.5),10.2,-hei/2]) rotate([0,0,-45]) scale([1,1.2,1])  cylinder(d=2,h=hei,$fn=12);
+		translate([-(wi/2-0.5)-2,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
+		translate([-(wi/2-0.5)-4,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
+	}
+	
+	//#translate([-wi/2-.25,0,-hei/2]) cube([wi+.5,10,7]);
+}
+
+
 // pulley1
 if( drawArray==[] || search(1,drawArray)!=[] )
 {
 	offsrz = printLayout ? -45 : 0;
+	//cylinder(d=20,h=Bearing625Height());
 	translate([0,0,Bearing625Height()+isExpolode*10]) rotate([0,0,offsrz])
 	{	
 		difference()
@@ -383,7 +385,7 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 			{
 				rotate([0, 0, (360/numBigHoles)*i+180])
 				translate([0, bigHolesOffset, 0])
-				cylinder(r=bigHoleRad,h=10+pulley1H,$fn=16);
+				cylinder(r=bigHoleRad,h=10+pulley1H,$fn=32);
 			}
 		}
 		// support - cut after print
@@ -1489,7 +1491,7 @@ if( drawArray==[] )
   translate([0,83,49]) rotate([90,0,0])
   {
     translate( [0,0,45]) rotate([180,0,0]) Nema17_shaft24_Stepper();
-    translate ([0,0,52]) Pulley16Teeth();
+    translate ([0,0,52]) Pulley16TeethAlu();
   }
 
   // x stepper
@@ -1497,14 +1499,14 @@ if( drawArray==[] )
   {
 		if( drawSteppers )
 			rotate([0,0,-90]) Nema17_shaft24_Stepper();
-    translate ([0,0,-6]) rotate([180,0,0]) Pulley16Teeth();
+    translate ([0,0,-6]) rotate([180,0,0]) Pulley16TeethAlu();
   }
   // y stepper
   translate([-25,110,32-Bearing625Height()])
   {
 		if( drawSteppers )
 			rotate([0,0,-90]) Nema17_shaft24_Stepper();
-    translate ([0,0,-18]) rotate([0,0,0]) Pulley16Teeth();
+    translate ([0,0,-18]) rotate([0,0,0]) Pulley16TeethAlu();
   }
 }
 
@@ -1803,11 +1805,31 @@ if( drawArray==[] || search(33,drawArray)!=[]  )
 // belts
 if( drawArray==[] || drawBelts==1 ) 
 {
-  #color ("black") translate([xStepperX+31/2+5,xStepperY-31/2,6.5]) rotate([0,0,102]) cube([70,1.5,6]);
-  color ("black") translate([-20,15,6.5]) rotate([0,0,67]) cube([110,1.5,6]);
+	bletXZOffs = Bearing625Height()+1.5+(pulley1H-3)/2-3;
+	color ("black") hull()
+	{
+		
+		translate([xStepperX+31/2+5+0.7,xStepperY-31/2,bletXZOffs]) rotate([0,0,102]) cylinder(d=1.5,h=6);
+		rotate([0,0,0])  translate([ArmPulleyDia/2+0.7,0,bletXZOffs]) cylinder(d=1.5,h=6);
+  }
+	
+	color ("black") hull()
+	{
+		translate([xStepperX-31/2-5-0.7,xStepperY-31/2,bletXZOffs]) rotate([0,0,102]) cylinder(d=1.5,h=6);
+		rotate([0,0,220])  translate([ArmPulleyDia/2+0.7,0,bletXZOffs]) cylinder(d=1.5,h=6);
+  }
 
-  color ("black") translate([20,15,17.5]) rotate([0,0,112]) cube([110,1.5,6]);
-  color ("black") translate([-26,0,17.5]) rotate([0,0,92]) cube([110,1.5,6]);
+	color ("black") hull()
+	{
+		translate([yStepperX+31/2+5+0.7,yStepperY-31/2,17.5]) rotate([0,0,102]) cylinder(d=1.5,h=6);
+		rotate([0,0,0])  translate([ArmPulleyDia/2+0.7,0,17.5]) cylinder(d=1.5,h=6);
+  }
+	
+	color ("black") hull()
+	{
+		translate([yStepperX-31/2-5-0.7,yStepperY-31/2,17.5]) rotate([0,0,102]) cylinder(d=1.5,h=6);
+		rotate([0,0,220])  translate([ArmPulleyDia/2+0.7,0,17.5]) cylinder(d=1.5,h=6);
+  }
 
   color ("black") translate([4,17,50]) cube([1.5,6,200]);
   color ("black") translate([-5.5,17,50]) cube([1.5,6,200]);
