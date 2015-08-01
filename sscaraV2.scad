@@ -30,10 +30,11 @@ BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 drawHotEnd = 0;//1;
-drawArray = [1,7];//[1,7,8];
-// 1 - bottom big pulley
+drawArray = [2];//[1,7,8];
+// 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
+// 1 - top big pulley (for alu 8mm rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 //
-//
+// 13 is empty
 
 // seems like 3rd rod is required 
 
@@ -41,17 +42,16 @@ drawArray = [1,7];//[1,7,8];
 printLayout = 1;
 
 
-drawSteppers = 1;
-drawBelts = 1;
+drawSteppers = 0;
+drawBelts = 0;
 drawZBelts = 0;
-drawSwitchesAll = 0;
-drawBaseAllum = 1;
-drawLCD = 1;
+drawSwitchesAll =0;
+drawBaseAllum = 0;
+drawLCD = 0;
 
 isExpolode = 0;
 // arms pulleys
-pulley1H = 10;
-pulley2H = 10;
+pulleysH = 10;
 ArmNumTeethRatio = 8;
 ArmNumTeeth = 16*ArmNumTeethRatio;
 ArmPulleyDia = (ArmNumTeeth*2)/3.1415;
@@ -62,7 +62,8 @@ endStopArmH = 2.5;
 
 shaftRadius = 5.1/2;
 shaftsSegments = 32;
-pulleysSpace = 0.5;
+pulleysSpace = 1;
+smallHolesDist = 10;
 
 bottomArmH = 10;
 topArmH = 10;
@@ -73,7 +74,7 @@ xStepperZ = 32-Bearing625Height();
 xStepperRZ = 0;
 
 yStepperX = -35;
-yStepperY = -50;
+yStepperY = -35;
 yStepperZ = 32-Bearing625Height();
 
 gearRadToTeethEnd = 10.0/2;//7.3/2;// seems like mk8
@@ -289,8 +290,8 @@ module gt2_segment(ht=10)
 
 	beltMountW = 8;
 
-	module beltMount()
-	{
+module beltMount()
+{
 	wi = beltMountW;
 	hei = 7;
 	depth = 10;
@@ -329,53 +330,47 @@ module gt2_segment(ht=10)
 		translate([-(wi/2-0.5)-2,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
 		translate([-(wi/2-0.5)-4,10.5,-hei/2]) rotate([0,0,0]) scale([1,1.2,1]) gt2_segment(7);
 	}
-	
-	//#translate([-wi/2-.25,0,-hei/2]) cube([wi+.5,10,7]);
 }
 
-
-// pulley1
-if( drawArray==[] || search(1,drawArray)!=[] )
+module gearPulleyBase()
 {
-	offsrz = printLayout ? -45 : 0;
-	//cylinder(d=20,h=Bearing625Height());
-	translate([0,0,Bearing625Height()+isExpolode*10]) rotate([0,0,offsrz])
-	{	
-		difference()
+ difference()
+	{
+		union()
 		{
-			union()
-			{
-				cylinder(d=ArmPulleyDia,h=pulley1H,$fn=120);
-				cylinder(r1=ArmPulleyDia/2+1.2,r2=ArmPulleyDia/2,h=1.5,$fn=120);
-				translate([0,0,pulley1H-1.5]) cylinder(r1=ArmPulleyDia/2,r2=ArmPulleyDia/2+1.2,h=1.5,$fn=120);
-			}
+			cylinder(d=ArmPulleyDia,h=pulleysH,$fn=180);
+			cylinder(r1=ArmPulleyDia/2+1.2,r2=ArmPulleyDia/2,h=1.5,$fn=180);
+			translate([0,0,pulleysH-1.5]) cylinder(r1=ArmPulleyDia/2,r2=ArmPulleyDia/2+1.2,h=1.5,$fn=180);
+		}
+		color("red") 
+		{
 			// belt mount hole
 			translate([0,0,0])
 			{
-				translate([-beltMountW/2-0.5,ArmPulleyDia/2-13,Bearing625Height()+isExpolode*10-3.5]) cube([beltMountW+1,20,7]);
-			hull()
-			{
-				translate([-2.5,ArmPulleyDia/2-13,Bearing625Height()+isExpolode*10-3.5]) rotate([0,0,-180-50]) cube([2,14,7]);
-				translate([-2.5,ArmPulleyDia/2-12,Bearing625Height()+isExpolode*10-3.5]) rotate([0,0,-180-30]) cube([2,5,7]);
-			}
-			mirror()
-			{
+				translate([-beltMountW/2-0.5,ArmPulleyDia/2-13,pulleysH/2-3.5]) cube([beltMountW+0.8,20,7]);
 				hull()
 				{
-					translate([-2.5,ArmPulleyDia/2-13,Bearing625Height()+isExpolode*10-3.5]) rotate([0,0,-180-50]) cube([2,14,7]);
-					translate([-2.5,ArmPulleyDia/2-12,Bearing625Height()+isExpolode*10-3.5]) rotate([0,0,-180-30]) cube([2,5,7]);
+					translate([-2.5,ArmPulleyDia/2-13,pulleysH/2-3.5]) rotate([0,0,-180-50]) cube([2,14,7]);
+					translate([-2.5,ArmPulleyDia/2-12,pulleysH/2-3.5]) rotate([0,0,-180-30]) cube([2,5,7]);
+				}
+				mirror()
+				{
+					hull()
+					{
+						translate([-2.5,ArmPulleyDia/2-13,pulleysH/2-3.5]) rotate([0,0,-180-50]) cube([2,14,7]);
+						translate([-2.5,ArmPulleyDia/2-12,pulleysH/2-3.5]) rotate([0,0,-180-30]) cube([2,5,7]);
+					}
 				}
 			}
-		}
-				// m3 hole
-			color("red") translate([0,ArmPulleyDia/2-30,Bearing625Height()+isExpolode*10]) rotate([-90,0,0]) cylinder(d=3,h=50,$fn=12);
-			// m5 hole
-			color("red") cylinder(d=5,h=50,$fn=32);
+			// m3 hole
+			translate([0,ArmPulleyDia/2-27,pulleysH/2]) rotate([-90,0,0]) cylinder(d=3,h=50,$fn=12);
+			// m5 center hole
+			cylinder(d=5,h=50,$fn=32);
 			// m3 nut place
-			color("red") translate([0,ArmPulleyDia/2-20,0]) hull()
+			translate([0,ArmPulleyDia/2-20,0]) hull()
 			{
-				translate([0,0,(rolson_hex_nut_dia(5)+0.3)/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.3,h=rolson_hex_nut_hi(5)+0.5,$fn=6);
-				translate([0,0,pulley1H/2+20]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.3,h=rolson_hex_nut_hi(5)+0.5,$fn=6);
+				translate([0,0,(rolson_hex_nut_dia(3)+0.3)/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.3,h=rolson_hex_nut_hi(3)+0.7,$fn=6);
+				translate([0,0,pulleysH/2+20]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.3,h=rolson_hex_nut_hi(3)+0.7,$fn=6);
 			}
 			//
 			bigHoleRad = ArmPulleyDia/7;
@@ -384,34 +379,57 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 			for (i = [0:numBigHoles-1]) 
 			{
 				rotate([0, 0, (360/numBigHoles)*i+180])
-				translate([0, bigHolesOffset, 0])
-				cylinder(r=bigHoleRad,h=10+pulley1H,$fn=32);
+				translate([0, bigHolesOffset, -1])
+				cylinder(r=bigHoleRad,h=pulleysH+2,$fn=32);
+			}
+
+		}
+	}
+}
+// pulley1
+//intersection()
+//{
+if( drawArray==[] || search(1,drawArray)!=[] )
+{
+	offsrz = printLayout ? -45 : 100;
+	offsrx = printLayout ? 0 : 0;
+	offsry = printLayout ? 180 : 0;
+	offsTrZ = printLayout ? 10 : 0;
+	//cylinder(d=20,h=Bearing625Height());
+	translate([0,0,Bearing625Height()+offsTrZ+isExpolode*10]) rotate([offsrx,offsry,offsrz])
+	{	
+		difference()
+		{
+			gearPulleyBase();
+			color("red")
+			{
+				// m5 nut
+				cylinder(r = rolson_hex_nut_dia(5)/2+m5Rclearance,h = rolson_hex_nut_hi(5)+m5Hclearance, $fn=6);
 			}
 		}
 		// support - cut after print
 		if( printLayout )
 		{
-			hull()
+			hull() rotate([0,180,0]) translate([0,0,-10])
 			{
-				translate([0,ArmPulleyDia/2-5,0]) rotate([-30,0,0]) cylinder(d=1.5,h=pulley1H+1,$fn=12);
-				translate([0,ArmPulleyDia/2-12,0])  cylinder(d=1.5,h=pulley1H,$fn=12);
+				translate([0,ArmPulleyDia/2-5,1]) rotate([-30,0,0]) cylinder(d=1.5,h=pulleysH-1,$fn=12);
+				translate([0,ArmPulleyDia/2-12,1])  cylinder(d=1.5,h=pulleysH-1,$fn=12);
 			}
 		}		
 	}
 	// belt fixator
-	///*
 	offsx=printLayout ? 0 : 0;
 	offsy=printLayout ? 12 : 0;
 	offsz=printLayout ? 0 : 0;
-		offsrx = printLayout ? 0 : 0;
+	offsrx = printLayout ? 0 : 0;
 
 	rotate([0,0,offsrz]) translate([offsx,offsy,offsz]) 
 	{
 		rotate([offsrx,0,0]) difference()
 		{
 			translate([0,ArmPulleyDia/2-10,Bearing625Height()+isExpolode*10+7/2+1.5]) beltMount();
-			translate([0,0,Bearing625Height()+isExpolode*10]) cylinder(r1=ArmPulleyDia/2+1.2+0.2,r2=ArmPulleyDia/2+0.2,h=1.5,$fn=120);
-			translate([0,0,Bearing625Height()+isExpolode*10+7+1.5])  cylinder(r1=ArmPulleyDia/2+0.2,r2=ArmPulleyDia/2+1.2+0.2,h=1.5,$fn=120);
+			translate([0,0,Bearing625Height()+isExpolode*10]) cylinder(r1=ArmPulleyDia/2+1.2+0.2,r2=ArmPulleyDia/2+0.2,h=1.5,$fn=180);
+			translate([0,0,Bearing625Height()+isExpolode*10+7+1.5])  cylinder(r1=ArmPulleyDia/2+0.2,r2=ArmPulleyDia/2+1.2+0.2,h=1.5,$fn=180);
 		}
 		if( printLayout )
 		{
@@ -432,37 +450,112 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 			}
 		}		
 	}
-	//*/
 }
 
-if( drawArray==[] ) translate ([0,0,Bearing625Height()+pulley1H+isExpolode*15]) color( "Silver") hex_nut(5);
+if( drawArray==[] ) translate ([0,0,Bearing625Height()+pulleysH+isExpolode*15]) color( "Silver") hex_nut(5);
 
 // pulley2
 if( drawArray==[] || search(2,drawArray)!=[] )
 {
-	translate ([0,0,Bearing625Height()+pulley1H+pulleysSpace+isExpolode*20]) 
-	{
-		//color([0,1,0,0.1]) 
-		color( "Goldenrod") difference()
+	offsrz = printLayout ? -45 : 100;
+	offsrx = printLayout ? 0 : 0;
+	offsry = printLayout ? 0 : 0;
+	offsTrZ = printLayout ? 0 : 0;
+	translate ([0,0,Bearing625Height()+pulleysH+pulleysSpace+offsTrZ+isExpolode*20]) rotate([offsrx,offsry,offsrz])
+	{	
+		difference()
 		{
-			//echo (pulley2H-(rolson_hex_nut_hi(5)+m5Hclearance));
-			//echo ((rolson_hex_nut_hi(5)+m5Hclearance));
-			ArmPulley(numBigHoles=3,numSmallHoles=3,smallHolesDist=12,smallHolesDia=1.55,bigHolesRadScale=0.85,bigHolesOffset=2);
-			cylinder(d=rolson_hex_nut_dia(5)+1,h=pulley2H);
-			translate ([0,0,rolson_hex_nut_hi(5)])
-				cylinder(r=Bearing625Diameter()/2,pulley2H);
+			gearPulleyBase();
+			color("red") 
+			{
+				// m3 mount holes
+				numSmallHoles = 3;
+				for (i = [0:numSmallHoles-1]) 
+				{
+					rotate([0, 0, (360/numSmallHoles)*i+90])
+					translate([smallHolesDist, 0, -1])
+					{
+						cylinder(r=smallHolesDia,h=pulleysH+2,$fn=16);
+						// this is support - cut them before assembly
+					  if( printLayout )
+						{
+							difference()
+							{
+								cylinder(d=rolson_hex_nut_dia(3)+1.5,h=2,$fn=16);
+								cylinder(d=rolson_hex_nut_dia(3),h=2,$fn=16);		
+							}
+							difference()
+							{
+								cylinder(d=rolson_hex_nut_dia(3)-1,h=2,$fn=16);
+								cylinder(d=rolson_hex_nut_dia(3)-2,h=2,$fn=16);		
+							}
+						}
+						else
+						{
+							cylinder(d=rolson_hex_nut_dia(3)+1.5,h=2,$fn=16);
+						}
+					}
+				}
+				// m5 nut space
+				translate([0,0,-1]) 
+				cylinder(d=rolson_hex_nut_dia(5)+1,h=pulleysH+2);
+				// bearing hole
+				translate ([0,0,pulleysH-Bearing625Height()])
+					cylinder(r=Bearing625Diameter()/2,h=pulleysH);
+			}
 		}
-		//echo(Bearing625Height());
-		if( search(2,drawArray)==[] ) translate ([0,0,rolson_hex_nut_hi(5)+isExpolode*25]) Bearing625();	
+		// support - cut after print
+		if( printLayout )
+		{
+			hull() rotate([0,0,0])// translate([0,0,-10])
+			{
+				translate([0,ArmPulleyDia/2-5,1]) rotate([-30,0,0]) cylinder(d=1.5,h=pulleysH-1,$fn=12);
+				translate([0,ArmPulleyDia/2-12,1])  cylinder(d=1.5,h=pulleysH-1,$fn=12);
+			}
+		}		
+		// bearing
+		if( search(2,drawArray)==[] ) 
+		{
+			translate ([0,0,pulleysH-Bearing625Height()]) Bearing625();	
+		}
+	}
+	// belt fixator
+	offsx=printLayout ? 0 : 0;
+	offsy=printLayout ? 12 : 0;
+	offsz=printLayout ? 0 : 0;
+	offsrx = printLayout ? 0 : 0;
+
+	rotate([0,0,offsrz]) translate([offsx,offsy,offsz]) translate([0,0,Bearing625Height()+pulleysH+pulleysSpace+offsTrZ+isExpolode*20])
+	{
+		rotate([offsrx,0,0]) difference()
+		{
+			translate([0,ArmPulleyDia/2-10,7/2+1.5]) beltMount();
+			translate([0,0,0]) cylinder(r1=ArmPulleyDia/2+1.2+0.2,r2=ArmPulleyDia/2+0.2,h=1.5,$fn=180);
+			translate([0,0,0+7+1.5])  cylinder(r1=ArmPulleyDia/2+0.2,r2=ArmPulleyDia/2+1.2+0.2,h=1.5,$fn=180);
+		}
+		if( printLayout )
+		{
+			// supports
+			hull()
+			{
+				translate([0,ArmPulleyDia/2-1,0]) cylinder(d=2,h=1.5);
+				translate([0,ArmPulleyDia/2-10,0]) cylinder(d=2,h=1.5);
+			}
+			hull()
+			{
+				translate([3,ArmPulleyDia/2-2,0]) cylinder(d=3,h=1.5);
+				translate([3,ArmPulleyDia/2-9,0]) cylinder(d=3,h=1.5);
+			}
+			hull()
+			{
+				translate([-3,ArmPulleyDia/2-1,0]) cylinder(d=3,h=1.5);
+				translate([-3,ArmPulleyDia/2-9,0]) cylinder(d=3,h=1.5);
+			}
+		}		
 	}
 }
 
-if( drawArray==[] ) translate ([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*30]) color( "Silver") hex_nut(5);
-
-
-if( WIP )
-{
-}
+if( drawArray==[] ) translate ([0,0,Bearing625Height()+pulleysH+pulleysH+pulleysSpace+isExpolode*30]) color( "Silver") hex_nut(5);
 
 if( drawArray==[] || search(36,drawArray)!=[])
 {
@@ -847,8 +940,8 @@ if( drawArray==[] || search(35,drawArray)!=[] )
 }
 if(  drawArray==[] || drawBaseAllum )
 {
-	color("silver") translate([-60,-68,-1.5]) LAlum(213);
-	mirror() color("silver") translate([-60,-68,-1.5]) LAlum(213);
+	color("darkgrey") translate([-60,-68,-1.5]) LAlum(213);
+	mirror() color("darkgrey") translate([-60,-68,-1.5]) LAlum(213);
 }
 // extruder
 if( drawArray==[] || search(23,drawArray)!=[] )
@@ -1485,7 +1578,7 @@ if( drawArray==[] )
 }
 
 
-if( drawArray==[] )
+if( drawArray==[] || drawSteppers )
 {
   // z stepper
   translate([0,83,49]) rotate([90,0,0])
@@ -1805,30 +1898,30 @@ if( drawArray==[] || search(33,drawArray)!=[]  )
 // belts
 if( drawArray==[] || drawBelts==1 ) 
 {
-	bletXZOffs = Bearing625Height()+1.5+(pulley1H-3)/2-3;
+	bletXZOffs = Bearing625Height()+1.5+(pulleysH-3)/2-3;
 	color ("black") hull()
 	{
 		
-		translate([xStepperX+31/2+5+0.7,xStepperY-31/2,bletXZOffs]) rotate([0,0,102]) cylinder(d=1.5,h=6);
+		translate([xStepperX+31/2+5+0.7,xStepperY-31/2,bletXZOffs]) cylinder(d=1.5,h=6);
 		rotate([0,0,0])  translate([ArmPulleyDia/2+0.7,0,bletXZOffs]) cylinder(d=1.5,h=6);
   }
 	
 	color ("black") hull()
 	{
-		translate([xStepperX-31/2-5-0.7,xStepperY-31/2,bletXZOffs]) rotate([0,0,102]) cylinder(d=1.5,h=6);
-		rotate([0,0,220])  translate([ArmPulleyDia/2+0.7,0,bletXZOffs]) cylinder(d=1.5,h=6);
+		translate([xStepperX-31/2-5-0.7,xStepperY-31/2,bletXZOffs]) cylinder(d=1.5,h=6);
+		rotate([0,0,240])  translate([ArmPulleyDia/2+0.7,0,bletXZOffs]) cylinder(d=1.5,h=6);
   }
 
 	color ("black") hull()
 	{
-		translate([yStepperX+31/2+5+0.7,yStepperY-31/2,17.5]) rotate([0,0,102]) cylinder(d=1.5,h=6);
-		rotate([0,0,0])  translate([ArmPulleyDia/2+0.7,0,17.5]) cylinder(d=1.5,h=6);
+		translate([yStepperX+31/2+5+0.7,yStepperY-31/2,17.5]) cylinder(d=1.5,h=6);
+		rotate([0,0,-40])  translate([ArmPulleyDia/2+0.7,0,17.5]) cylinder(d=1.5,h=6);
   }
 	
 	color ("black") hull()
 	{
-		translate([yStepperX-31/2-5-0.7,yStepperY-31/2,17.5]) rotate([0,0,102]) cylinder(d=1.5,h=6);
-		rotate([0,0,220])  translate([ArmPulleyDia/2+0.7,0,17.5]) cylinder(d=1.5,h=6);
+		translate([yStepperX-31/2-5+0.7,yStepperY-31/2,17.5]) cylinder(d=1.5,h=6);
+		rotate([0,0,180])  translate([ArmPulleyDia/2+0.7,0,17.5]) cylinder(d=1.5,h=6);
   }
 
   color ("black") translate([4,17,50]) cube([1.5,6,200]);
@@ -1842,37 +1935,32 @@ if( drawArray==[] || drawZBelts==1 )
   color ("black") translate([-5.5,17,50]) cube([1.5,6,200]);
 }
 
-if( search(13,drawArray)!=[]  ) 
-{
-	a =  180;
-	translate([-7,0,9]) rotate([0,180,0+a]) BeltClip(4,1);
-	translate([7,0,9]) rotate([0,180,180+a]) BeltClip(4,1);
-}
-
-
 if( drawArray==[] || drawSwitchesAll==1 )
 {
-	translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11();
-	translate([-28,-13,Bearing625Height()+pulley1H+pulley2H-1]) rotate([180,180,0]) EndSwitchBody20x11();
+	// switch x
+	translate([-55,-10,15]) rotate([90,0,90]) EndSwitchBody20x11();
+	// switch y
+	//translate([-50,20,23]) rotate([90,0,60]) 
+	rotate([0,0,160]) translate([ArmPulleyDia/2+15,0,23]) rotate([90,0,-90]) EndSwitchBody20x11();
 }
 
 if( drawArray==[] || search(14,drawArray)!=[] )
 {
 	difference()
 	{
-		translate([-48,-23,Bearing625Height()+pulley1H+pulley2H-7]) cube([20,10,6]);
+		translate([-48,-23,Bearing625Height()+pulleysH+pulleysH-7]) cube([20,10,6]);
 		translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11(1);
 	}
 }
 
-if( drawArray==[] ) translate([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*45]) Bearing625();
+if( drawArray==[] ) translate([0,0,Bearing625Height()+pulleysH+pulleysH+pulleysSpace+isExpolode*45]) Bearing625();
 
 // puter tube holder - mounted to pulley2 (top)
 if( drawArray==[] || search(3,drawArray)!=[] )
 {
 	rotate([0,0,0])//90])
 	{
-    translate ([0,0,Bearing625Height()+pulley1H+pulley2H+pulleysSpace+isExpolode*55]) 
+    translate ([0,0,Bearing625Height()+pulleysH+pulleysH+pulleysSpace+isExpolode*55]) 
     {
         difference()
         {
@@ -1946,7 +2034,7 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 // center tube
 if( drawArray==[] )
 {
-	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+9+isExpolode*140]) 
+	translate ([0,0,Bearing625Height()+pulleysH+pulleysH+9+isExpolode*140]) 
 		color("silver")
 	{
 		difference()
@@ -1979,7 +2067,7 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 
       hull()
       {
-        height = 30;//Bearing625Height()+pulley1H+pulley2H+32;//30
+        height = 30;//Bearing625Height()+pulleysH+pulleysH+32;//30
         translate([0,-8,0]) color("blue") cylinder(d=30,h=height);
 
         translate([40,0,0]) 
@@ -2083,7 +2171,7 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 			}
 			//*/
 		}
-		translate([0,0,5]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5);
+		translate([0,0,5]) color("green") cylinder(d=60,h=Bearing625Height()+pulleysH+pulleysH+35+5);
 
 		color("red") translate([0,38,8.5]) rotate([90,0,0]) scale([1,1,1]) cylinder(r=1.51,h=28,$fn=16);
 
@@ -2104,24 +2192,24 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 
 		translate([40,0,0-0.1]) 
 		{
-			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45+5,$fn=16);
+			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulleysH+pulleysH+35+isExpolode*45+5,$fn=16);
 			color("red") translate([0,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
 		}
 		translate([-40,0,0-0.1]) 
 		{
-			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45+5,$fn=16);
+			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulleysH+pulleysH+35+isExpolode*45+5,$fn=16);
 			color("red") translate([0,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
 		}
 		
 		translate([-40,15,0-0.1]) 
 		{
-			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45+5,$fn=16);
+			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulleysH+pulleysH+35+isExpolode*45+5,$fn=16);
 			color("red") translate([0,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
 		}
 
 		translate([40,15,0-0.1]) 
 		{
-			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulley1H+pulley2H+35+isExpolode*45+5,$fn=16);
+			color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=Bearing625Height()+pulleysH+pulleysH+35+isExpolode*45+5,$fn=16);
 			color("red") translate([0,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
 		}
 
@@ -2168,7 +2256,7 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 
 if( drawArray==[] || drawSwitchesAll==1)
 {
-	translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
+	translate([0,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*45]) 
 	{
 			translate([-12,18.5,-10]) rotate([-90,0,180]) EndSwitchBody20x11();
 	}
@@ -2177,7 +2265,7 @@ if( drawArray==[] || drawSwitchesAll==1)
 // upper pulley+tube support for bearing
 if( drawArray==[] || search(5,drawArray)!=[] )
 {
-  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*45]) 
+  translate([0,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*45]) 
   {
     height = Bearing608Height();
     difference()
@@ -2225,7 +2313,7 @@ if( drawArray==[] || search(5,drawArray)!=[] )
           {
             hull()
             {
-              height = 30;//Bearing625Height()+pulley1H+pulley2H+32;//30
+              height = 30;//Bearing625Height()+pulleysH+pulleysH+32;//30
               translate([0,-8,0]) color("blue") cylinder(d=30,h=height);
 
               translate([40,0,0]) 
@@ -2234,7 +2322,7 @@ if( drawArray==[] || search(5,drawArray)!=[] )
               translate([-40,0,0]) 
               color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=15,h=height,$fn=16);
             }
-            translate([0,0,-0.1]) color("green") cylinder(d=60,h=Bearing625Height()+pulley1H+pulley2H+35+5+0.1);
+            translate([0,0,-0.1]) color("green") cylinder(d=60,h=Bearing625Height()+pulleysH+pulleysH+35+5+0.1);
           }
         }
       }
@@ -2283,13 +2371,13 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 
 if( drawArray==[] )
 {
-	translate ([0,0,Bearing625Height()+pulley1H+pulley2H+34+isExpolode*65]) Bearing608(); 
+	translate ([0,0,Bearing625Height()+pulleysH+pulleysH+34+isExpolode*65]) Bearing608(); 
 }
 
 // upper bearing mount
 if( drawArray==[] || search(6,drawArray)!=[] )
 {
-  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()]) 
+  translate([0,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()]) 
   {
     height = 2+3;
     difference()
@@ -2336,22 +2424,22 @@ if( drawArray==[] || search(17,drawArray)!=[] )
 	{
 		union()
 		{
-					translate([-offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=15,$fn=16);
-					translate([offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=15,$fn=16);
+					translate([-offset,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=15,$fn=16);
+					translate([offset,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(r1=5,r2=4,h=15,$fn=16);
 		}
 		// mount holes
 		translate([-offset,0,50]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
 		translate([offset,0,50])  color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=100,$fn=16);
 		// m5 nuts
-		translate([-offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3),$fn=6);
-		translate([offset,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3),$fn=6);
+		translate([-offset,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3),$fn=6);
+		translate([offset,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()-2-0.1]) color("red") rotate([0,0,0]) scale([1,1,1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3),$fn=6);
 	}
 }
 
 // ramps bottom mount
 if( drawArray==[] || search(18,drawArray)!=[] )
 {
-  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*95+Bearing608Height()+20]) 
+  translate([0,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*95+Bearing608Height()+20]) 
   {
 		difference()
 		{
@@ -2427,7 +2515,7 @@ if( drawArray==[] || search(19,drawArray)!=[] )
 	offset = printLayout ? 7 : 40;
 	offset2 = printLayout ? hs/2 : 0;
 	offsetY = printLayout ? 12 : 0;
-	zoffset = Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18;
+	zoffset = Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18;
 	difference()
 	{
 		union()
@@ -2453,7 +2541,7 @@ if( drawArray==[] || search(19,drawArray)!=[] )
 // ramps top mount
 if( drawArray==[] || search(20,drawArray)!=[] )
 {
-  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*95+Bearing608Height()+95]) 
+  translate([0,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*95+Bearing608Height()+95]) 
   {
 		difference()
 		{
@@ -2535,7 +2623,7 @@ if( drawArray==[] || search(28,drawArray)!=[] )
 	hs = 28;
 	offset = printLayout ? 7 : 40;
 	offsetY = printLayout ? 12 : 0;
-	zoffset = Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18+75;
+	zoffset = Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18+75;
 	difference()
 	{
 		union()
@@ -2555,7 +2643,7 @@ if( drawArray==[] || search(28,drawArray)!=[] )
 // extruder supprt
 if( drawArray==[] || search(29,drawArray)!=[] )
 {
-  translate([0,0,Bearing625Height()+pulley1H+pulley2H+32+isExpolode*95+Bearing608Height()+95+33+armsExtruderExtra]) 
+  translate([0,0,Bearing625Height()+pulleysH+pulleysH+32+isExpolode*95+Bearing608Height()+95+33+armsExtruderExtra]) 
   {
     height = 2+2;
     difference()
@@ -2620,7 +2708,7 @@ if( drawArray==[] || search(30,drawArray)!=[] )
 	hs = 42;
 	offset = printLayout ? 7 : 40;
 	offsetY = printLayout ? 12 : 0;
-	zoffset = Bearing625Height()+pulley1H+pulley2H+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18+75+32;
+	zoffset = Bearing625Height()+pulleysH+pulleysH+32+isExpolode*85+Bearing608Height()+Bearing608Height()+18+75+32;
 	difference()
 	{
 		union()
@@ -2941,209 +3029,4 @@ if( drawArray==[] || search(10,drawArray)!=[] )
 if( drawArray==[] )
 {
 	translate([-65,BedYOffset-BedYOffsetMarginY,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([125,120+BedYOffsetMarginY,3]);
-}
-
-
-module ArmPulley(numBigHoles=0,numSmallHoles=0,smallHolesDist=10,smallHolesDia=1.5,bigHolesRadScale=1,bigHolesOffset=0,idlerH=1,retainerH=1)
-{
-	difference()
-	{
-		Pulley(
-			teeth = ArmNumTeeth,			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
-			profile = 12,		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
-
-			motor_shaft = 5.2,	// NEMA17 motor shaft exact diameter = 5
-			m3_dia = 3.2,		// 3mm hole diameter
-			m3_nut_hex = 1,		// 1 for hex, 0 for square nut
-			m3_nut_flats = 5.7,	// normal M3 hex nut exact width = 5.5
-			m3_nut_depth = 2.7,	// normal M3 hex nut exact depth = 2.4, nyloc = 4
-
-			retainer = 1,		// Belt retainer above teeth, 0 = No, 1 = Yes
-			retainer_ht = retainerH,	// height of retainer flange over pulley, standard = 1.5
-			idler = 1,			// Belt retainer below teeth, 0 = No, 1 = Yes
-			idler_ht = idlerH,		// height of idler flange over pulley, standard = 1.5
-
-			pulley_t_ht = 7,	// length of toothed part of pulley, standard = 12
-			pulley_b_ht = 0,		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
-			pulley_b_dia = 20,	// pulley base diameter, standard = 20
-			no_of_nuts = 1,		// number of captive nuts required, standard = 1
-			nut_angle = 90,		// angle between nuts, standard = 90
-			nut_shaft_distance = 1.2,	// distance between inner face of nut and shaft, can be negative.
-
-
-			//	********************************
-			//	** Scaling tooth for good fit **
-			//	********************************
-			//	To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
-			additional_tooth_width = 0.2, //mm
-
-			//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
-			additional_tooth_depth = 0 //mm
-		);
-		cylinder(r = rolson_hex_nut_dia(5)/2+m5Rclearance,h = rolson_hex_nut_hi(5)+m5Hclearance, $fn=6);
-
-		//echo(bigHoleRad);
-		if( numBigHoles )
-		{
-			//echo(outerRad);
-			bigHoleRad = (outerRad-5)*0.32;
-			for (i = [0:numBigHoles-1]) 
-			{
-				rotate([0, 0, (360/numBigHoles)*i])
-				translate([bigHoleRad/2+5+6+bigHolesOffset, 0, 0])
-				cylinder(r=bigHoleRad*bigHolesRadScale,h=10+retainerH,$fn=16);
-			}
-		}
-
-		//numSmallHoles = 3;
-		if( numSmallHoles )
-		{
-			for (i = [0:numSmallHoles-1]) 
-			{
-				rotate([0, 0, (360/numSmallHoles)*i+60])
-				translate([smallHolesDist, 0, 0])
-				cylinder(r=smallHolesDia,h=10+retainerH,$fn=16);
-			}
-		}
-	}
-}
-
-// modified by pavlo gryb
-// adapted to small scara
-// Tough Belt Clip
-// Design by Marius Gheorghescu, December 2013
-
-
-// how many teeth on each side
-teeth = 3;
-
-// width of the belt in mm incl clearance (use 6.25 for typical GT2 belt)
-belt_width = 6.5;
-
-// thickness of the belt in mm (use 1.5 for GT2 belt)
-belt_thickness = 1.5;
-
-// belt pitch in mm (use 2.0 for GT2 belt)
-pitch = 2.0;
-
-// this controls the strength of the bracket 
-shell = 1;
-
-/* [Hidden] */
-cutout_width = 6 + belt_thickness + shell;
-len = 2*teeth*pitch + cutout_width;
-round_corner_epsilon = 1;
-epsilon = 0.01;
-
-
-module belt()
-{
-	// reinforcement
-	//cube([len, 2, h], center=true);
-
-	for(i=[pitch/4:pitch:len]) 
-	{
-		translate([i-len/2, 1.25, 0])
-			cube([pitch - round_corner_epsilon, belt_thickness + round_corner_epsilon, belt_width], center=true);
-	}
-}
-
-module clip() 
-{
-	difference()  
-	{
-		union() 
-		{
-			offset = -0.7;
-			// general shape of the clip
-			linear_extrude(belt_width + 2*shell, center=true) 
-			{
-				polygon(points=[
-					[len/2,0],
-					[3,-2.5], 
-					[-3,-2.5], 
-					[-len/2,0], 
-					[-len/2, shell + belt_thickness+offset], 
-					[len/2, shell + belt_thickness+offset]
-				]);
-			}
-		}
-
-		// left belt turn
-		rotate([0,0,-45])
-		translate([-3.2/2 - shell - belt_thickness/2,0,0])
-			cube([belt_thickness, 20 + 2*shell, belt_width], center=true);
-
-		// right belt turn
-		rotate([0,0,45])
-	//+ belt_thicknes/2 + shell
-		translate([3.2/2 + shell + belt_thickness/2,0,0])
-			cube([belt_thickness, 20 + 2*shell, belt_width], center=true);
-
-		// m3 hole
-		rotate([90,0,0])
-			cylinder(r=1.51, h=10 + 2*shell, center=true,$fn=16);
-
-		// hex nut
-		translate([0, -2, 0])
-		rotate([90,90,0])
-			cylinder(r1=1.51,r2=3.51, h=2, center=true, $fn=12);
-	}
-}
-
-
-module clipCover() 
-{
-	difference()  
-	{
-		union() 
-		{
-			// general shape of the clip
-			linear_extrude(belt_width + 2*shell, center=true) 
-			{
-				polygon(points=[
-					[len/2,0],
-					[3,-1.5], 
-					[-3,-1.5], 
-					[-len/2,0], 
-					[-len/2, shell + belt_thickness], 
-					[len/2, shell + belt_thickness]
-				]);
-			}
-		}
-
-		// m3 hole
-		rotate([90,0,0])
-			cylinder(r=1.51, h=10 + 2*shell, center=true,$fn=16);
-
-		// hex nut
-		translate([0, -2.8, 0])
-		rotate([90,90,0])
-			cylinder(r=3.35, h=4, center=true, $fn=6);
-
-		// belt teeth
-		for(i=[1:1:teeth]) 
-		{
-			// left side
-			color([1,0, 0])
-			translate([len/2 + pitch/4 - i*pitch, shell + belt_thickness/2, 0])
-				cube([pitch/2, belt_thickness + epsilon, belt_width], center=true);
-
-			// right side 
-			color([1,0, 0])
-			translate([-len/2 - pitch/4 + i*pitch, shell + belt_thickness/2, 0])
-				cube([pitch/2, belt_thickness + epsilon, belt_width], center=true);
-		}
-	}
-}
-
-
-module BeltClip(partsOffset=0,printLayout=0)
-{
-	a =  printLayout ?  180 : 0;
-	translate([0,0,3]) rotate([0,0,90])
-	{
-		translate([0,-3,0]) rotate([0,0,a]) clip();
-		translate([0,-0+partsOffset,0]) rotate([0,0,180+a]) clipCover();
-	}
 }
