@@ -9,7 +9,6 @@ include <Modules/MCAD/stepper.scad>
 use <Modules/HotEnds.scad>
 use <Modules/LCD.scad>
 use <Modules/Misc.scad>
-use <Modules/Profiles.scad>
 
 //
 ex = -65;
@@ -870,6 +869,21 @@ if( drawArray==[] || search(34,drawArray)!=[] )
 	}
 }
 
+module LAlum(len=200)
+{
+	cube([1.5,len,15]);
+	cube([15,len,1.5]);
+}
+
+module LAlum10x10x1p2(len=200,extraThickness=0)
+{
+	color("silver")
+	{
+		cube([1.2+extraThickness,len,10]);
+		cube([10,len,1.2+extraThickness]);
+	}
+}
+
 if(  drawArray==[] )
 {
 	translate([-50.2,7,z+10+75+1]) rotate([0,90,0]) LAlum10x10x1p2(150-15);
@@ -926,8 +940,8 @@ if( drawArray==[] || search(35,drawArray)!=[] )
 }
 if(  drawArray==[] || drawBaseAllum )
 {
-	color("darkgrey") translate([-60,-68,-1.5]) LProfile(15,15,1.5,213);
-	mirror() color("darkgrey") translate([-60,-68,-1.5]) LProfile(15,15,1.5,213);
+	color("darkgrey") translate([-60,-68,-1.5]) LAlum(213);
+	mirror() color("darkgrey") translate([-60,-68,-1.5]) LAlum(213);
 }
 // extruder
 if( drawArray==[] || search(23,drawArray)!=[] )
