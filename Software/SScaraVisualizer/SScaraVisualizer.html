@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html><head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Scara math (5 BAR) - jsFiddle demo by PavloG</title>
+  
+  <script type="text/javascript" src="a_data/dummy.js"></script>
+  
+  <link rel="stylesheet" type="text/css" href="a_data/normalize.css">
+  
+  
+  <link rel="stylesheet" type="text/css" href="a_data/result-light.css">
+  
+  <style type="text/css">
+    
+  </style>
+  
+
+
+<script type="text/javascript">//<![CDATA[ 
+window.onload=function(){
+var canvas, ctx, length = 15; // length of the star's arm
+
+
+function out()
+{
+    var args = Array.prototype.slice.call(arguments, 0);
+    document.getElementById('output').innerHTML += args.join(" ") + "\n";
+}
+
+// grab a reference to the 2d context from canvas element
+canvas = document.getElementById("star");
+ctx = canvas.getContext("2d");
+
+// move into the middle of the canvas, just to make room
+
+var width = canvas.width;
+var height = canvas.height;
+
+var centerx=width/2;
+var zeroy=height-30;
+
+var bedPosLeft = -100;
+var bedPosBottom = 0;
+var bedWidth = 200;
+var bedHeight = 200;
+
+var SCARA_pos_X_AXIS = 0;
+var SCARA_pos_Y_AXIS = 110;
+
+//ctx.beginPath();
+//ctx.moveTo(centerx,zeroy);
+//ctx.lineTo(centerx+100,zeroy-100);
+//ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.lineTo(width,0);
+ctx.lineTo(width,height);
+ctx.lineTo(0,height);
+ctx.stroke();
+
+
+
+
+var drawReacability = 1;
+
+var Linkage_1 = 70;
+var Linkage_2 = 80;
+
+var EndPointMountOffset=18;
+var EndPointMountAngle=50;
+
+var SCARA_RAD2DEG=57.2957795;  // to convert RAD to degrees
+var EndPointMountAngleRad = (EndPointMountAngle/SCARA_RAD2DEG);
+
+
+var L1_2 = Linkage_1*Linkage_1;
+var L2_2 = Linkage_2*Linkage_2;
+var DBL_L1_L2 = (2*Linkage_1*Linkage_2);
+
+// 5 bar with offset stuff
+var dhalf = 0.0;
+
+var l2 = L1_2;
+var L2 = L2_2;
+var l = Linkage_1;
+var L = Linkage_2;
+
+var EX = EndPointMountOffset*Math.cos(EndPointMountAngleRad)+L;
+var EY = EndPointMountOffset*Math.sin(EndPointMountAngleRad);
+//printf("%f\n%f\n",EX,EY);
+
+
+var lHp2 = (EX)*(EX)+EY*EY;
+var lH = Math.sqrt(lHp2);
+
+var bedReachabilityExtra = 10;
+
+if( drawReacability )
+{
+    ctx.strokeStyle = '#fff0f0';
+    for(var x=bedPosLeft-bedReachabilityExtra;x<bedPosLeft+bedWidth+bedReachabilityExtra*2;x++)
+    {
+        for(var y=bedPosBottom-bedReachabilityExtra;y<bedPosBottom+bedHeight+bedReachabilityExtra*2;y++)
+        {
+            var ex = x;
+            var ey = y;
+            //	float AA = -2 * l * (ex - dhalf);
+            var BB = -2 * ey * l;
+            //	float CC = (ex - dhalf) * (ex - dhalf) + ey * ey + l2 - lHp2;
+            var FF = (ex + dhalf) * (ex + dhalf) + ey * ey + l2 - lHp2;
+            var EE = -2  * l * (ex+dhalf);
+            var Det2e = BB * BB - (FF * FF - EE * EE);
+            if( (Det2e)<=0 )
+            {
+                // unreachable
+                ctx.beginPath();
+                ctx.rect(centerx+x, zeroy-y, 1, 1);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+var ex = SCARA_pos_X_AXIS;
+var ey = SCARA_pos_Y_AXIS;
+//	float AA = -2 * l * (ex - dhalf);
+var BB = -2 * ey * l;
+//	float CC = (ex - dhalf) * (ex - dhalf) + ey * ey + l2 - lHp2;
+var FF = (ex + dhalf) * (ex + dhalf) + ey * ey + l2 - lHp2;
+var EE = -2  * l * (ex+dhalf);
+var Det2e = BB * BB - (FF * FF - EE * EE);
+
+var qq21e = (-BB + Math.sqrt(Det2e)) / (FF - EE);
+var q21e = 2 * Math.atan(qq21e);
+
+var xxd = -dhalf + l * Math.cos(q21e);
+var yyd = l * Math.sin(q21e);
+	
+	//printf("%f\n%f\n%f\n",lH,xxd,yyd);
+	
+	var K = EndPointMountOffset;
+	var LH3 = L/lH;
+	var cosa1 = (L*L+lH*lH-K*K)/(2*L*lH);
+	var sina1 = Math.sqrt(1-cosa1*cosa1);
+	var rx = ex-xxd;
+	var ry = ey-yyd;
+	var x = (rx*cosa1+ry*sina1)*LH3+xxd;
+	var y = (-rx*sina1+ry*cosa1)*LH3+yyd;
+	
+	var A = -2.0 * l * (x - dhalf);
+	var B = -2.0 * y * l;
+	var C = (x - dhalf) * (x - dhalf) + y * y + l2 - L2;
+	var F = (x + dhalf) * (x + dhalf) + y * y + l2 - L2;
+	var E = -2.0  * l * (x+dhalf);
+	var Det1 = B * B - (C * C - A * A);
+	var Det2 = B * B - (F * F - E * E);
+	
+	var qq11 = (-B - Math.sqrt(Det1)) / (C - A);
+	var q11 = 2 * Math.atan(qq11);
+	//float qq12 = (-B + sqrt(Det1)) / (C - A);
+	//float q12 = 2 * atan(qq12);
+	
+	//float qq21 = (-B - sqrt(Det2)) / (F - E);
+	//float q21 = 2 * atan(qq21);
+	var qq22 = (-B + Math.sqrt(Det2)) / (F - E);
+	var q22 = 2 * Math.atan(qq22);
+	
+	q22 = q22 < 0 ? 2*M_PI+q22 : q22;
+	
+	//delta[X_AXIS] = FBSIGN * q11 * SCARA_RAD2DEG;
+	//delta[Y_AXIS] = FBSIGN * q22 * SCARA_RAD2DEG;
+
+	var xd = -dhalf + l * Math.cos(q22);
+	var yd = l * Math.sin(q22);
+	
+	var xb = -dhalf + l * Math.cos(q11);
+	var yb = l * Math.sin(q11);
+	
+	var hx = xb-xd;
+	var hy = yb-yd;
+	var H = Math.sqrt(hx*hx+hy*hy);
+	var LH = L/H;
+	var cosa = (H*H)/(2*L*H);
+	var sina = -Math.sqrt(1-cosa*cosa);
+	var xxp = (hx*cosa+hy*sina)*LH+xd;
+	var yyp = (-hx*sina+hy*cosa)*LH+yd;
+	
+	var cosz = Math.cos(-EndPointMountAngleRad);
+	var sinz = Math.sin(-EndPointMountAngleRad);
+	
+	var LH2 = EndPointMountOffset/L;
+	var hhx = xxp-xd;
+	var hhy = yyp-yd;
+	var xp = (hhx*cosz+hhy*sinz)*LH2+xxp;
+	var yp = (-hhx*sinz+hhy*cosz)*LH2+yyp;
+	/*
+
+    */
+
+ctx.strokeStyle = '#000000';
+ctx.beginPath();
+ctx.moveTo(centerx+bedPosLeft,zeroy-(bedPosBottom));
+ctx.lineTo(centerx+bedPosLeft+bedWidth,zeroy-(bedPosBottom));
+ctx.lineTo(centerx+bedPosLeft+bedWidth,zeroy-(bedPosBottom+bedHeight));
+ctx.lineTo(centerx+bedPosLeft,zeroy-(bedPosBottom+bedHeight));
+ctx.lineTo(centerx+bedPosLeft,zeroy-(bedPosBottom));
+ctx.stroke();
+
+ctx.strokeStyle = '#ff0000';
+ctx.beginPath();
+ctx.moveTo(centerx,zeroy);
+ctx.lineTo(centerx+xd,zeroy-yd);
+ctx.lineTo(centerx+xxp,zeroy-yyp);
+ctx.lineTo(centerx+xp,zeroy-yp);
+ctx.moveTo(centerx,zeroy);
+ctx.lineTo(centerx+xb,zeroy-(yb));
+ctx.lineTo(centerx+xxp,zeroy-yyp);
+ctx.stroke();
+
+}//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <canvas id="star" width="400" height="600"></canvas>
+<pre id="output"></pre>
+  
+
+
+
+
+
+</body></html>
