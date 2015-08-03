@@ -509,9 +509,9 @@ if( drawArray==[] || search(2,drawArray)!=[] )
 				// m5 nut space
 				translate([0,0,-1]) 
 				cylinder(d=rolson_hex_nut_dia(5)+1,h=pulleysH+2);
-				// bearing hole
-				translate ([0,0,pulleysH-Bearing625Height()])
-					cylinder(r=Bearing625Diameter()/2,h=pulleysH);
+				// bearing hole - bearig uppered for small amount - to be covered and fixed by part3
+				translate ([0,0,pulleysH-Bearing625Height()-0.1])
+					cylinder(r=Bearing625Diameter()/2+b625RClearance/2,h=pulleysH);
 			}
 		}
 		// support - cut after print
@@ -592,17 +592,17 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 						{
 							union()
 							{
-								cylinder(r=4+4,h=15);
+								cylinder(r=4+4,h=17);
 								hull()
 								{
-									translate([5,0,-4]) scale([0.6,1,1]) cylinder(r=5,h=19);
-									translate([9,0,-4]) scale([0.6,1,1]) cylinder(r=5,h=19);
+									translate([5,0,-4]) scale([0.6,1,1]) cylinder(r=5,h=21);
+									translate([9,0,-4]) scale([0.6,1,1]) cylinder(r=5,h=21);
 								}
 							}
 							translate([0,-0.25,2]) cube([20,0.5,15]);
-							translate([7.5,10,10]) rotate([90,0,0]) cylinder(r=1.55,h=25,$fn=12);
-							translate([7.5,-4.8,10]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
-							translate([7.5,4.8+10,10]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
+							translate([7.5,10,11]) rotate([90,0,0]) cylinder(r=1.55,h=25,$fn=12);
+							translate([7.5,-4.8,11]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
+							translate([7.5,4.8+10,11]) rotate([90,0,0]) cylinder(r=(rolson_hex_nut_dia(3)+1)/2,h=10);
 						}
 					}
 				}
@@ -617,9 +617,9 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 						cylinder(d=rolson_hex_nut_dia(3)+1,h=4.5+1.5,$fn=20);
 				}
 
-				translate([0,0,-1]) cylinder(d=rolson_hex_nut_dia(5)+1.5,h=rolson_hex_nut_hi(5)+1+1);
-
-				translate([0, 0, 3+7]) cylinder(r=4,h=200,$fn=shaftsSegments);
+				translate([0,0,-1]) cylinder(d=rolson_hex_nut_dia(5)+1.5,h=rolson_hex_nut_hi(5)+1+1.5);
+				// separator is 3mm
+				translate([0, 0, rolson_hex_nut_hi(5)+1+1.5+3]) cylinder(r=4,h=200,$fn=shaftsSegments);
 				translate([0, 0, 0]) cylinder(r=shaftRadius,h=200,$fn=shaftsSegments);
 				//translate([0, 0, -1]) cylinder(d=Bearing625Diameter()+b625RClearance,h=2+1,$fn=32);
 			}
