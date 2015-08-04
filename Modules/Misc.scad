@@ -77,13 +77,13 @@ module Pulley16TeethAlu()
 }
 
 // MY NEMA with 24mm length shafts
-module Nema17_shaft24_Stepper(bSrewsOnly=0)
+module Nema17_shaft24_Stepper(bSrewsOnly=0,NemaSize=NemaLengthLong)
 {
 	if( !bSrewsOnly )
 	{
 		color ("silver")
 		{		
-			motor(Nema17,NemaLengthLong);
+			motor(Nema17,NemaSize);
 			translate([0,0,-40+16]) cylinder(r=2.5,h=8,$fn=32);
 		}
 		color ("gold") translate([21,-5,41.5]) cube ([5,10,5]);

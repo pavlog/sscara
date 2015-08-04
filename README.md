@@ -52,7 +52,7 @@ Firmware:
 Materials:
 * ~1.5 meters(2m max) - GT2 timing belt 6mm(width)
 * 3 - GT2 16 teeth pulleys (ID=5mm)
-* 4 - Nema17 (24mm shaft length)
+* 4 - Nema17 (24mm shaft length) (39 mm Nema17 might be used for xy)
 * 6 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
 * 11 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
@@ -69,6 +69,7 @@ SCAD:
 * use drawArray = [] to draw everything or drawArray=[1,2,3] for parts
 * use printLayout to control parts/subparts layout (0 for design, 1 for export) (Some parts need to be rotated to 180 Y) (WIP)
 * isExpolode - variable to control explode mode view (WIP)
+* NemaSize - tweak nema len, NemaLengthMedium,NemaLengthShort,NemaLengthLong
 
 Slicer:
 * Slic3r
