@@ -691,7 +691,7 @@ if( drawArray==[] || search(4,drawArray)!=[] )
     union()
     {
       translate([-alumXOffset+1.5,-56-7,0]) 
-        color("red") rotate([0,0,0]) scale([1,1,1])
+        color("magenta") rotate([0,0,0]) scale([1,1,1])
           cube([alumXOffset*2-1.5*2,100,3]);
 			// borders
       translate([-alumXOffset+1.5,-56-7,3]) 
@@ -708,10 +708,10 @@ if( drawArray==[] || search(4,drawArray)!=[] )
           cube([alumXOffset*2-1.5*2,4,4]);
       translate([-alumXOffset+1.5,33,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
-          cube([20-1.5*2,4,14]);
+          cube([21-1.5*2,4,10.5]);
       mirror() translate([-alumXOffset+1.5,33,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
-          cube([20-1.5*2,4,14]);
+          cube([21-1.5*2,4,10.5]);
       translate([-alumXOffset+4.5,-59,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
           cylinder(r=m3PlatesRad,h=10.5);
@@ -722,6 +722,12 @@ if( drawArray==[] || search(4,drawArray)!=[] )
         color("green") rotate([0,0,0]) scale([1,1,1])
           cylinder(r=m3PlatesRad,h=10.5);
       mirror() translate([-alumXOffset+4.5,-14,3]) 
+        color("green") rotate([0,0,0]) scale([1,1,1])
+          cylinder(r=m3PlatesRad,h=10.5);
+			translate([-alumXOffset+4.5,31,3]) 
+        color("green") rotate([0,0,0]) scale([1,1,1])
+          cylinder(r=m3PlatesRad,h=10.5);
+      mirror() translate([-alumXOffset+4.5,31,3])
         color("green") rotate([0,0,0]) scale([1,1,1])
           cylinder(r=m3PlatesRad,h=10.5);
       //translate([-alumXOffset+15,-56-7,-1.5]) 
@@ -817,15 +823,15 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 		// switch y hole
 		SwitchY(1);
 		//
-		translate([-alumXOffset-5,-6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
-		translate([-alumXOffset-5,6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
+		//translate([-alumXOffset-5,-6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
+		//translate([-alumXOffset-5,6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
 		// lcd mounts
 		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);	
 		// a lot of holes shoud be here
-		translate([35,5,-5]) scale([1,1,1]) cylinder(r=12,h=30,$fn=6);
-		translate([-35,5,-5]) scale([1,1,1]) cylinder(r=12,h=30,$fn=6);
-		translate([0,-35,-5]) scale([1,1,1]) cylinder(r=12,h=30,$fn=6);
-		translate([0,20,-5]) scale([1,1,1]) cylinder(r=10,h=30,$fn=6);
+		translate([35,3,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
+		translate([-35,3,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
+		translate([0,-33,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
+		translate([0,22,-5]) scale([1,1,1]) cylinder(r=10,h=30,$fn=6);
 		// base alum
 		BaseAllum();
 		// steppers
@@ -843,6 +849,55 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 			translate([-holeDist,holeDist,0]) cylinder(r=1.51,h=xStepperZ+5,$fn=16);
 		}
 		BaseGearboxThreadedRods();
+		translate([-alumXOffset+4.5,31,-1]) 
+			color("green") rotate([0,0,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+		mirror()
+		translate([-alumXOffset+4.5,31,-1]) 
+			color("green") rotate([0,0,0]) scale([1,1,1])
+			cylinder(d=3,h=50,$fn=32);
+		//
+		translate([-alumXOffset+12,50,9]) 
+			color("green") rotate([90,0,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+		translate([-alumXOffset+12,33,9]) 
+			color("green") rotate([90,0,0]) scale([1,1,1])
+				cylinder(d=rolson_hex_nut_dia(3)+1.5,h=10,$fn=32);
+		mirror() translate([-alumXOffset+12,50,9]) 
+			color("green") rotate([90,0,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		translate([-alumXOffset+27,-50,6]) 
+			color("green") rotate([90,0,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+		mirror() translate([-alumXOffset+27,-50,6]) 
+			color("green") rotate([90,0,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		translate([-alumXOffset-10,-36,6]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		mirror() translate([-alumXOffset-10,-36,6]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		translate([-alumXOffset-10,23,7]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		mirror() translate([-alumXOffset-10,23,6]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		translate([-alumXOffset-10,3,7]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
+		mirror() translate([-alumXOffset-10,3,6]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=50,$fn=32);
+
 	}
 }
  
