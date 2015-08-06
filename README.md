@@ -78,7 +78,7 @@ Slicer:
 Included Software:
 * Software/SScaraVisualizer.html (may not be up to date) or use (up to date) https://jsfiddle.net/PavloG/0vq1nf2v/
 * Software/ReprapHeatedBedGenerator heated bed generator (forked from https://github.com/tlalexander/ReprapHeatedBedGenerator)
-* Software/Marlin - Marlin firmware(forked from https://github.com/MarlinFirmware/Marlin)
+* Marlin firmware - use https://github.com/pavlog/Marlin (forked from https://github.com/MarlinFirmware/Marlin)
 
 Calibration Guide:
 Enable EEPROM in you firmware.
