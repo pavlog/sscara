@@ -91,9 +91,21 @@ XY calibration:
 * M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative)
 * G28 goto home
 * M500 to save data to EEPROM
-NOTE2: home offset is an angles not a mm (also can be used for fine tuning - especially with M370 command)
-
+NOTE2: home offset is an angles not a mm (also can be used for fine tuning - especially with M370 command, see Way2)
 NOTE: it is possible to use use calibration plate from scad file (part #38 in stl folder)
+
+Way2 (more precise):
+
+* G28 goto home
+* M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative, +/-1 mm is enought)
+G1 X## Y## (tweak X## and Y## to match angles for one arm to 0deg other to 180deg)
+M370 X45 Y135 // move arms to 45 and 135 degrees
+M206 X## Y## (where X## Y## is a angular distance to 45 and 135)
+Repeat a few times untill you get 45 and 135 degrees exactly (one arm shuld rotate from 0deg to 45deg, other from 180deg to 135deg)
+M500 to save data to EEPROM
+NOTE: Steps per unit must me calibrated already
+NOTE2: Home position calculation will use M206 offset angles to calculate real home pos
+
 
 Steps Per Unit calibration:
 Theory: stepperUnitsPerRevolution*driverMicrostepping*gearboxration/360, sscara (with drv8825 1/32) = 200*32*5/360 = 88.888
