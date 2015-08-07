@@ -54,6 +54,7 @@ drawSwitchesAll =1;
 drawBaseAllum = 1;
 drawLCD = 1;//1;
 drawMetall = 1;
+drawRamps = 1;
 
 
 
@@ -912,6 +913,22 @@ module spacer(r=1.55,r1=m3PlatesRad,r2=m3PlatesRad,h=10)
 		translate([0,0,-0.1]) color("red") cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
 	}
 }
+module p5_plate_holes(h)
+{
+		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,15-1.5+h-1]) cylinder(d=3,h=20,$fn=32);
+		translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,15-1.5+h-1]) cylinder(d=3,h=20,$fn=32);
+		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5+h-1]) cylinder(d=3,h=20,$fn=32);
+		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,15-1.5+h-1]) cylinder(d=3,h=20,$fn=32);
+		//
+		translate([BaseGearboxThreadedRodsX1/1.55,BaseGearboxThreadedRodsY1/1.6,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=40,h=Bearing608Height()+12,$fn=6);
+		translate([0,BaseGearboxThreadedRodsY1/1.5,15-1.5+h-1]) rotate([0,0,30])  cylinder(d=28,h=Bearing608Height()+12,$fn=6);
+		translate([-BaseGearboxThreadedRodsX1/1.55,BaseGearboxThreadedRodsY1/1.6,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=40,h=Bearing608Height()+12,$fn=6);
+		// small holes
+		color("red") translate([0,BaseGearboxThreadedRodsY1,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([-10,BaseGearboxThreadedRodsY1,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([10,BaseGearboxThreadedRodsY1,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([0,BaseGearboxThreadedRodsY1/3.5,15-1.5+h-1]) rotate([0,0,30])  cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+}
 
 // upper pulley+tube support for bearing
 if( drawArray==[] || search(5,drawArray)!=[] )
@@ -919,6 +936,8 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	h = Nema17Len+(xStepperZ-15+1.5)+2+2;
 	echo ("hh");
 	echo(h);
+	plateH = 4;
+	plateHCover = (Bearing608Height()+3)-plateH;
 	//color("silver") 
 	{
 		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
@@ -926,6 +945,54 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 		// ?? 2 more required
 		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
 		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
+	}
+
+	difference()
+	{
+		union()
+		{
+			hull()
+			{
+				translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,15-1.5+h]) cylinder(r=m3PlatesRad,h=plateH);
+				translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,15-1.5+h]) cylinder(r=m3PlatesRad,h=plateH);
+				translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5+h]) cylinder(r=m3PlatesRad,h=plateH);
+				translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,15-1.5+h]) cylinder(r=m3PlatesRad,h=plateH);
+			}
+			hull()
+			{
+				translate([0,0,15-1.5+h]) cylinder(d=Bearing608Diameter()+9,h=plateH);
+				translate([0,-20,15-1.5+h]) cylinder(d=Bearing608Diameter()+25,h=plateH);
+			}
+		}
+		//
+		translate([0,0,15-1.5+h+2-0.1]) cylinder(d=Bearing608Diameter()+b608Clearance,h=plateH);
+		translate([0,0,15-1.5+h-1]) cylinder(d=8+0.5,h=Bearing608Height()+15);
+		//
+		p5_plate_holes(h);
+	}
+
+	difference()
+	{
+		color("green") union()
+		{
+			hull()
+			{
+				translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,15-1.5+h+plateH]) cylinder(r=m3PlatesRad,h=plateHCover);
+				translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,15-1.5+h+plateH]) cylinder(r=m3PlatesRad,h=plateHCover);
+				translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5+h+plateH]) cylinder(r=m3PlatesRad,h=plateHCover);
+				translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,15-1.5+h+plateH]) cylinder(r=m3PlatesRad,h=plateHCover);
+			}
+			hull()
+			{
+				translate([0,0,15-1.5+h+plateH]) cylinder(d=Bearing608Diameter()+9,h=plateHCover);
+				translate([0,-20,15-1.5+h+plateH]) cylinder(d=Bearing608Diameter()+25,h=plateHCover);
+			}
+		}
+		//
+		translate([0,0,15-1.5+h+2]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.1);
+		translate([0,0,15-1.5+h-1]) cylinder(d=8+0.5,h=Bearing608Height()+15);
+		//
+		p5_plate_holes(h);
 	}
 
 /*	
@@ -3119,10 +3186,15 @@ if( drawArray==[] || search(20,drawArray)!=[] )
 }
 
 // ramps 1.4
-if( drawArray==[] )
+if( drawArray==[] || drawRamps )
 {
 	//http://www.thingiverse.com/thing:34621
-	translate ([0,-25,135]) rotate([0,-90,180]) import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
+	translate ([-10+25,-27+5,135+25]) rotate([0,-90,180]) 
+	{	
+		import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
+		translate([-67.9,4,5]) color( "blue") cube([10,15,22.5]);
+		color([0.5,0.5,1,0.2]) translate([-72,-12,-32]) cube([125,50,62]);
+	}
 }
 
 

@@ -86,7 +86,8 @@ module Nema17_shaft24_Stepper(bSrewsOnly=0,NemaSize=NemaLengthLong)
 			motor(Nema17,NemaSize);
 			translate([0,0,-40+16]) cylinder(r=2.5,h=8,$fn=32);
 		}
-		color ("gold") translate([21,-5,41.5]) cube ([5,10,5]);
+		Nema17Len = lookup(NemaSize, Nema17);
+		color ("gold") translate([21,-5,Nema17Len-5]) cube ([5,10,5]);
 	}
 	else
 	{
