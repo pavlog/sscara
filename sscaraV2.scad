@@ -939,10 +939,12 @@ module p5_plate_holes(h)
 		translate([0,0,15-1.5+h-1]) cylinder(d=8+0.5,h=Bearing608Height()+15);
 }
 
+part5SpacerH = Nema17Len+(xStepperZ-15+1.5)+2+2;
+
 // upper pulley+tube support for bearing
 if( drawArray==[] || search(5,drawArray)!=[] )
 {
-	h = Nema17Len+(xStepperZ-15+1.5)+2+2;
+	h = part5SpacerH;
 	echo ("hh");
 	echo(h);
 	plateH = 4;
@@ -3192,7 +3194,8 @@ if( drawArray==[] || search(20,drawArray)!=[] )
 if( drawArray==[] || drawRamps )
 {
 	//http://www.thingiverse.com/thing:34621
-	calculate me echo (Nema17Len+xStepperZ+15-1.5+h);
+	echo ("rr");
+	echo (Nema17Len+xStepperZ+15-1.5+h);
 	translate ([-10+26,-27+5,135+25]) rotate([0,-90,180]) 
 	{	
 		import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
