@@ -921,13 +921,22 @@ module p5_plate_holes(h)
 		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,15-1.5+h-1]) cylinder(d=3,h=20,$fn=32);
 		//
 		translate([BaseGearboxThreadedRodsX1/1.55,BaseGearboxThreadedRodsY1/1.6,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=40,h=Bearing608Height()+12,$fn=6);
-		translate([0,BaseGearboxThreadedRodsY1/1.5,15-1.5+h-1]) rotate([0,0,30])  cylinder(d=28,h=Bearing608Height()+12,$fn=6);
+		translate([0,BaseGearboxThreadedRodsY1/2.4,15-1.5+h-1]) rotate([0,0,30]) rotate([0,0,30])  cylinder(d=28,h=Bearing608Height()+12,$fn=6);
 		translate([-BaseGearboxThreadedRodsX1/1.55,BaseGearboxThreadedRodsY1/1.6,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=40,h=Bearing608Height()+12,$fn=6);
+		translate([0,BaseGearboxThreadedRodsY1/1.23,15-1.5+h-1]) rotate([0,0,30]) rotate([0,0,30])  cylinder(d=13,h=Bearing608Height()+12,$fn=6);
 		// small holes
 		color("red") translate([0,BaseGearboxThreadedRodsY1,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
 		color("red") translate([-10,BaseGearboxThreadedRodsY1,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
 		color("red") translate([10,BaseGearboxThreadedRodsY1,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
-		color("red") translate([0,BaseGearboxThreadedRodsY1/3.5,15-1.5+h-1]) rotate([0,0,30])  cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([-15,BaseGearboxThreadedRodsY1/4,15-1.5+h-1]) rotate([0,0,30])  cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([15,BaseGearboxThreadedRodsY1/4,15-1.5+h-1]) rotate([0,0,30])  cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([-18,BaseGearboxThreadedRodsY1+5,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([18,BaseGearboxThreadedRodsY1+5,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([BaseGearboxThreadedRodsX1+7,BaseGearboxThreadedRodsY1+3,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		color("red") translate([-(BaseGearboxThreadedRodsX1+7),BaseGearboxThreadedRodsY1+3,15-1.5+h-1]) rotate([0,0,30]) cylinder(d=3,h=Bearing608Height()+12,$fn=32);
+		//
+		translate([0,0,15-1.5+h+1-0.1]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.1);
+		translate([0,0,15-1.5+h-1]) cylinder(d=8+0.5,h=Bearing608Height()+15);
 }
 
 // upper pulley+tube support for bearing
@@ -937,7 +946,7 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	echo ("hh");
 	echo(h);
 	plateH = 4;
-	plateHCover = (Bearing608Height()+3)-plateH;
+	plateHCover = (Bearing608Height()+2)-plateH;
 	//color("silver") 
 	{
 		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
@@ -960,13 +969,10 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 			}
 			hull()
 			{
-				translate([0,0,15-1.5+h]) cylinder(d=Bearing608Diameter()+9,h=plateH);
+				translate([0,0,15-1.5+h]) cylinder(d=Bearing608Diameter()+6,h=plateH);
 				translate([0,-20,15-1.5+h]) cylinder(d=Bearing608Diameter()+25,h=plateH);
 			}
 		}
-		//
-		translate([0,0,15-1.5+h+2-0.1]) cylinder(d=Bearing608Diameter()+b608Clearance,h=plateH);
-		translate([0,0,15-1.5+h-1]) cylinder(d=8+0.5,h=Bearing608Height()+15);
 		//
 		p5_plate_holes(h);
 	}
@@ -984,13 +990,10 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 			}
 			hull()
 			{
-				translate([0,0,15-1.5+h+plateH]) cylinder(d=Bearing608Diameter()+9,h=plateHCover);
+				translate([0,0,15-1.5+h+plateH]) cylinder(d=Bearing608Diameter()+6,h=plateHCover);
 				translate([0,-20,15-1.5+h+plateH]) cylinder(d=Bearing608Diameter()+25,h=plateHCover);
 			}
 		}
-		//
-		translate([0,0,15-1.5+h+2]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.1);
-		translate([0,0,15-1.5+h-1]) cylinder(d=8+0.5,h=Bearing608Height()+15);
 		//
 		p5_plate_holes(h);
 	}
@@ -3189,7 +3192,8 @@ if( drawArray==[] || search(20,drawArray)!=[] )
 if( drawArray==[] || drawRamps )
 {
 	//http://www.thingiverse.com/thing:34621
-	translate ([-10+25,-27+5,135+25]) rotate([0,-90,180]) 
+	calculate me echo (Nema17Len+xStepperZ+15-1.5+h);
+	translate ([-10+26,-27+5,135+25]) rotate([0,-90,180]) 
 	{	
 		import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
 		translate([-67.9,4,5]) color( "blue") cube([10,15,22.5]);
