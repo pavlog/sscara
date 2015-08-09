@@ -16,6 +16,8 @@ module LCD20x4SmartController(holesOnly=0)
 		translate([-13,38.5,3]) color("blue") cube([9,98,40]);
 		translate([0,61,24]) color("white") cube([25,45,10]);
 		translate([2,135,24]) color("white") cube([8,8,8]);
+		// tripot
+		translate([0,15,25]) color("green") rotate([0,-90,0]) cylinder(d=3,h=23,$fn=12);
 	}
 	else
 	{
@@ -26,3 +28,4 @@ module LCD20x4SmartController(holesOnly=0)
 		color("red") translate([-30,3,56-3]) rotate([0,90,0]) cylinder(d=3,h=150,$fn=12);
 	}
 }
+LCD20x4SmartController();
