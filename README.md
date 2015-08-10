@@ -48,6 +48,8 @@ Firmware:
 ** added M451 - xyz max limits
 ** added M452 - xyz home pos
 ** added M370 X#Angle Y#Angle
+** G2/G3 commands support
+** Fixed math for pure SCARA (2 arms)
 
 Materials:
 * ~1.5 meters(2m max) - GT2 timing belt 6mm(width)
