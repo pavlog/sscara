@@ -32,7 +32,7 @@ BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 drawHotEnd = 0;//1;
-drawArray = [4,5,6,7,9];//[1,2,3,4,5];//[1,7,8];
+drawArray = [4,5,6,7,9,10,23];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 3 - mount for 2nd pulley and outer axis
@@ -42,6 +42,7 @@ drawArray = [4,5,6,7,9];//[1,2,3,4,5];//[1,7,8];
 // 7 - steppers bearing top mount
 // 8 - rods fixators + z max end stopper
 // 9 - base for z stepper
+// 10 - ramps1.4 bottom mounts
 
 // 13 is empty
 
@@ -57,8 +58,8 @@ drawZBelts = 0;
 drawSwitchesAll = 1;
 drawBaseAllum = 1;
 drawLCD = 1;
-drawMetall = 0;
-drawRamps = 0;
+drawMetall = 1;
+drawRamps = 1;
 drawRods = 1;
 
 
@@ -105,9 +106,9 @@ extruderBearingDia = Bearing623Diameter();
 extruderBearingH = Bearing623Height();
 extruderClearanceH = 0.2;
 
-armsZ = 250;
+armsZ = 265;
 armsZExtra = 15;//15;
-armsExtruderExtra = 0;
+armsExtruderExtra = 15;
 extrudeMountZOffset = 0;
 
 ArmNearestD = 8+9;
@@ -131,6 +132,10 @@ centerTubeFixerR = 10;
 
 UpperBearingMountH = 2+3+5;
 UpperBearingMountOffset = 2;
+
+
+translate([0,-65,125]) rotate([90,0,0]) cylinder(d=220,h=60);
+
 
 // static const part
 EX = EndPointMountOffset*cos(EndPointMountAngle)+Linkage_2;
@@ -679,16 +684,16 @@ BaseGearboxThreadedRodsX3 = -55.5;
 BaseGearboxThreadedRodsY3 = -14;
 BaseGearboxThreadedRodsX4 = 55.5;
 BaseGearboxThreadedRodsY4 = -14;
-
+BaseGearboxThreadedRodsH = 280;
 module BaseGearboxThreadedRods()
 {
 	color("silver") 
 	{
-		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,-2]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
-		translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,-2])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,-2]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,-2])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
 		//
-		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,-2]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
-		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,-2])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=254,$fn=16);
+		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,-2]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,-2])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
 	}
 }
 
@@ -1009,14 +1014,16 @@ module p5_plate_holes(h)
 		color("red") translate([0,BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([-10,BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([10,BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
-		color("red") translate([-18,BaseGearboxThreadedRodsY1/4,part6Z-20]) rotate([0,0,30])  cylinder(d=3,h=80,$fn=32);
-		color("red") translate([18,BaseGearboxThreadedRodsY1/4,part6Z-20]) rotate([0,0,30])  cylinder(d=3,h=80,$fn=32);
 		color("red") translate([-28,BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([28,BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([BaseGearboxThreadedRodsX1+10,BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=part6Z,$fn=32);
 		color("red") translate([-(BaseGearboxThreadedRodsX1+10),BaseGearboxThreadedRodsY1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=part6Z,$fn=32);
 		color("red") translate([-18,0,part6Z-20]) rotate([0,0,30])  cylinder(d=3,h=80,$fn=32);
 		color("red") translate([18,0,part6Z-20]) rotate([0,0,30])  cylinder(d=3,h=80,$fn=32);
+		// ramps 
+		color("blue") translate([-18,BaseGearboxThreadedRodsY1/4,part6Z-20]) rotate([0,0,30])  cylinder(d=3,h=80,$fn=32);
+		color("blue") translate([18,BaseGearboxThreadedRodsY1/4,part6Z-20]) rotate([0,0,30])  cylinder(d=3,h=80,$fn=32);
+		color("blue") translate([BaseGearboxThreadedRodsX4-15,BaseGearboxThreadedRodsY3-1,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		// rods mount
 		color("red") translate([BaseGearboxThreadedRodsX1+15,BaseGearboxThreadedRodsY3+7,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([BaseGearboxThreadedRodsX1+26,BaseGearboxThreadedRodsY3+5,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
@@ -1025,12 +1032,13 @@ module p5_plate_holes(h)
 		color("red") translate([BaseGearboxThreadedRodsX4-15,BaseGearboxThreadedRodsY3+7,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([BaseGearboxThreadedRodsX4-26,BaseGearboxThreadedRodsY3+5,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
 		color("red") translate([BaseGearboxThreadedRodsX4-44,BaseGearboxThreadedRodsY3+7,part6Z-20]) rotate([0,0,30]) cylinder(d=3,h=80,$fn=32);
-		//
+		// bearing and axes
 		translate([0,0,part6Z+1-0.1]) cylinder(d=Bearing608Diameter()+b608Clearance,h=Bearing608Height()+0.1);
 		translate([0,0,part6Z-20]) cylinder(d=8+4,h=80);
+		// rods
 		translate([-rodOffsetX,0,part6Z-5]) cylinder(d=6,h=100,$fn=32);
 		translate([rodOffsetX,0,part6Z-5]) cylinder(d=6,h=100,$fn=32);
-		//
+		// horizontal
 		color("red") translate([40,-37,part6Z+4]) rotate([0,90,0])  cylinder(d=3,h=40,$fn=32);
 		mirror() color("red") translate([40,-37,part6Z+4]) rotate([0,90,0])  cylinder(d=3,h=40,$fn=32);
 		color("red") translate([36,-37,part6Z+4]) rotate([90,0,0])  cylinder(d=3,h=40,$fn=32);
@@ -1101,9 +1109,8 @@ if( drawArray==[] || drawMetall )
 	translate ([0,0,part6Z+1]) Bearing608(); 
 }
 
-if( !printLayout )
+if( !printLayout && drawMetall )
 {
-
 	translate([-rodOffsetX,0,part6Z+10]) rotate([90,0,0]) SCS6UU();
 	translate([rodOffsetX,0,part6Z+10]) rotate([90,0,0]) SCS6UU();
 
@@ -1111,12 +1118,15 @@ if( !printLayout )
 	translate([rodOffsetX,0,part6Z+36]) rotate([90,0,0]) SCS6UU();
 }
 
+plateH = 4;
+plateHCover = (Bearing608Height()+2)-plateH;
+
+part7EndZ = part6Z+plateH+plateHCover;
+
 // 608 bearing support up
 if( drawArray==[] || search(7,drawArray)!=[] )
 {
 	h = part5SpacerH;
-	plateH = 4;
-	plateHCover = (Bearing608Height()+2)-plateH;
 
 	plateOffset = printLayout ? 0 : 0;
 	plateRot = printLayout ? 180 : 0;
@@ -1376,8 +1386,28 @@ if( drawArray==[] || search(9,drawArray)!=[] )
 }
 
 
-
-
+// ramps bottom mounts
+if( drawArray==[] || search(10,drawArray)!=[] )
+{
+	 rotate([0,0,0])
+	{
+		difference()
+		{
+			translate([0,0,part7EndZ]) union()
+			{
+				translate([-15.5,-11,0]) cube([8,8,4]);
+				translate([-23,-19,0]) cube([68,8,4]);
+				translate([-10,-15,0]) rotate([0,0,-10]) cube([23,8,4]);
+				translate([-20,-16,0]) rotate([0,0,30]) cube([10,5,4]);
+				color("blue") translate([-16,-12.5,0]) cube([6,3.5,40]);
+				color("blue") translate([32.5,-12.5,0]) cube([6,3.5,38]);
+			}
+			p5_plate_holes(50);
+			color("red") translate([-13,0,part7EndZ+36]) rotate([90,0,0]) cylinder(d=3,h=200,$fn=32);
+			color("red") translate([35.5,0,part7EndZ+34.5]) rotate([90,0,0]) cylinder(d=3,h=200,$fn=32);
+		}
+	}
+}
 
 
 
@@ -1769,7 +1799,7 @@ if(  drawArray==[] || drawBaseAllum )
 // extruder
 if( drawArray==[] || search(23,drawArray)!=[] )
 {
-	aY = printLayout ? 0 : 65+90;
+	aY = printLayout ? 0 : 70+90;
 	aYY = printLayout ? 180 : -90;
 	armX = printLayout ? 12 :0;
 	armY = printLayout ? -38 : 0;
@@ -1777,7 +1807,7 @@ if( drawArray==[] || search(23,drawArray)!=[] )
 	armRZ = printLayout ? 205.5 : 0;
 	armRX = printLayout ? 90 : 0;
 	armTX = printLayout ? 10 : 0;
-	translate ([0,-37,222+armsExtruderExtra]) rotate([0,aYY,180]) rotate([0,0,aY]) mirror()//rotate([90,0,0]) 
+	translate ([0,-37,237+armsExtruderExtra]) rotate([0,aYY,180]) rotate([0,0,aY]) mirror()//rotate([90,0,0]) 
 	{
 		armH = extruderBearingH+3+3;
 		partsOffset = -13;
@@ -3264,11 +3294,11 @@ if( !printLayout && (drawArray==[] || drawRamps) )
 	//echo ("rr");
 	//echo (Nema17Len+xStepperZ+15-1.5+part5SpacerH);
 	//
-	translate ([-10+26,-27+5,135+25]) rotate([0,-90,180]) 
+	#translate ([-10+26,-27+3,135+25]) rotate([0,-90,180]) 
 	{	
 		import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
 		translate([-67.9,4,5]) color( "blue") cube([10,15,22.5]);
-		color([0.5,0.5,1,0.2]) translate([-72,-12,-32]) cube([125,50,62]);
+		//color([0.5,0.5,1,0.2]) translate([-72,-12,-32]) cube([125,50,62]);
 	}
 }
 
