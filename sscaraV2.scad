@@ -45,6 +45,9 @@ drawArray = [4,5,6,7,9,10,11,12];//[1,2,3,4,5];//[1,7,8];
 // 10 - ramps1.4 bottom mounts
 // 11 - extruder
 
+
+//ramps - move right a little bit
+
 //
 // 13 is empty
 
@@ -125,6 +128,8 @@ BedZOffset = BearingLM6UUHeight()+15;
 LCDX = -62;
 LCDY = -55;
 LCDZ = 15;
+
+RampsX = -10+26+4;
 
 rodOffsetX = 30;
 rodOffsetY = 0;
@@ -1401,12 +1406,12 @@ if( drawArray==[] || search(10,drawArray)!=[] )
 				translate([-23,-19,0]) cube([68,8,4]);
 				translate([-10,-15,0]) rotate([0,0,-10]) cube([23,8,4]);
 				translate([-20,-16,0]) rotate([0,0,30]) cube([10,5,4]);
-				color("blue") translate([-16,-12.5,0]) cube([6,3,40]);
-				color("blue") translate([32.5,-12.5,0]) cube([6,3,38]);
+				color("blue") translate([RampsX-32,-12.5,0]) cube([6,3,40]);
+				color("blue") translate([RampsX+16.5,-12.5,0]) cube([6,3,38]);
 			}
 			p5_plate_holes(50);
-			color("red") translate([-13,0,part7EndZ+36]) rotate([90,0,0]) cylinder(d=3,h=200,$fn=32);
-			color("red") translate([35.5,0,part7EndZ+34.5]) rotate([90,0,0]) cylinder(d=3,h=200,$fn=32);
+			color("red") translate([RampsX-29,0,part7EndZ+36]) rotate([90,0,0]) cylinder(d=3,h=200,$fn=32);
+			color("red") translate([RampsX+19.5,0,part7EndZ+34.5]) rotate([90,0,0]) cylinder(d=3,h=200,$fn=32);
 		}
 	}
 }
@@ -1647,15 +1652,15 @@ if( drawArray==[] || search(12,drawArray)!=[] )
 		union()
 		{
 			p5_plate(part6_to_12ZOffset-56,3);
-			color("blue") translate([32.5,-12.5,part6_to_12ZOffset+8]) cube([6,3,15]);
+			color("blue") translate([RampsX+16.5,-12.5,part6_to_12ZOffset+8]) cube([6,3,15]);
 		}
 		//
 		p5_plate_holes(h);
 		translate([-65,-85,part6_to_12ZOffset+15+3.5]) cube([130,50,5]);
 		translate([-65,-9.5,part6_to_12ZOffset+15+3.5]) cube([130,50,5]);
-		color("red") translate([35.5,0,part6_to_12ZOffset+12.1]) rotate([90,0,0]) cylinder(d=3,h=50,$fn=32);
+		color("red") translate([RampsX+19.5,0,part6_to_12ZOffset+12.1]) rotate([90,0,0]) cylinder(d=3,h=50,$fn=32);
 	}
-	add holes to extruder munt
+	//add holes to extruder munt
 
 }
 
@@ -3389,7 +3394,7 @@ if( !printLayout && (drawArray==[] || drawRamps) )
 	//echo ("rr");
 	//echo (Nema17Len+xStepperZ+15-1.5+part5SpacerH);
 	//
-	translate ([-10+26,-27+3,135+25]) rotate([0,-90,180]) 
+	translate ([RampsX,-27+3,135+25]) rotate([0,-90,180]) 
 	{	
 		import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
 		translate([-67.9,4,5]) color( "blue") cube([10,15,22.5]);
