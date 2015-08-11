@@ -32,7 +32,7 @@ BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 drawHotEnd = 0;//1;
-drawArray = [4,5,6,7,9,10,11,12];//[1,2,3,4,5];//[1,7,8];
+drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 3 - mount for 2nd pulley and outer axis
@@ -44,8 +44,10 @@ drawArray = [4,5,6,7,9,10,11,12];//[1,2,3,4,5];//[1,7,8];
 // 9 - base for z stepper
 // 10 - ramps1.4 bottom mounts
 // 11 - extruder
+// 12 - extruder bottom support
+// 13 - extruder top support and top 608 support
 
-
+to do part5 - add extra wings for panels mount
 //ramps - move right a little bit
 
 //
@@ -1150,12 +1152,17 @@ if( drawArray==[] || search(7,drawArray)!=[] )
 	}
 }
 
-// rods
-if( !printLayout && (drawArray==[] || drawRods) )
-{	
+module ZRods()
+{
 	translate([rodOffsetX,rodOffsetY/*+20*/,part6Z]) color ("silver") cylinder(r=3,h=200);
 
 	translate([-rodOffsetX,rodOffsetY,part6Z]) color ("silver") cylinder(r=3,h=200);
+}
+
+// rods
+if( !printLayout && (drawArray==[] || drawRods) )
+{	
+	ZRods();
 }
 
 module rodsFixator()
@@ -1659,6 +1666,8 @@ if( drawArray==[] || search(12,drawArray)!=[] )
 		translate([-65,-85,part6_to_12ZOffset+15+3.5]) cube([130,50,5]);
 		translate([-65,-9.5,part6_to_12ZOffset+15+3.5]) cube([130,50,5]);
 		color("red") translate([RampsX+19.5,0,part6_to_12ZOffset+12.1]) rotate([90,0,0]) cylinder(d=3,h=50,$fn=32);
+		// extruder mount
+		color( "magenta") translate([-10,-28,part6_to_12ZOffset]) rotate([0,0,0])  cylinder(d=3,h=30,$fn=16);
 	}
 	//add holes to extruder munt
 
@@ -1675,7 +1684,18 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 	{
 		p5_plate(part6_to_12ZOffset,plateH);
 		//
-		p5_plate_holes(h);
+		//p5_plate_holes(h);
+		BaseGearboxThreadedRods();
+		//
+		ZRods();
+		// extruder mount
+		color( "magenta") translate([-13,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([7,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		// fillament hole
+		color( "magenta") translate([-8,-31,part6_to_12ZOffset+60]) cylinder(d=13,h=30,$fn=16);
+		// fillament hole
+		color( "magenta") translate([0,0,part6_to_12ZOffset+part6Z+1]) cylinder(d=Bearing608Diameter()+b608Clearance,h=30,$fn=16);
+		color( "magenta") translate([0,0,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+5,h=30,$fn=16);
 	}
 }
 
@@ -2942,9 +2962,8 @@ if( drawArray==[] || search(14,drawArray)!=[] )
 	}
 }
 
-
 // center tube
-if( drawArray==[] )
+if( !printLayout && (drawArray==[] || drawMetall) )
 {
 	translate ([0,0,Bearing625Height()+pulleysH+pulleysH+9+isExpolode*140]) 
 		color("silver")
