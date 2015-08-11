@@ -32,7 +32,9 @@ BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 drawHotEnd = 0;//1;
-drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
+//drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
+//drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
+drawArray = [1,2,4,5,9];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 3 - mount for 2nd pulley and outer axis
@@ -47,24 +49,21 @@ drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 // 12 - extruder bottom support
 // 13 - extruder top support and top 608 support
 
-to do part5 - add extra wings for panels mount
-//ramps - move right a little bit
+//top support with belt mount
 
-//
-// 13 is empty
 
-// seems like 3rd rod is required 
 
-// more printer friedly layout (note: not all parts are done)
+// more printer friedly layout (note: implemented not for all parts)
+
 printLayout = 0;
 
 
 drawSteppers = 1;
-drawBelts = 0;
+drawBelts = 1;
 drawZBelts = 0;
 drawSwitchesAll = 1;
 drawBaseAllum = 1;
-drawLCD = 1;
+drawLCD = 0;
 drawMetall = 1;
 drawRamps = 1;
 drawRods = 1;
@@ -255,7 +254,7 @@ yyp = (-hx*sina+hy*cosa)*LH+yd;
 cosz = cos(-EndPointMountAngle);
 sinz = sin(-EndPointMountAngle);
 
-echo (cosz);
+//echo (cosz);
 
 LH2 = EndPointMountOffset/L;
 hhx = xxp-xd;
@@ -265,17 +264,17 @@ yp = (-hhx*sinz+hhy*cosz)*LH2+yyp;
 //xp = xxp;
 //yp = yyp;
 
-echo (hhx);
-echo (hhy);
+//echo (hhx);
+//echo (hhy);
 
-echo("hh");
-echo (xp);
-echo(yp);
-echo("LH2");
-echo (LH2);
-echo("xd,yd");
-echo (xd);
-echo(yd);
+//echo("hh");
+//echo (xp);
+//echo(yp);
+//echo("LH2");
+//echo (LH2);
+//echo("xd,yd");
+//echo (xd);
+//echo(yd);
 //color("green") translate([xp,yp,200]) cylinder(r=2,h=100);
 //color("blue") translate([xxp,yyp,200]) cylinder(r=3,h=100);
 //color("magenta") translate([xb,yb,200]) cylinder(r=1,h=100);
@@ -433,9 +432,10 @@ if( drawArray==[] || drawMetall )
 //intersection()
 //{
 pulley1Z = firstBearingZ+Bearing625Height();
-if( drawArray==[] || search(1,drawArray)!=[] )
+
+module part1()
 {
-	offsrz = printLayout ? -45 : 100;
+	offsrz = printLayout ? -45 : 90;
 	offsrx = printLayout ? 0 : 0;
 	offsry = printLayout ? 180 : 0;
 	offsTrZ = printLayout ? 10 : 0;
@@ -496,6 +496,11 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 	}
 }
 
+if( drawArray==[] || search(1,drawArray)!=[] )
+{
+	part1();
+}
+
 pulley2Z = pulley1Z+pulleysH+pulleysSpace+isExpolode*15;
 
 if( drawArray==[] || drawMetall  ) 
@@ -503,9 +508,9 @@ if( drawArray==[] || drawMetall  )
 	translate ([0,0,pulley2Z]) color( "Silver") hex_nut(5);
 }
 // pulley2
-if( drawArray==[] || search(2,drawArray)!=[] )
+module part2()
 {
-	offsrz = printLayout ? -45 : 100;
+	offsrz = printLayout ? -45 : 55;
 	offsrx = printLayout ? 0 : 0;
 	offsry = printLayout ? 0 : 0;
 	offsTrZ = printLayout ? 0 : 0;
@@ -596,6 +601,10 @@ if( drawArray==[] || search(2,drawArray)!=[] )
 			}
 		}		
 	}
+}
+if( drawArray==[] || search(2,drawArray)!=[] )
+{
+	part2();
 }
 
 if( drawArray==[] ) 
@@ -690,9 +699,9 @@ BaseGearboxThreadedRodsY1 = -59;
 BaseGearboxThreadedRodsX2 = 55.5;
 BaseGearboxThreadedRodsY2 = -59;
 BaseGearboxThreadedRodsX3 = -55.5;
-BaseGearboxThreadedRodsY3 = -14;
+BaseGearboxThreadedRodsY3 = 0;
 BaseGearboxThreadedRodsX4 = 55.5;
-BaseGearboxThreadedRodsY4 = -14;
+BaseGearboxThreadedRodsY4 = 0;
 BaseGearboxThreadedRodsH = 280;
 module BaseGearboxThreadedRods()
 {
@@ -714,10 +723,26 @@ if( drawArray==[] || drawMetall )
 
 m3PlatesRad = rolson_hex_nut_dia(3)/2+0.9;
 
-// bottom base for big pulleys+end stoppers mount
-if( drawArray==[] || search(4,drawArray)!=[] )
+module switchXMount()
 {
-  difference()
+			translate([-alumXOffset+4.5-3,switchX_oy,15-1.5]) 
+        color("blue") rotate([0,0,0]) scale([1,1,1])
+          cube([3.5+3,20,17]);
+}
+
+module part4LinersSpheres(scale=1)
+{
+      translate([-alumXOffset+4.5-1,BaseGearboxThreadedRodsY3-6,15-1.5]) 
+        color("green") rotate([0,0,0]) scale([1,1,1])
+          sphere(r=1*scale,$fn=16);
+      translate([-alumXOffset+4.5-1,BaseGearboxThreadedRodsY3+6,15-1.5]) 
+        color("green") rotate([0,0,0]) scale([1,1,1])
+          sphere(r=1*scale,$fn=16);
+}
+
+module part4()
+{
+	  difference()
   {
     union()
     {
@@ -734,10 +759,12 @@ if( drawArray==[] || search(4,drawArray)!=[] )
       translate([-alumXOffset+1.5,-56-7,3]) 
         color("red") rotate([0,0,0]) scale([1,1,1])
           cube([alumXOffset*2-1.5*2,5,10.5]);
+			// center small
       translate([-alumXOffset+1.5,33,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
-          cube([alumXOffset*2-1.5*2,4,10.5]);
-      translate([-alumXOffset+1.5,33,3]) 
+          cube([alumXOffset*2-1.5*2,4,4]);
+      //
+			translate([-alumXOffset+1.5,33,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
           cube([21-1.5*2,4,10.5]);
       mirror() translate([-alumXOffset+1.5,33,3]) 
@@ -749,10 +776,11 @@ if( drawArray==[] || search(4,drawArray)!=[] )
       mirror() translate([-alumXOffset+4.5,-59,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
           cylinder(r=m3PlatesRad,h=10.5);
-      translate([-alumXOffset+4.5,-14,3]) 
+      translate([-alumXOffset+4.5,BaseGearboxThreadedRodsY3,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
           cylinder(r=m3PlatesRad,h=10.5);
-      mirror() translate([-alumXOffset+4.5,-14,3]) 
+			part4LinersSpheres();
+      mirror() translate([-alumXOffset+4.5,BaseGearboxThreadedRodsY3,3]) 
         color("green") rotate([0,0,0]) scale([1,1,1])
           cylinder(r=m3PlatesRad,h=10.5);
 			translate([-alumXOffset+4.5,31,3]) 
@@ -774,16 +802,15 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 			translate([yStepperX,yStepperY,firstBearingZ-1]) rotate([0,0,xStepperRZ])
 					cylinder(d=Bearing625Diameter()+6,h=Bearing625Height());
 			// switch x
-      translate([-alumXOffset+1.5,switchX_oy,0]) 
-        color("blue") rotate([0,0,0]) scale([1,1,1])
-          cube([3.5,22,26]);
+			//switchXMount();
 			// switch y
-			rotate([0,0,switchY_rz1]) translate([switchY_ox,-20,0])        color("blue") rotate([0,0,0]) scale([1,1,1])
-          cube([4,22,34]);
+			rotate([0,0,switchY_rz1]) translate([switchY_ox-3,-17,0])        color("blue") 
+				rotate([0,0,-9]) scale([1,1,1])
+          cube([4,19,42]);
 			// lcd mount
-      translate([-alumXOffset+1.5,-55,0]) 
-        color("blue") rotate([0,0,0]) scale([1,1,1])
-          cube([3.5,7,21]);
+      //translate([-alumXOffset+1.5,-55,0]) 
+      //  color("blue") rotate([0,0,0]) scale([1,1,1])
+      //    cube([3.5,7,21]);
 			//
 			holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 			translate([xStepperX,xStepperY,0]) color("grey")
@@ -814,8 +841,8 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 			color("green") hull()
 			{
 				//translate([-alumXOffset+3,33,0]) cylinder(r=2,h=5);
-				translate([-(alumXOffset-3),-14,0]) cylinder(r=2,h=5);
-				translate([alumXOffset-3,-14,0]) cylinder(r=2,h=5);
+				translate([-(alumXOffset-3),xStepperY+15.5,0]) cylinder(r=2,h=5);
+				translate([alumXOffset-3,xStepperY+15.5,0]) cylinder(r=2,h=5);
 			}
 			color("green") hull()
 			{
@@ -850,18 +877,18 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 		translate([yStepperX,yStepperY,firstBearingZ]) rotate([0,0,yStepperRZ])
 					cylinder(r=Bearing625Diameter()/2+b625RClearance/2,h=Bearing625Height());
 		// switch x hole
-		SwitchX(1);
+		//SwitchX(1);
 		// switch y hole
 		SwitchY(1);
 		//
 		//translate([-alumXOffset-5,-6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
 		//translate([-alumXOffset-5,6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
 		// lcd mounts
-		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);	
+		//translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);	
 		// a lot of holes shoud be here
 		translate([35,3,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
 		translate([-35,3,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
-		translate([0,-33,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
+		translate([0,-36,-5]) scale([1,1,1]) cylinder(r=13,h=30,$fn=6);
 		translate([0,22,-5]) scale([1,1,1]) cylinder(r=10,h=30,$fn=6);
 		// base alum
 		BaseAllum();
@@ -890,11 +917,11 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 		//
 		translate([-alumXOffset+12,50,9]) 
 			color("green") rotate([90,0,0]) scale([1,1,1])
-				cylinder(d=3,h=50,$fn=32);
+				cylinder(d=3,h=20,$fn=32);
 		// 
-		translate([-alumXOffset+12,33,9]) 
-			color("green") rotate([90,0,0]) scale([1,1,1])
-				cylinder(d=rolson_hex_nut_dia(3)+1.5,h=10,$fn=32);
+		//translate([-alumXOffset+12,33,9]) 
+		//	color("green") rotate([90,0,0]) scale([1,1,1])
+		//		cylinder(d=rolson_hex_nut_dia(3)+1.5,h=10,$fn=32);
 		mirror() translate([-alumXOffset+12,50,9]) 
 			color("green") rotate([90,0,0]) scale([1,1,1])
 				cylinder(d=3,h=50,$fn=32);
@@ -909,30 +936,32 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 		mirror() translate([-alumXOffset+27,-50,8]) 
 			color("green") rotate([90,0,0]) scale([1,1,1])
 				cylinder(d=3,h=50,$fn=32);
-
-		translate([-alumXOffset-10,-36,8]) 
-			color("green") rotate([0,90,0]) scale([1,1,1])
-				cylinder(d=3,h=50,$fn=32);
-
-		mirror() translate([-alumXOffset-10,-36,8]) 
-			color("green") rotate([0,90,0]) scale([1,1,1])
-				cylinder(d=3,h=50,$fn=32);
-
-		translate([-alumXOffset-10,23,8]) 
-			color("green") rotate([0,90,0]) scale([1,1,1])
-				cylinder(d=3,h=50,$fn=32);
-
-		mirror() translate([-alumXOffset-10,23,8]) 
+		// left right
+		translate([-alumXOffset-10,-40,8]) 
 			color("green") rotate([0,90,0]) scale([1,1,1])
 				cylinder(d=3,h=20,$fn=32);
 
-		translate([-alumXOffset-10,3,8]) 
+		mirror() translate([-alumXOffset-10,-40,8]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=20,$fn=32);
+
+		translate([-alumXOffset-10,18,8]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=16,$fn=32);
+
+		mirror() translate([-alumXOffset-10,18,8]) 
+			color("green") rotate([0,90,0]) scale([1,1,1])
+				cylinder(d=3,h=20,$fn=32);
+
+		/*
+		translate([-alumXOffset-10,-10,8]) 
 			color("green") rotate([0,90,0]) scale([1,1,1])
 				cylinder(d=3,h=50,$fn=32);
 
-		mirror() translate([-alumXOffset-10,3,8]) 
+		mirror() translate([-alumXOffset-10,-10,8]) 
 			color("green") rotate([0,90,0]) scale([1,1,1])
 				cylinder(d=3,h=50,$fn=32);
+		*/
 		
 		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 		translate([xStepperX,xStepperY,6]) color("grey")
@@ -949,16 +978,87 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 		}
 	}
 }
+// bottom base for big pulleys+end stoppers mount
+if( drawArray==[] || search(4,drawArray)!=[] )
+{
+	intersection()
+	{
+		part4();
+		      translate([-alumXOffset+1.5,-56-7,0]) 
+        color("magenta") rotate([0,0,0]) scale([1,1,1])
+          cube([alumXOffset*2-1.5*2,100,150]);
+	}
+	part1();
+	part2();
+	!part9();
+}
+
+module spacerHoles(r=1.55,r1=m3PlatesRad,r2=m3PlatesRad,h=10,bWings=0)
+{
+	// mount holes
+	translate([0,0,-1]) color("red") cylinder(d=3.1,h=h+2,$fn=16);
+	// m5 nuts
+	translate([0,0,-0.1]) color("red") cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
+	// mount holes
+	translate([-5,7,4.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=h+2,$fn=16);
+	translate([-5,-7,4.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=h+2,$fn=16);
+	rotate([0,0,90]) translate([-5,-7,4.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=h+2,$fn=16);
+	//top
+	translate([-5,7,h-4.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=h+2,$fn=16);
+	translate([-5,-7,h-4.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=h+2,$fn=16);
+	rotate([0,0,90]) translate([-5,-7,h-4.5]) color("red") rotate([0,90,0]) cylinder(d=3.1,h=h+2,$fn=16);
+	//
+	color("blue") hull()
+	{
+				translate([-3-2.1,-10,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				translate([-3-2.1,10,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+	}
+}
+
  
-module spacer(r=1.55,r1=m3PlatesRad,r2=m3PlatesRad,h=10)
+module spacer(r=1.55,r1=m3PlatesRad,r2=m3PlatesRad,h=10,bWings=0)
 {
 	difference()
 	{
-		color("blue") rotate([0,0,0]) scale([1,1,1]) cylinder(r2=r1,r1=r2,h=h,$fn=16);
-		// mount holes
-		translate([0,0,-1]) color("red") cylinder(d=3.1,h=h+2,$fn=16);
-		// m5 nuts
-		translate([0,0,-0.1]) color("red") cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
+		union()
+		{
+			color("blue") rotate([0,0,0]) scale([1,1,1]) cylinder(r2=r1,r1=r2,h=h,$fn=16);
+			if( bWings==1 )
+			{
+				color("blue") hull()
+				{
+					translate([1,-2.5-0.5,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+					translate([9.5,-2.5-0.5,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				}
+				color("blue") hull()
+				{
+					translate([-3,1,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+					translate([-3,9.5,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				}
+			}
+			if( bWings==2 )
+			{
+				color("blue") hull()
+				{
+					translate([-3,-1,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+					translate([-3,-9.5,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				}
+				//color("blue") hull()
+				//{
+				//	translate([-3,1,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				//	translate([-3,9.5,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				//}
+			}
+			if( bWings==3 )
+			{
+				color("blue") hull()
+				{
+					translate([-3,1,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+					translate([-3,9.5,0]) color("red") rotate([0,0,45]) cylinder(d=3,h=h,$fn=4);
+				}
+			}
+		}
+		spacerHoles(r=r,r1=r1,r2=r2,h=h,bWings=bWings);
 	}
 }
 
@@ -1061,41 +1161,43 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	//echo ("hh");
 	//echo(h);
 	//
-	//printLayout = 0;
+	//printLayout = 1;
 	//
-	spacersDistMultX = printLayout ? 0.12 : 1;
-	spacersDistMultY = printLayout ? 0.25 : 1;
-	spacersRot = printLayout ? 180 : 0;
+	spacersDistMultX = printLayout ? 0.21 : 1;
+	spacersDistMultY = printLayout ? 0.45 : 1;
+	spacersRot = printLayout ? 0 : 0;
 	spacersRot2 = printLayout ? 90 : 0;
 	offX2 = printLayout ? 0 : 0;
 	offY2 = printLayout ? 10 : 0;
 
+	off2 = printLayout ? 44 : 0;
 	
 	mountH = 15;
 	mountOffsetZ = printLayout ? mountH : 0;
 	mountOffsetZ2 = printLayout ? (h+h+mountH-3) : 0;
 	//
+	//
 	difference()
 	{
-		union()
-			rotate([0,0,spacersRot2]) 
-			translate([BaseGearboxThreadedRodsX1*spacersDistMultX+offX2,BaseGearboxThreadedRodsY1*spacersDistMultY+offY2,15-1.5-mountOffsetZ2])
-		{
-			color("green") difference()
-			{
-				 spacer(m3PlatesRad,m3PlatesRad,h=h);
-					cylinder(r=10,h=h-mountH);
-			}
-			translate([-4,1,h-mountH]) cube([3,9.5,12]);
-		}
+		color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1*spacersDistMultX,BaseGearboxThreadedRodsY1*spacersDistMultY,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
 		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);
 	}
-	//
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1*spacersDistMultX,BaseGearboxThreadedRodsY1*spacersDistMultY,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h-mountH);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
-	// ?? 2 more required
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3*spacersDistMultX,BaseGearboxThreadedRodsY3*spacersDistMultY,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,15-1.5]) rotate([0,0,90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
+	// 
+	color("blue") translate([off2,0,0]) rotate([spacersRot,0,0])  difference()
+	{
+		union()
+		{
+			translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=2);
+			// switch x
+			switchXMount();
+		}
+		SwitchX(1);
+		SwitchX(0);
+		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5]) spacerHoles(m3PlatesRad,m3PlatesRad,h=h,bWings=2);
+		part4LinersSpheres(1.1);
+	}
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,15-1.5]) rotate([0,0,180]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=3);
 }
 
 // 608 bearing support bottom
@@ -1244,20 +1346,32 @@ module StepperCoverHoles()
 }
 
 // base for z stepper
-if( drawArray==[] || search(9,drawArray)!=[] )
+module part9()
 {
+	redesign me to L bracket and base
+	printLayout = 1;
 	extraD = 6;
 	nemaH = lookup(NemaRoundExtrusionDiameter, Nema17);
 	//color ("blue") 
+	intersection()
 	{
-		//translate([-35,0,0]) cube([70,47,5]);
 		difference()
 		{
 			union()
 			{
 				color ("blue") translate([-alumXOffset+1.5,37,0]) cube([alumXOffset*2-1.5*2,60+extraD,4]);
-				color ("magenta") translate([-32,37,0]) cube([10.5,5,75]);
-				mirror() color ("magenta") translate([-32,37,0]) cube([10.5,5,75]);
+				/*
+				hull()
+				{
+					color ("magenta") translate([-32,37,0]) cube([10.5,15,75]);
+					color ("magenta") translate([-50,37,0]) cube([10.5,15,20]);
+				}
+				mirror() hull()
+				{
+					color ("magenta") translate([-32,37,0]) cube([10.5,15,75]);
+					color ("magenta") translate([-50,37,0]) cube([10.5,15,20]);
+				}
+				*/
 				color ("magenta") translate([-25,37,0]) cube([50,5,zStepperZ-nemaH+1]);
 
 				color ("green") translate([-25.3,37,0]) cube([50,35,zStepperZ-nemaH+1]);
@@ -1328,12 +1442,12 @@ if( drawArray==[] || search(9,drawArray)!=[] )
 					translate([0,99,0]) cylinder(r=2,h=5);
 				}
 				// lcd mount
-				translate([-alumXOffset+1.5,88,0]) 
-					color("blue") rotate([0,0,0]) scale([1,1,1])
-						cube([3.5,7,21]);
+				//translate([-alumXOffset+1.5,88,0]) 
+				//	color("blue") rotate([0,0,0]) scale([1,1,1])
+				//		cube([3.5,7,21]);
 
  			}
-			translate([0,55,-0.2]) color("red") scale([1.2,1,1])cylinder(r=13,h=100,$fn=6);
+			translate([0,62,-0.2]) color("red") scale([1.4,1,1])cylinder(r=9.5,h=100,$fn=6);
 			StepperCoverHoles();
 			// base alum
 			BaseAllum();
@@ -1383,20 +1497,28 @@ if( drawArray==[] || search(9,drawArray)!=[] )
 				color("green") rotate([0,0,0]) scale([1,1,1])
 					cylinder(d=18,h=50,$fn=6);
 			// lcd mounts
-			translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);	
+			//translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);	
+			//
+			translate([0,0,6]) cylinder(d=ArmPulleyDia+12+11,h=32-6,$fn=180);
+			//
 		}
-		//rotL = 
-		//printLayout = 1;
-		translate([0,printLayout ? 67 : 0,printLayout ? -31 : 0]) rotate([printLayout ? 90 : 0,0,0]) difference()
-		{
-			translate([-32,31,zStepperZ-nemaH]) cube([64,6,nemaH*2]);
-			translate([-nemaH,34,zStepperZ-nemaH]) cube([nemaH*2,6,nemaH*2]);
-			//translate([-nemaH,34,zStepperZ-nemaH]) cylinder(d=10,h=5);
-			//ZStepper();
-			ZStepper(1);
-			StepperCoverHoles();
-		}
+		color ("blue") translate([-alumXOffset+1.5,37,0]) cube([alumXOffset*2-1.5*2,60+extraD,150]);
 	}
+	//rotL = 
+	translate([0,printLayout ? 67 : 0,printLayout ? -31 : 0]) rotate([printLayout ? 90 : 0,0,0]) difference()
+	{
+		translate([-32,31,zStepperZ-nemaH]) cube([64,6,nemaH*2]);
+		translate([-nemaH,34,zStepperZ-nemaH]) cube([nemaH*2,6,nemaH*2]);
+		//translate([-nemaH,34,zStepperZ-nemaH]) cylinder(d=10,h=5);
+		//ZStepper();
+		ZStepper(1);
+		StepperCoverHoles();
+	}
+}
+
+if( drawArray==[] || search(9,drawArray)!=[] )
+{
+	part9();
 }
 
 
@@ -1677,12 +1799,18 @@ if( drawArray==[] || search(12,drawArray)!=[] )
 // top 608 bearing support bottom
 if( drawArray==[] || search(13,drawArray)!=[] )
 {
-	h = part5SpacerH;
-	plateH = 4;
-	plateHCover = (Bearing608Height()+2)-plateH;
+	plateH = Bearing608Height()+1;
 	difference()
 	{
-		p5_plate(part6_to_12ZOffset,plateH);
+		union()
+		{
+			p5_plate(part6_to_12ZOffset,plateH);
+			//hull()
+			{
+			//	translate([0,0,part6_to_12ZOffset]) cylinder(d=40,h=80,$fn=32);
+			//	translate([0,20,part6_to_12ZOffset]) cylinder(d=30,h=80,$fn=32);
+			}
+		}
 		//
 		//p5_plate_holes(h);
 		BaseGearboxThreadedRods();
@@ -2931,20 +3059,20 @@ if( drawArray==[] || drawZBelts==1 )
   color ("black") translate([-5.5,17,50]) cube([1.5,6,200]);
 }
 
-switchX_ox = -55;
-switchX_oy = -8;
+switchX_ox = -52;
+switchX_oy = -10;
 module SwitchX(bHolesOnly=0)
 {
 	// switch x
-	translate([switchX_ox,switchX_oy,15]) rotate([90,0,90]) EndSwitchBody20x11(bHolesOnly);
+	translate([switchX_ox,switchX_oy,20]) rotate([90,0,90]) EndSwitchBody20x11(bHolesOnly);
 }
 
-switchY_rz1 = 163;
-switchY_ox = ArmPulleyDia/2+15;
+switchY_rz1 = 155;
+switchY_ox = ArmPulleyDia/2+12.5;
 module SwitchY(bHolesOnly=0)
 {
 	// switch y
-	rotate([0,0,switchY_rz1]) translate([switchY_ox,0,23]) rotate([90,0,-90]) EndSwitchBody20x11(bHolesOnly);
+	rotate([0,0,switchY_rz1]) translate([switchY_ox,0,31]) rotate([90,0,-100]) EndSwitchBody20x11(bHolesOnly);
 }
 
 if( !printLayout && (drawArray==[] || drawSwitchesAll==1) )
