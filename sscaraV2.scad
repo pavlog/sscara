@@ -3010,6 +3010,17 @@ module CarretSide1(index)
 	}
 }
 
+module BeltTensionerHoles()
+{
+
+cylinder(d=3,h=20,$fn=32);
+translate([-4-1.5,-3.5,0]) cube([1.5,7,20]);
+translate([-4-1.5-4.5*1,-3.5,0]) cube([1.5,7,20]);
+translate([-4-1.5-4.5*2,-3.5,0]) cube([1.5,7,20]);
+translate([-4-1.5-4.5*3,-3.5,0]) cube([1.5,7,20]);
+translate([-4-1.5-4.5*4,0,0]) cylinder(d=3,h=20,$fn=32);
+}
+
 // 0 inner
 module Carret(index)
 {
