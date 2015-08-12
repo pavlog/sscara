@@ -34,7 +34,7 @@ outerRad = (80*2/3.14*0.5);
 drawHotEnd = 0;//1;
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [1,2,4,5,6,7,8,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
+drawArray = [1,2,4,5,6,7,8,9,10,11,12,13,14];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.2-layer, 0.4-nozzle, perimeter - 3 shells)
 // 3 - mount for 2nd pulley and outer axis
@@ -48,6 +48,7 @@ drawArray = [1,2,4,5,6,7,8,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 // 11 - extruder
 // 12 - extruder bottom support
 // 13 - extruder top support and top 608 support
+// 14 - carret
 
 //top support with belt mount
 
@@ -1242,13 +1243,18 @@ if( drawArray==[] || drawMetall )
 	translate ([0,0,part6Z+1]) Bearing608(); 
 }
 
+module SCS6UUAll(bHolesOnly=0)
+{
+	translate([-rodOffsetX,0,part6Z+10+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
+	translate([rodOffsetX,0,part6Z+10+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
+
+	translate([-rodOffsetX,0,part6Z+36+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
+	translate([rodOffsetX,0,part6Z+36+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
+}
+
 if( !printLayout && drawMetall )
 {
-	translate([-rodOffsetX,0,part6Z+10+z]) rotate([90,0,0]) SCS6UU();
-	translate([rodOffsetX,0,part6Z+10+z]) rotate([90,0,0]) SCS6UU();
-
-	translate([-rodOffsetX,0,part6Z+36+z]) rotate([90,0,0]) SCS6UU();
-	translate([rodOffsetX,0,part6Z+36+z]) rotate([90,0,0]) SCS6UU();
+	SCS6UUAll(0);
 }
 
 plateH = 4;
@@ -1910,6 +1916,12 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 		translate([0,0,part6_to_12ZOffset]) p5_plate_back_holes(plateH);
 		translate([0,0,part6_to_12ZOffset]) part5_plate_big_holes(plateH,1);
 	}
+}
+
+// z axis carret
+!if( drawArray==[] || search(14,drawArray)!=[] )
+{
+	SCS6UUAll(0);
 }
 
 
@@ -2833,13 +2845,6 @@ if( drawArray==[] )
 	}
 }
 
-// rods bearing
-if( drawArray==[] )
-{
-	translate([rodOffsetX,rodOffsetY,65+z]) BearingLM6UU();
-	translate([-rodOffsetX,rodOffsetY,65+z]) BearingLM6UU();
-}
-
 
 if( drawArray==[] || search(38,drawArray)!=[] ) 
 {
@@ -3187,15 +3192,6 @@ if( !printLayout && (drawArray==[] || drawSwitchesAll==1) )
 {
 	SwitchX();
 	SwitchY();
-}
-
-if( drawArray==[] || search(14,drawArray)!=[] )
-{
-	difference()
-	{
-		translate([-48,-23,Bearing625Height()+pulleysH+pulleysH-7]) cube([20,10,6]);
-		translate([-28,-13,11]) rotate([180,180,0]) EndSwitchBody20x11(1);
-	}
 }
 
 // center tube

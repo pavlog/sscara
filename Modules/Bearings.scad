@@ -114,44 +114,61 @@ translate ([0,0,80]) BearingLM6UU();
 translate ([0,0,120]) BearingF512M();
 
 // sizes from scs_uu.png in this directory
-module SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8)
+module SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8,bHolesOnly=0)
 {
 	translate([-W/2,0,-h])
-	difference()
 	{
-		union()
+		if( bHolesOnly )
 		{
-			cube([W,L,T]);
-			translate([1,0,0]) cube([W-2,L,G]);
-			translate([1,0,0]) cube([W-2,L,G]);
-			translate([W/2-D,0]) cube([D*2,L,F]);
+			// mount holes
+			translate([W/2-B/2,L/2-C/2,-50]) cylinder(d=S1,h=50,$fn=32);
+			// mount holes
+			translate([W/2+B/2,L/2-C/2,-50]) cylinder(d=S1,h=50,$fn=32);
+			// mount holes
+			translate([W/2-B/2,L/2+C/2,-50]) cylinder(d=S1,h=50,$fn=32);
+			// mount holes
+			translate([W/2+B/2,L/2+C/2,-50]) cylinder(d=S1,h=50,$fn=32);
 		}
-		translate([W/2,-1,h]) rotate([-90,0,0]) cylinder(d=D,h=W+2);
-		// mount holes
-		translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+1);
-		translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1,h=h);
-		// mount holes
-		translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+1);
-		translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1,h=h);
-		// mount holes
-		translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+1);
-		translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1,h=h);
-		// mount holes
-		translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+1);
-		translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1,h=h);
+		else
+		{
+			difference()
+			{
+				union()
+				{
+					cube([W,L,T]);
+					translate([1,0,0]) cube([W-2,L,G]);
+					translate([1,0,0]) cube([W-2,L,G]);
+					translate([W/2-D,0]) cube([D*2,L,F]);
+				}
+				translate([W/2,-1,h]) rotate([-90,0,0]) cylinder(d=D,h=W+2);
+				// mount holes
+				translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+1);
+				translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1,h=h);
+				// mount holes
+				translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+1);
+				translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1,h=h);
+				// mount holes
+				translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+1);
+				translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1,h=h);
+				// mount holes
+				translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+1);
+				translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1,h=h);
+			}
+		}
 	}
 }
 
-module SCS8UU()
+module SCS8UU(bHolesOnly=0)
 {
-	color("silver") SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8);
+	color("silver") SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8,bHolesOnly=bHolesOnly);
 }
 
 translate([50,0,0]) SCS8UU();
 
-module SCS6UU()
+module SCS6UU(bHolesOnly=0)
 {
-	color("silver") SCSxUU(D=6,L=25,W=30,T=6,G=15,F=18,h=9,B=20,C=15,S1=4,L1=8);
+	color("silver") SCSxUU(D=6,L=25,W=30,T=6,G=15,F=18,h=9,B=20,C=15,S1=4,L1=8,bHolesOnly=bHolesOnly);
 }
 
 translate([50,0,30]) SCS6UU();
+color("red") translate([90,0,0]) SCS6UU(bHolesOnly=1);
