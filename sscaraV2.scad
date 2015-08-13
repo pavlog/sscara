@@ -1319,8 +1319,8 @@ module ZMaxEndStopper(holesOnly=0)
 			translate([-39.5,10,5]) rotate([-90,0,0]) EndSwitchBody20x11(holesOnly);
 	}
 }
-// rods fixators and z max endstopper mount
-if( drawArray==[] || search(8,drawArray)!=[] )
+
+module part8()
 {
   printOffset = printLayout ? -10 : 0;
 	translate([printOffset,0,0]) rodsFixator();
@@ -1352,6 +1352,11 @@ if( drawArray==[] || search(8,drawArray)!=[] )
 				translate([-25.5,6,-2]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3));
 		}
 	}
+}
+// rods fixators and z max endstopper mount
+if( drawArray==[] || search(8,drawArray)!=[] )
+{
+	part8();
 }
 
 // z max end stopper
@@ -1918,15 +1923,61 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 	}
 }
 
+module BeltTensionerHoles()
+{
+	cylinder(d=3,h=20,$fn=32);
+	translate([-4-1.5,-3.5,0]) cube([1.5,7,20]);
+	translate([-4-1.5-4.5*1,-3.5,0]) cube([1.5,7,20]);
+	translate([-4-1.5-4.5*2,-3.5,0]) cube([1.5,7,20]);
+	//translate([-4-1.5-4.5*3,-3.5,0]) cube([1.5,7,20]);
+	translate([-4-1.5-4.5*3,0,0]) cylinder(d=3,h=20,$fn=32);
+}
+
 // z axis carret
 !if( drawArray==[] || search(14,drawArray)!=[] )
 {
 	SCS6UUAll(0);
+
+	difference()
+	{
+			extraX = 13;
+			Thickness = 7;
+			extraY = 9;
+		union()
+		{
+			hull()
+			{
+				translate([-rodOffsetX-extraX,rodOffsetY+extraY,part6Z+13+z]) rotate([-90,0,0]) cylinder(r=3,h=Thickness);
+				translate([rodOffsetX+extraX,rodOffsetY+extraY,part6Z+13+z]) rotate([-90,0,0]) cylinder(r=3,h=Thickness);
+
+				translate([-rodOffsetX-extraX,rodOffsetY+extraY,part6Z+58+z]) rotate([-90,0,0]) cylinder(r=3,h=Thickness);
+				translate([rodOffsetX+extraX,rodOffsetY+extraY,part6Z+58+z]) rotate([-90,0,0]) cylinder(r=3,h=Thickness);
+			}
+			color("green") hull()
+			{
+				ThicknessY = 17;
+				ThicknessZ = 6;
+				translate([-rodOffsetX-extraX,rodOffsetY+extraY,part6Z+13+z]) rotate([-90,0,0]) cylinder(r=3,h=ThicknessY);
+				translate([rodOffsetX+extraX,rodOffsetY+extraY,part6Z+13+z]) rotate([-90,0,0]) cylinder(r=3,h=ThicknessY);
+
+				translate([-rodOffsetX-extraX,rodOffsetY+extraY,part6Z+13+ThicknessZ+z]) rotate([-90,0,0]) cylinder(r=3,h=ThicknessY);
+				translate([rodOffsetX+extraX,rodOffsetY+extraY,part6Z+13+ThicknessZ+z]) rotate([-90,0,0]) cylinder(r=3,h=ThicknessY);
+			}
+		}
+		SCS6UUAll(1);
+		translate([4,rodOffsetY+extraY+11.5,part6Z+5+z])  BeltTensionerHoles();
+		// zmax nut
+		hull()
+		{
+			translate([-rodOffsetX-extraX+7,rodOffsetY+extraY+11.5,part6Z+13+z+9])  cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+			translate([-rodOffsetX-extraX+7,rodOffsetY+extraY+11.5-7,part6Z+13+z+9])  cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+		}
+		translate([-rodOffsetX-extraX+7,rodOffsetY+extraY+11.5-7,part6Z])  cylinder(d=2.9,h=35,$fn=32);
+	}
+	ZBelt();
+	part8();
+	ZMaxEndStopper();
 }
-
-
-
-
 
 if( drawArray==[] || search(36,drawArray)!=[])
 {
@@ -3015,16 +3066,6 @@ module CarretSide1(index)
 	}
 }
 
-module BeltTensionerHoles()
-{
-
-cylinder(d=3,h=20,$fn=32);
-translate([-4-1.5,-3.5,0]) cube([1.5,7,20]);
-translate([-4-1.5-4.5*1,-3.5,0]) cube([1.5,7,20]);
-translate([-4-1.5-4.5*2,-3.5,0]) cube([1.5,7,20]);
-translate([-4-1.5-4.5*3,-3.5,0]) cube([1.5,7,20]);
-translate([-4-1.5-4.5*4,0,0]) cylinder(d=3,h=20,$fn=32);
-}
 
 // 0 inner
 module Carret(index)
