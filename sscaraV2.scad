@@ -33,10 +33,10 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [2];//[1,2,3,4,5];//[1,7,8];
-// 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells)
-// 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells)
-// 3 - mount for 2nd pulley and outer axis
+drawArray = [3];//[1,2,3,4,5];//[1,7,8];
+// 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
+// 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
+// 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
 // 4 - base for xy steppers
 // 5 - steppers spacers
 // 6 - steppers bearing bottom mount
@@ -62,12 +62,12 @@ drawArray = [2];//[1,2,3,4,5];//[1,7,8];
 printLayout = 0;
 
 
-drawSteppers = 1;
+drawSteppers = 0;
 drawBelts = 1;
 drawZBelts = 0;
 drawSwitchesAll = 1;
-drawBaseAllum = 1;
-drawLCD = 1;
+drawBaseAllum = 0;
+drawLCD = 0;
 drawMetall = 1;
 drawRamps = 0;
 drawRods = 1;
@@ -441,7 +441,7 @@ firtstNumZ = -1;
 firstBearingZ = firtstNumZ+rolson_hex_nut_hi(5)+1;
 if( !printLayout && (drawArray==[] || drawMetall) )
 {
-	translate ([0,0,firtstNumZ]) color( "Silver") cylinder(d=5,h=380);
+	translate ([0,0,firtstNumZ-5]) color( "grey") cylinder(d=5,h=400);
 	translate ([0,0,firtstNumZ]) color( "Silver") hex_nut(5);
 	translate ([0,0,firstBearingZ]) Bearing625();
 }
@@ -1962,11 +1962,11 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 		//
 		ZRods();
 		// extruder mount
-		color( "magenta") translate([-13,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
-		color( "magenta") translate([7,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
 		// fillament hole
 		hull()
-		{
+		{3,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([7,-1
 			color( "magenta") translate([-8,-31,part6_to_12ZOffset+60]) cylinder(d=13,h=30,$fn=16);
 			color( "magenta") translate([+8,-31,part6_to_12ZOffset+60]) cylinder(d=13,h=30,$fn=16);
 			color( "magenta") translate([0,-35,part6_to_12ZOffset+60]) cylinder(d=30,h=30,$fn=6);
@@ -2816,7 +2816,7 @@ if( !printLayout && (drawArray==[] || drawSwitchesAll==1) )
 	SwitchY();
 }
 
-// center tube
+// ID6 OD8 center tube
 if( !printLayout && (drawArray==[] || drawMetall) )
 {
 	translate ([0,0,Bearing625Height()+pulleysH+pulleysH+9+isExpolode*140]) 
