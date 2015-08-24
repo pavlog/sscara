@@ -33,16 +33,16 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [3];//[1,2,3,4,5];//[1,7,8];
+drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
-// 4 - base for xy steppers
-// 5 - steppers spacers
+// 4 - base for xy steppers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
+// 5 - steppers spacers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
 // 6 - steppers bearing bottom mount
 // 7 - steppers bearing top mount
 // 8 - rods fixators + z max end stopper
-// 9 - base for z stepper
+// 9 - base for z stepper (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 10 - ramps1.4 bottom mounts
 // 11 - extruder
 // 12 - extruder bottom support
@@ -62,11 +62,11 @@ drawArray = [3];//[1,2,3,4,5];//[1,7,8];
 printLayout = 0;
 
 
-drawSteppers = 0;
+drawSteppers = 1;
 drawBelts = 1;
 drawZBelts = 0;
 drawSwitchesAll = 1;
-drawBaseAllum = 0;
+drawBaseAllum = 9;
 drawLCD = 0;
 drawMetall = 1;
 drawRamps = 0;
@@ -211,9 +211,9 @@ y = (-rx*sina1+ry*cosa1)*LH3+yyd;
 //x = 0;
 //y = 60;// offset from axis to printed area
 
-echo("xy");
-echo(x);
-echo(y);
+//echo("xy");
+//echo(x);
+//echo(y);
 
 //color("red") translate([x,y,200]) cylinder(r=5,h=100);
 
@@ -245,9 +245,9 @@ q22 = 2 * atan(qq22);
 
 q22Pos = q22 < 0 ? 360+q22 : q22;
 
-echo("q22,q11");
-echo(q22Pos);
-echo(q11);
+//echo("q22,q11");
+//echo(q22Pos);
+//echo(q11);
 
 xd = -dhalf + l * cos(q22);
 yd = l * sin(q22);
@@ -733,16 +733,16 @@ BaseGearboxThreadedRodsX3 = -55.5;
 BaseGearboxThreadedRodsY3 = 0;
 BaseGearboxThreadedRodsX4 = 55.5;
 BaseGearboxThreadedRodsY4 = 0;
-BaseGearboxThreadedRodsH = 280;
+BaseGearboxThreadedRodsH = 285;// cut 290 initially
 module BaseGearboxThreadedRods()
 {
 	color("silver") 
 	{
-		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,-2]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
-		translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,-2])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,-5]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,-5])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
 		//
-		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,-2]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
-		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,-2])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,-5]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,-5])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
 	}
 }
 
@@ -949,7 +949,16 @@ module part4()
 		translate([-alumXOffset+12,50,9]) 
 			color("green") rotate([90,0,0]) scale([1,1,1])
 				cylinder(d=3,h=20,$fn=32);
-		// 
+		hull()
+		{
+		translate([-alumXOffset+12,33,9]) 
+			color("green") rotate([90,90,0]) scale([1,1,1])
+				cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
+		translate([-alumXOffset+12,33,16]) 
+			color("green") rotate([90,90,0]) scale([1,1,1])
+				cylinder(d=rolson_hex_nut_dia(3)+0.5,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
+		}
+			// 
 		//translate([-alumXOffset+12,33,9]) 
 		//	color("green") rotate([90,0,0]) scale([1,1,1])
 		//		cylinder(d=rolson_hex_nut_dia(3)+1.5,h=10,$fn=32);
@@ -1053,7 +1062,7 @@ module spacer(r=1.55,r1=m3PlatesRad,r2=m3PlatesRad,h=10,bWings=0)
 	{
 		union()
 		{
-			color("blue") rotate([0,0,0]) scale([1,1,1]) cylinder(r2=r1,r1=r2,h=h,$fn=16);
+			color("blue") rotate([0,0,0]) scale([1,1,1]) cylinder(r2=r1,r1=r2,h=h,$fn=32);
 			if( bWings==1 )
 			{
 				color("blue") hull()
@@ -1246,14 +1255,14 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	//
 	//printLayout = 1;
 	//
-	spacersDistMultX = printLayout ? 0.21 : 1;
-	spacersDistMultY = printLayout ? 0.45 : 1;
+	spacersDistMultX = printLayout ? 0.22 : 1;
+	spacersDistMultY = printLayout ? 0.4 : 1;
 	spacersRot = printLayout ? 0 : 0;
 	spacersRot2 = printLayout ? 90 : 0;
 	offX2 = printLayout ? 0 : 0;
 	offY2 = printLayout ? 10 : 0;
 
-	off2 = printLayout ? 44 : 0;
+	off2 = printLayout ? 43 : 0;
 	
 	mountH = 15;
 	mountOffsetZ = printLayout ? mountH : 0;
@@ -1428,9 +1437,9 @@ if( !printLayout && (drawArray==[] || drawSwitchesAll==1) )
 
 zStepperX = 5;
 zStepperY = 33;
-zStepperZ = 56;
+zStepperZ = 57;
 nemaH = lookup(NemaRoundExtrusionDiameter, Nema17);
-ZStepperBottomZ = zStepperZ-nemaH-2;
+ZStepperBottomZ = zStepperZ-nemaH-3;
 
 module StepperCoverHoles()
 {
@@ -1442,14 +1451,45 @@ module StepperCoverHoles()
 			translate([0,40,zStepperZ]) color("red") rotate([90,0,0]) cylinder(r=11,h=10,$fn=16);
 }
 
-module ZStepperMountHoles()
+module ZStepperMountHoles(isNuts)
 {
-			translate([zStepperX-22,zStepperY+33,-9])color("red") cylinder(d=3,h=60,$fn=32);
-		translate([zStepperX-22,zStepperY+22,-9])color("red") cylinder(d=3,h=60,$fn=32);
-		translate([zStepperX+22,zStepperY+33,-9])color("red") cylinder(d=3,h=60,$fn=32);
-		translate([zStepperX+22,zStepperY+22,-9])color("red") cylinder(d=3,h=60,$fn=32);
+	d = isNuts ? rolson_hex_nut_dia(3)+1 : 3;
+	ns = isNuts ? 6 : 32;
+	h = isNuts ? rolson_hex_nut_hi(3)+2 : 60;
+	translate([zStepperX-22,zStepperY+33,-9])color("red") rotate([0,0,90]) cylinder(d=d,h=h,$fn=ns);
+	translate([zStepperX-22,zStepperY+22,-9])color("red") rotate([0,0,90]) cylinder(d=d,h=h,$fn=ns);
+	translate([zStepperX+22,zStepperY+33,-9])color("red") rotate([0,0,90]) cylinder(d=d,h=h,$fn=ns);
+	translate([zStepperX+22,zStepperY+22,-9])color("red") rotate([0,0,90]) cylinder(d=d,h=h,$fn=ns);
 }
 
+module zStepperLMount()
+{
+	difference()
+	{
+		union()
+		{
+			translate([zStepperX-26.5,31,zStepperZ-nemaH]) cube([53,4,nemaH*2-2]);
+			color ("lightblue") translate([zStepperX-25,31,ZStepperBottomZ]) cube([50,41,4]);
+			hull()
+			{
+				color ("green") translate([zStepperX-26.5,zStepperY+14+20,ZStepperBottomZ]) cube([5.25,5,13]);
+				color ("green") translate([zStepperX-26.5,31,ZStepperBottomZ]) cube([5.25,4,40]);
+			}
+			translate() hull()
+			{
+				color ("green") translate([-(zStepperX-31.25),zStepperY+14+20,ZStepperBottomZ]) cube([5.25,5,13]);
+				color ("green") translate([-(zStepperX-31.25),31,ZStepperBottomZ]) cube([5.25,4,40]);
+			}
+		}
+		// mount holes
+		ZStepper(1);
+		//
+		translate([0,0,-7]) ZStepperMountHoles();
+		translate([0,0,45]) ZStepperMountHoles(1);
+		//
+		translate([zStepperX,zStepperY+5,zStepperZ]) rotate([90,0,0]) cylinder(d=23,h=20);
+	}
+}
 // base for z stepper
 module part9()
 {
@@ -1479,7 +1519,7 @@ module part9()
 				*/
 				//color ("magenta") translate([-26,37,0]) cube([52,5,zStepperZ-nemaH+1]);
 
-				color ("green") translate([zStepperX-25,37,0]) cube([50,35,zStepperZ-nemaH-2]);
+				color ("green") translate([zStepperX-25,37,0]) cube([50,35,zStepperZ-nemaH-3]);
 
 				//color ("green") translate([zStepperX-25,39,0]) cube([3,10,75]);
 				//color ("green") translate([zStepperX-25,39,0]) cube([3,10,75]);
@@ -1610,29 +1650,29 @@ module part9()
 		}
 		color ("blue") translate([-alumXOffset+1.5,37,0]) cube([alumXOffset*2-1.5*2,60+extraD,150]);
 	}
-	//rotL = 
-	translate([0,printLayout ? 67 : 0,printLayout ? -31 : 0]) rotate([printLayout ? 90 : 0,0,0]) 
-		difference()
+	//printLayout = 0; 
+	if( printLayout==0 )
 	{
-		union()
+			zStepperLMount();
+	}
+	else
+	{
+		//translate([5,65,-ZStepperBottomZ]) rotate([0,0,180]) zStepperLMount();
+
+		translate([28,66,21.5]) rotate([0,-90,90]) 
+		intersection()
 		{
-			translate([zStepperX-25,31,zStepperZ-nemaH]) cube([50,4,nemaH*2-2]);
-			color ("lightblue") translate([zStepperX-25,31,zStepperZ-nemaH-2]) cube([50,41,3]);
-			hull()
-			{
-				color ("green") translate([zStepperX-25,zStepperY+14,ZStepperBottomZ]) cube([3.75,5,3]);
-				color ("green") translate([zStepperX-25,31,ZStepperBottomZ]) cube([3.75,4,40]);
-			}
-			translate() hull()
-			{
-				color ("green") translate([-(zStepperX-31),zStepperY+14,ZStepperBottomZ]) cube([3.75,5,3]);
-				color ("green") translate([-(zStepperX-31.25),31,ZStepperBottomZ]) cube([3.75,4,40]);
-			}
+			zStepperLMount();
+			//#translate([zStepperX-25,31,zStepperZ-nemaH]) cube([50,4,nemaH*2-2]);
+			color ("lightblue") translate([zStepperX-26.5,31,zStepperZ-nemaH-5]) cube([53/2,41,150]);
 		}
-		// mount holes
-		ZStepper(1);
-		//
-		ZStepperMountHoles();
+		mirror() translate([28,66,21.5]) rotate([0,-90,90]) 
+		intersection()
+		{
+			zStepperLMount();
+			//#translate([zStepperX-25,31,zStepperZ-nemaH]) cube([50,4,nemaH*2-2]);
+			color ("lightblue") translate([zStepperX-26.5,31,zStepperZ-nemaH-5]) cube([53/2,41,150]);
+		}
 	}
 }
 
@@ -1962,11 +2002,11 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 		//
 		ZRods();
 		// extruder mount
-		color( "magenta") translate([-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([-13,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([7,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
 		// fillament hole
 		hull()
-		{3,-17.2,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
-		color( "magenta") translate([7,-1
+		{
 			color( "magenta") translate([-8,-31,part6_to_12ZOffset+60]) cylinder(d=13,h=30,$fn=16);
 			color( "magenta") translate([+8,-31,part6_to_12ZOffset+60]) cylinder(d=13,h=30,$fn=16);
 			color( "magenta") translate([0,-35,part6_to_12ZOffset+60]) cylinder(d=30,h=30,$fn=6);
