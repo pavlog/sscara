@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [5];//[1,2,3,4,5];//[1,7,8];
+drawArray = [4];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -59,7 +59,7 @@ drawArray = [5];//[1,2,3,4,5];//[1,7,8];
 
 // more printer friedly layout (note: implemented not for all parts)
 
-printLayout = 0;
+printLayout = 1;
 
 
 drawSteppers = 1;
@@ -758,7 +758,7 @@ module switchXMount()
 {
 			translate([-alumXOffset+4.5-3,switchX_oy,15-1.5]) 
         color("blue") rotate([0,0,0]) scale([1,1,1])
-          cube([3.5+3,20,17]);
+          cube([3.5+3,20,19]);
 }
 
 module part4LinersSpheres(scale=1)
@@ -835,9 +835,12 @@ module part4()
 			// switch x
 			//switchXMount();
 			// switch y
-			rotate([0,0,switchY_rz1]) translate([switchY_ox-3,-17,0])        color("blue") 
+			rotate([0,0,switchY_rz1]) translate([switchY_ox-3,-17,0]) color("blue") 
 				rotate([0,0,-9]) scale([1,1,1])
-          cube([4,19,42]);
+          cube([4,19,40]);
+			rotate([0,0,switchY_rz1]) translate([switchY_ox-3,-17,0]) color("blue") 
+				rotate([0,0,-9]) scale([1,1,1])
+          cube([4,8,44]);
 			// lcd mount
       //translate([-alumXOffset+1.5,-55,0]) 
       //  color("blue") rotate([0,0,0]) scale([1,1,1])
@@ -911,6 +914,7 @@ module part4()
 		//SwitchX(1);
 		// switch y hole
 		SwitchY(1);
+		//SwitchY(0);
 		//
 		//translate([-alumXOffset-5,-6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
 		//translate([-alumXOffset-5,6,7]) rotate([0,90,0]) cylinder(d=3,h=10,$fn=16);
@@ -1247,7 +1251,7 @@ module p5_plate_holes(h)
 }
 
 // bearing mount steppersspacers
-!if( drawArray==[] || search(5,drawArray)!=[] )
+if( drawArray==[] || search(5,drawArray)!=[] )
 {
 	h = part5SpacerH;
 	//echo ("hh");
@@ -1284,12 +1288,14 @@ module p5_plate_holes(h)
 			// switch x
 			switchXMount();
 		}
+		//rotate([30,0,0]) 
 		SwitchX(1);
+		//rotate([30,0,0]) 
 		//SwitchX(0);
 		hull()
 		{
-			translate([switchX_ox+1,switchX_oy-2,20]) rotate([90,0,90]) cube([25,11,5]);
-			translate([switchX_ox+3,switchX_oy-2,25]) rotate([90,0,90]) cube([25,11,5]);
+			translate([switchX_ox+1,switchX_oy-2,20]) rotate([90,switchX_r,90]) translate([3,-5,0]) cube([25,11,5]);
+			translate([switchX_ox+3,switchX_oy-2,25]) rotate([90,switchX_r,90]) translate([3,-5,0]) cube([25,11,5]);
 		}
 		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5]) spacerHoles(m3PlatesRad,m3PlatesRad,h=h,bWings=2);
 		part4LinersSpheres(1.1);
@@ -2839,12 +2845,13 @@ if( !printLayout && (drawArray==[] || drawZBelts==1) )
 	ZBelt();
 }
 
-switchX_ox = -54;
-switchX_oy = -10;
+switchX_ox = -53;
+switchX_oy = -9;
+switchX_r = -25;
 module SwitchX(bHolesOnly=0)
 {
 	// switch x
-	translate([switchX_ox,switchX_oy,20]) rotate([90,0,90]) EndSwitchBody20x11(bHolesOnly);
+	translate([switchX_ox,switchX_oy,20]) rotate([90,switchX_r,90]) translate([3,-5,0]) EndSwitchBody20x11(bHolesOnly);
 }
 
 switchY_rz1 = 155;
@@ -2852,7 +2859,7 @@ switchY_ox = ArmPulleyDia/2+12.5;
 module SwitchY(bHolesOnly=0)
 {
 	// switch y
-	rotate([0,0,switchY_rz1]) translate([switchY_ox,0,31]) rotate([90,0,-100]) EndSwitchBody20x11(bHolesOnly);
+	rotate([0,0,switchY_rz1]) translate([switchY_ox,0,31]) rotate([90,switchX_r,-100]) translate([2,-3,0]) EndSwitchBody20x11(bHolesOnly);
 }
 
 if( !printLayout && (drawArray==[] || drawSwitchesAll==1) )
