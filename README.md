@@ -1,19 +1,19 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
-Current Status: V2 - WIP (a low of improvements on the way)
+Current Status: V2 - WIP (a lot of improvements on the way)
 
 Details:
-• x8 or x9 gear ratio (current is 5, with x8 precision will increased in 1.6)
-• Belt path will be shortened twice (no belt couplers at all, less stetch errors)
-• No teeth on big pulleys at all (more precision, easy to print).
-• Smaller dimensions (but with the same print area).
-• A lot of improvements - more modular and service friendly
-• Z axis will be improved (at least 2 bearing for each rod and may be threaded rod, more modular way to attach - currently is hard to upgrade without disassembly)
+* x8 or x9 gear ratio (current is 5, with x8 precision will increased in 1.6)
+* Belt path will be shortened twice (no belt couplers at all, less stetch errors)
+* No teeth on big pulleys at all (more precision, easy to print).
+* Smaller dimensions (but with the same print area).
+* A lot of improvements - more modular and service friendly
+* Z axis will be improved (at least 2 bearing for each rod and may be threaded rod, more modular way to attach - currently it is hard to upgrade without disassembly)
 
 History:
-• 27.07.2015 - V1 - DONE
-• 27.04.2015 - V1 - WIP
+* 27.07.2015 - V1 - DONE
+* 27.04.2015 - V1 - WIP
 
 Videos:
 https://youtu.be/Ef477o_Nw88
@@ -100,11 +100,11 @@ Way2 (more precise):
 
 * G28 goto home
 * M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative, +/-1 mm is enought)
-G1 X## Y## (tweak X## and Y## to match angles for one arm to 0deg other to 180deg)
-M370 X45 Y135 // move arms to 45 and 135 degrees
-M206 X## Y## (where X## Y## is a angular distance to 45 and 135)
-Repeat a few times untill you get 45 and 135 degrees exactly (one arm shuld rotate from 0deg to 45deg, other from 180deg to 135deg)
-M500 to save data to EEPROM
+* G1 X## Y## (tweak X## and Y## to match angles for one arm to 0deg other to 180deg)
+* M370 X45 Y135 // move arms to 45 and 135 degrees
+* M206 X## Y## (where X## Y## is a angular distance to 45 and 135)
+* Repeat a few times untill you get 45 and 135 degrees exactly (one arm shuld rotate from 0deg to 45deg, other from 180deg to 135deg)
+* M500 to save data to EEPROM
 NOTE: Steps per unit must me calibrated already
 NOTE2: Home position calculation will use M206 offset angles to calculate real home pos
 
@@ -125,11 +125,5 @@ Z calibration
 * G1 Z0
 * M451 Z#zz+#ZZ where #zz is a distance beween nozzle and platform and #ZZ curent max distance
 * M452 Z#zz+#ZZ where #zz is a distance beween nozzle and platform and #ZZ curent max distance
-
-
-TODO:
-Ramps Fan mounts
-Mount for walls for build areas
- 
 
 Development blog - https://3dgems.blogspot.com
