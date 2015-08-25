@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [7];//[1,2,3,4,5];//[1,7,8];
+drawArray = [13];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -1365,9 +1365,9 @@ if( drawArray==[] || search(7,drawArray)!=[] )
 
 module ZRods()
 {
-	translate([rodOffsetX,rodOffsetY/*+20*/,part6Z]) color ("silver") cylinder(r=3,h=200);
+	translate([rodOffsetX,rodOffsetY/*+20*/,part6Z]) color ("silver") cylinder(r=3,h=200,$fn=32);
 
-	translate([-rodOffsetX,rodOffsetY,part6Z]) color ("silver") cylinder(r=3,h=200);
+	translate([-rodOffsetX,rodOffsetY,part6Z]) color ("silver") cylinder(r=3,h=200,$fn=32);
 }
 
 // rods
@@ -2026,8 +2026,8 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 		color( "magenta") translate([0,0,part6_to_12ZOffset+part6Z+1]) cylinder(d=Bearing608Diameter()+b608Clearance,h=30,$fn=16);
 		color( "magenta") translate([0,0,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+5,h=30,$fn=16);
 		//
-		color( "magenta") translate([-18,12,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+5,h=30,$fn=6);
-		color( "magenta") translate([18,12,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+5,h=30,$fn=6);
+		//color( "magenta") translate([-19,12,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+3,h=30,$fn=6);
+		//color( "magenta") translate([19,12,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+3,h=30,$fn=6);
 		//
 		color( "green") translate([-47,-12,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+5,h=30,$fn=6);
 		color( "green") translate([47,-12,part6_to_12ZOffset+part6Z-1]) cylinder(d=8+5,h=30,$fn=6);
@@ -2038,6 +2038,17 @@ if( drawArray==[] || search(13,drawArray)!=[] )
 		translate([0,0,part6_to_12ZOffset]) p5_plate_back_holes(plateH);
 		translate([0,0,part6_to_12ZOffset]) part5_plate_big_holes(plateH,1);
 		translate([0,0,part6_to_12ZOffset]) part5_plate_horz_holes(plateH);
+		// rods covers holes
+		color( "magenta") translate([-19,-0,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([19,-0,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([-41,-0,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([19,-0,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "magenta") translate([41,-0,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		//
+		color( "blue") translate([-32,11,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "blue") translate([32,11,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "blue") translate([-18,18,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
+		color( "blue") translate([18,18,part6_to_12ZOffset+60]) cylinder(d=3,h=30,$fn=16);
 	}
 }
 
