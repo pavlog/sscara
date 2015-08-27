@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [4,300,301];//[1,2,3,4,5];//[1,7,8];
+drawArray = [8];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -1041,7 +1041,7 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 
 if( drawArray==[] || search(300,drawArray)!=[] )
 {
-		translate([xStepperX,xStepperY,4]) color("grey")
+		translate([xStepperX+printLayout ? 10 : 0,xStepperY,4]) color("grey")
 		{
 			difference()
 			{
@@ -1049,7 +1049,7 @@ if( drawArray==[] || search(300,drawArray)!=[] )
 				translate([0,0,-1]) cylinder(d=5+5,h=3);
 			}
 		}
-		translate([yStepperX,yStepperY,4]) color("grey")
+		translate([yStepperX+printLayout ? -10 : 0,yStepperY,4]) color("grey")
 		{
 			difference()
 			{
@@ -1061,26 +1061,26 @@ if( drawArray==[] || search(300,drawArray)!=[] )
 
 if( drawArray==[] || search(301,drawArray)!=[] )
 {
-		translate([xStepperX,xStepperY,9]) color("grey")
+		translate([xStepperX+printLayout ? 8 : 0,xStepperY,9]) rotate([printLayout ? 180 : 0,0,0]) color("grey")
 		{
 			difference()
 			{
 				union()
 				{
-					translate([0,0,0]) cylinder(d=Bearing625Diameter(),h=4,$fn=32);
-					translate([0,0,-4]) cylinder(d=5-0.05,h=5,$fn=32);
+					translate([0,0,0]) cylinder(d=Bearing625Diameter()-5,h=4,$fn=32);
+					translate([0,0,-4]) cylinder(d=5-0.1,h=5,$fn=64);
 				}
 				translate([0,0,2]) cylinder(d=5,h=10,$fn=32);
 			}
 		}
-		translate([yStepperX,yStepperY,9]) color("grey")
+		translate([yStepperX+printLayout ? -8 : 0,yStepperY,9]) rotate([printLayout ? 180 : 0,0,0]) color("grey")
 		{
 			difference()
 			{
 				union()
 				{
-					translate([0,0,0]) cylinder(d=Bearing625Diameter(),h=4,$fn=32);
-					translate([0,0,-4]) cylinder(d=5-0.05,h=5,$fn=32);
+					translate([0,0,0]) cylinder(d=Bearing625Diameter()-5,h=4,$fn=32);
+					translate([0,0,-4]) cylinder(d=5-0.1,h=5,$fn=64);
 				}
 				translate([0,0,2]) cylinder(d=5,h=10,$fn=32);
 			}
