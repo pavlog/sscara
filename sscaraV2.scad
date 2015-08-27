@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [13];//[1,2,3,4,5];//[1,7,8];
+drawArray = [4,300,301];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -57,8 +57,10 @@ drawArray = [13];//[1,2,3,4,5];//[1,7,8];
 // 21 - bottom second arm
 // 22 - top second arm
 
-// more printer friedly layout (note: implemented not for all parts)
+// 300: Optional - bearing spacers for XY Steppers 
+// 301: Optional - xy steppers shaft to bearings coubpliers 
 
+// more printer friedly layout (note: implemented not for all parts)
 printLayout = 1;
 
 
@@ -1035,6 +1037,54 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 	//part1();
 	//part2();
 	//part9();
+}
+
+if( drawArray==[] || search(300,drawArray)!=[] )
+{
+		translate([xStepperX,xStepperY,4]) color("grey")
+		{
+			difference()
+			{
+				translate([0,0,0]) cylinder(d=Bearing625Diameter(),h=1);
+				translate([0,0,-1]) cylinder(d=5+5,h=3);
+			}
+		}
+		translate([yStepperX,yStepperY,4]) color("grey")
+		{
+			difference()
+			{
+				translate([0,0,0]) cylinder(d=Bearing625Diameter(),h=1);
+				translate([0,0,-1]) cylinder(d=5+5,h=3);
+			}
+		}
+}
+
+if( drawArray==[] || search(301,drawArray)!=[] )
+{
+		translate([xStepperX,xStepperY,9]) color("grey")
+		{
+			difference()
+			{
+				union()
+				{
+					translate([0,0,0]) cylinder(d=Bearing625Diameter(),h=4,$fn=32);
+					translate([0,0,-4]) cylinder(d=5-0.05,h=5,$fn=32);
+				}
+				translate([0,0,2]) cylinder(d=5,h=10,$fn=32);
+			}
+		}
+		translate([yStepperX,yStepperY,9]) color("grey")
+		{
+			difference()
+			{
+				union()
+				{
+					translate([0,0,0]) cylinder(d=Bearing625Diameter(),h=4,$fn=32);
+					translate([0,0,-4]) cylinder(d=5-0.05,h=5,$fn=32);
+				}
+				translate([0,0,2]) cylinder(d=5,h=10,$fn=32);
+			}
+		}
 }
 
 module spacerHoles(r=1.55,r1=m3PlatesRad,r2=m3PlatesRad,h=10,bWings=0)
