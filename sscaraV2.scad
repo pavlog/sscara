@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [8];//[1,2,3,4,5];//[1,7,8];
+drawArray = [14];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -43,13 +43,13 @@ drawArray = [8];//[1,2,3,4,5];//[1,7,8];
 // 7 - rods supports mount and 608(top)
 // 8 - rods fixators + z max end stopper
 // 9 - base for z stepper (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
-// 10 - ramps1.4 bottom mounts
+// 10 - ramps1.4 bottom mounts steppers spacers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
 // 11 - extruder
 // 12 - extruder bottom support
 // 13 - extruder top support and top 608 support
-// 14 - z carret
+// 14 - z carret steppers spacers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
 // 15 - bed end
-// 16 - spacers to top panel
+// 16 - spacers to top panel steppers spacers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
 // 17 - spacers to top panel 2nd part
 // 18 - spacers bottom arm
 // 19 - bottom arm
@@ -2138,7 +2138,7 @@ if( !printLayout && (drawArray==[] || drawMetall) )
 // z axis carret
 if( drawArray==[] || search(14,drawArray)!=[] )
 {
-	SCS6UUAll(0);
+	//SCS6UUAll(0);
 
 		extraX = 13;
 		Thickness = 6;
@@ -2246,6 +2246,7 @@ if( drawArray==[] || search(14,drawArray)!=[] )
 		mirror() color("red") translate([-rodOffsetX-extraX+4,rodOffsetY+extraY+12,part6Z])  cylinder(d=2.9,h=35,$fn=32);
 		platformAlum();
 	}
+	translate([printLayout ? 6 : 4,printLayout ? 40 : rodOffsetY+extraY+11.5,printLayout ? -(part6Z+5+z-41) : 0])
 	difference()
 	{
 		color("blue") translate([-rodOffsetX+10,rodOffsetY+extraY+11.5-ThicknessY/2,part6Z+5+z+45])  cube([28,ThicknessY-2,8]);
@@ -2299,8 +2300,8 @@ if( drawArray==[] || search(16,drawArray)!=[] )
 	//
 	//printLayout = 1;
 	//
-	spacersDistMultX = printLayout ? 0.21 : 1;
-	spacersDistMultY = printLayout ? 0.45 : 1;
+	spacersDistMultX = printLayout ? 0.31 : 1;
+	spacersDistMultY = printLayout ? 0.55 : 1;
 	spacersRot = printLayout ? 0 : 0;
 	spacersRot2 = printLayout ? 90 : 0;
 	offX2 = printLayout ? 0 : 0;
@@ -2315,7 +2316,7 @@ if( drawArray==[] || search(16,drawArray)!=[] )
 	//
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1*spacersDistMultX,BaseGearboxThreadedRodsY1*spacersDistMultY,part7EndZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,part7EndZ]) rotate([0,0,90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,part7EndZ]) rotate([0,0,-90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3*spacersDistMultX,BaseGearboxThreadedRodsY3*spacersDistMultY,part7EndZ]) rotate([0,0,-90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,part7EndZ]) rotate([0,0,180]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=5);
 }
 
@@ -2344,7 +2345,7 @@ if( drawArray==[] || search(17,drawArray)!=[] )
 	//
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1*spacersDistMultX,BaseGearboxThreadedRodsY1*spacersDistMultY,part7EndZ+h]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,part7EndZ+h]) rotate([0,0,90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,part7EndZ+h]) rotate([0,0,-90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3*spacersDistMultX,BaseGearboxThreadedRodsY3*spacersDistMultY,part7EndZ+h]) rotate([0,0,-90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,part7EndZ+h]) rotate([0,0,180]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=5);
 }
 
