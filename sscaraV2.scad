@@ -13,7 +13,7 @@ use <Modules/Profiles.scad>
 
 //
 ex = 0;
-ey = 45;
+ey = 40;
 z = 0;//125;
 //z = 140;
 
@@ -53,8 +53,8 @@ drawArray = [19];//[1,2,3,4,5];//[1,7,8];
 // 17 - spacers to top panel 2nd part (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 18 - spacers bottom arm  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 19 - bottom arm
-// 20 - top arm
-// 21 - bottom second arm
+// 20 - bottom second arm
+// 21 - top arm
 // 22 - top second arm
 // 23 - upper bearing fixator
 // 24 - extruder spacers
@@ -2556,13 +2556,19 @@ module armsRods(d=3+0.2,h=100,fn=24)
 // bottom arm
 if( drawArray==[] || search(19,drawArray)!=[])
 {
-	//printLayout = 1;
+	//printLayout = 0;
 
 	a = printLayout ? 0 : q22;
 	ax = printLayout ? 0 : 0;
 
 	translate ([0,0,armsZ+armsZExtra]) rotate([ax,0,a])
 	{
+		//color("red") translate([-4,0,20]) hull()
+		//{
+		//	translate([0,-1.5,0])  cube([3,3,10]);
+		//	translate([75.5-3,-1.5,0]) cube([3,3,10]);
+		//}
+		
 		///*
 		translate([printLayout ? 10 : 0,0,0]) rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) intersection()
 		{
@@ -2574,20 +2580,22 @@ if( drawArray==[] || search(19,drawArray)!=[])
 			armCube();
 			mirror() translate([0,-25,-1]) cube([50,50,50]);
 		}
-		translate([printLayout ? -50 : 0,printLayout ? 30 : 0,printLayout ? -11.5 : 0]) //rotate([0,printLayout ? -90 : 0,printLayout ? 0 : 0])  
+		rotate([0,printLayout ? 180 : 0,printLayout ? 0 : 0]) 
+		translate([printLayout ? -90 : 0,printLayout ? 30 : 0,printLayout ? 6.5 : 0]) //rotate([0,printLayout ? -90 : 0,printLayout ? 0 : 0])  
 		intersection()
 		{
 			translate([Linkage_1,0,0])  armCubeBearings();
 			translate([Linkage_1,0,0]) translate([-25,-25,-1]) cube([50,50,13]);
 		}
-		rotate([0,printLayout ? -180 : 0,printLayout ? 0 : 0]) translate([printLayout ? -50 : 0,printLayout ? 30 : 0,printLayout ? -9.5 : 0])  
+		color("green") rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) 
+		translate([printLayout ? -90 : 0,printLayout ? 30 : 0,printLayout ? -27.5 : 0])  
 		intersection()
 		{
 			translate([Linkage_1,0,0])  armCubeBearings();
 			translate([Linkage_1,0,0]) translate([-25,-25,13]) cube([50,50,13]);
 		}
 		//*/
-		translate([printLayout ? -30 : 0,printLayout ? 60 : 0,printLayout ? 20 : 0])
+		translate([printLayout ? -30 : 0,printLayout ? 60 : 0,printLayout ? 24 : 0])
 		rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) 
 		color("blue") difference()
 		{
@@ -2598,6 +2606,19 @@ if( drawArray==[] || search(19,drawArray)!=[])
 			translate([27,0,0]) armsRods(d=3+0.2,h=100);
 			color("red") translate([0,0,10.5]) rotate([0,90,0]) cylinder(d=10,h=100,$fn=32);
 			translate([27-0.1,0,0]) armsRods(d=rolson_hex_nut_dia(3),h=rolson_hex_nut_hi(3)+0.3,fn=6);
+		}
+		//
+		translate([printLayout ? 10 : 0,printLayout ? 60 : 0,printLayout ? 24+48/2 : 0])
+		rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) 
+		color("lightblue") difference()
+		{
+			hull()
+			{
+				translate([27+48/2,0,0]) armsRods(d=rolson_hex_nut_dia(3)+1,h=48/2);
+			}
+			translate([27,0,0]) armsRods(d=3+0.2,h=100);
+			color("red") translate([0,0,10.5]) rotate([0,90,0]) cylinder(d=10,h=100,$fn=32);
+			translate([27+48/2-0.1,0,0]) armsRods(d=rolson_hex_nut_dia(3),h=rolson_hex_nut_hi(3)+0.3,fn=6);
 		}
 	}
 	/*
@@ -2732,6 +2753,7 @@ if( !printLayout && (drawArray==[] || drawMetall) )
 
 if( drawArray==[] || search(20,drawArray)!=[])
 {
+	//printLayout=0;
 	xd = -dhalf + l * cos(q22);
   yd = l * sin(q22);
 	a = printLayout ? 0 : atan((y-yd)/(x-xd));
@@ -2747,23 +2769,17 @@ if( drawArray==[] || search(20,drawArray)!=[])
 				hull()
 				{
 					cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_1*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([5,20,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
 				}
 
 				color("blue") 
 				hull() 
 				{
-					cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_2,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([5,20,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
+					translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
 				}
 
-				color("blue") 
-				hull()
-				{
-					translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_2*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-				}
-								color("red") 
+				color("red") 
 				hull()
 				{
 					translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
