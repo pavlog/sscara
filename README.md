@@ -58,7 +58,6 @@ Materials:
 * 6 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
 * 11 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
-* 1 - F5-12M thrust bearing - (ID-5mm,OD-12mm,H-4mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - 350mm max
 * 1 - m5 threaded rod - 500mm max
 * 1 - m3 threaded rod - 2 meters max

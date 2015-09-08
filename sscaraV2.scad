@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [19];//[1,2,3,4,5];//[1,7,8];
+drawArray = [22];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -2740,15 +2740,6 @@ if( drawArray==[] || search(19,drawArray)!=[])
 	*/
 }
 
-if( !printLayout && (drawArray==[] || drawMetall) )
-{
-	translate ([0,0,armsZ+bottomArmH+armsZExtra-1])
-	{
-		BearingF512M();
-		color("silver") translate ([0,0,4]) rolson_hex_nut(5);
-	}
-}
-
 //echo (bottomArmH);
 
 if( drawArray==[] || search(20,drawArray)!=[])
@@ -2829,12 +2820,21 @@ if( drawArray==[] || search(20,drawArray)!=[])
 	}
 }
 
+if( !printLayout && (drawArray==[] || drawMetall) )
+{
+	translate ([0,0,armsZ+bottomArmH+armsZExtra+12])
+	{
+		Bearing625();
+		color("silver") translate ([0,0,4]) rolson_hex_nut(5);
+	}
+}
+
 // top arm
 if( drawArray==[] || search(21,drawArray)!=[] )
 {
 	a = printLayout ? 0 : q11;
 	ax = printLayout ? 180 : 0;
-	translate ([0,0,armsZ+bottomArmH+armsZExtra+Bearing625Height()+3]) rotate([ax,0,a])
+	translate ([0,0,armsZ+bottomArmH+armsZExtra+Bearing625Height()+3+12]) rotate([ax,0,a])
 	{
 		difference()
 		{
@@ -2842,26 +2842,26 @@ if( drawArray==[] || search(21,drawArray)!=[] )
 			{
 				hull()
 				{
-					cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_1*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					cylinder(r=ArmNearestD/2,h=bottomArmH,$fn=64);
+					translate([Linkage_1*0.15,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH,$fn=64);
 				}
 				hull()
 				{
-					cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_1,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					cylinder(r=ArmNearestD/2,h=bottomArmH,$fn=64);
+					translate([Linkage_1,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH,$fn=64);
 				}
 				hull()
 				{
-					translate([Linkage_1*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_1,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
+					translate([Linkage_1*0.85,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH,$fn=64);
+					translate([Linkage_1,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH,$fn=64);
 				}
 				translate([6,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
 			}
-			translate([Linkage_1,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
-			translate([Linkage_1,0,-1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=bottomArmH+2);
+			translate([Linkage_1,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2,$fn=64);
+			translate([Linkage_1,0,-1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=bottomArmH+2,$fn=64);
 			//translate([0,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
-			translate([0,0,-1]) cylinder(d=5.0,h=bottomArmH+2,$fn=12);
-			translate([0,-0.5,-1]) cube([10.5,1,bottomArmH+2]);
+			translate([0,0,-1]) cylinder(d=5.0,h=bottomArmH+2,$fn=32);
+			translate([0,-0.5,-1]) cube([12,1,bottomArmH+2]);
 			color("blue") translate([0,0,-0.1]) cylinder(d=BearingF512MDiameter()+BearingRClearance*2,h=1.1);
 			//color("blue") translate([0,0,-0.1]) cylinder(d=rolson_hex_nut_dia(5)+1,h=1.1,$fn=12);
 			
@@ -2872,25 +2872,25 @@ if( drawArray==[] || search(21,drawArray)!=[] )
 			//color("blue") translate([0,0,-0.1]) cylinder(r=ArmNearestD/2-2.3,h=0.5+0.1);
 			//}
 			color("red") translate([5,50,bottomArmH/2]) rotate([90,0,0]) cylinder(d=3,h=100,$fn=12);
-			color("red") translate([5,17,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			color("red") translate([5,-7,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
+			color("red") translate([5,17,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+2,h=10,$fn=12);
+			color("red") translate([5,-7,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+2,h=10,$fn=12);
 			
 									// mount holes 2
-			translate([Linkage_1-11,-0.5,0]) cube([12.5,1,bottomArmH+2]);
+			translate([Linkage_1-13,-0.5,0]) cube([12.5,1,bottomArmH+2]);
 			color("red") translate([Linkage_1-7,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100,$fn=24);
-			color("red") translate([Linkage_1-7,17,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			color("red") translate([Linkage_1-7,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
+			color("red") translate([Linkage_1-7,17,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+2,h=10,$fn=12);
+			color("red") translate([Linkage_1-7,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+2,h=10,$fn=12);
 
 			
-			translate([Linkage_1*0.35,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
-			translate([Linkage_1*0.70,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
+			//translate([Linkage_1*0.35,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
+			//translate([Linkage_1*0.70,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
 		}
 	}
 // holder
 				a1 = printLayout ? 0 : q11;
 	ay1 = printLayout ? 23 : 0;
 az1 = printLayout ? -10 : 28;
-
+/*
 	translate ([0,ay1,armsZ+bottomArmH+armsZExtra+Bearing625Height()+az1]) rotate([0,0,a1])
 	{
 		//cylinder(r=Bearing623Diameter()+2,h=bottomArmH+Bearing625Height());
@@ -2951,6 +2951,7 @@ az1 = printLayout ? -10 : 28;
 			color("silver") translate([Linkage_1,0,1+Bearing623Height()+Bearing623Height()]) hex_nut(5);
 		}
 	}
+		*/
 }
 
 if( drawArray==[] || search(22,drawArray)!=[] )
@@ -2961,7 +2962,7 @@ if( drawArray==[] || search(22,drawArray)!=[] )
 	//echo (a);
 	difference()
 	{
-	translate ([xd,yd,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5+25])
+	translate ([xd,yd,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5+16])
 		rotate([0,0,a+180]) 
 	{
 		difference()
@@ -2972,14 +2973,14 @@ if( drawArray==[] || search(22,drawArray)!=[] )
 				hull()
 				{
 					cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_1*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([5,-20,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
 				}
 
 				color("blue") 
 				hull() 
 				{
-					cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_2-6,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([5,-20,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
+					translate([Linkage_2-9,-6,0]) cylinder(r=ArmNearestW/2-1,h=bottomArmH);
 				}
 
 				color("blue") 
@@ -2987,7 +2988,7 @@ if( drawArray==[] || search(22,drawArray)!=[] )
 				{
 					//translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
 					translate([Linkage_2,0,0]) cylinder(r=1.5+3.5,h=bottomArmH);
-					translate([Linkage_2*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
+					translate([Linkage_2-9,-6,0]) cylinder(r=ArmNearestW/2-1,h=bottomArmH);
 				}
 				
 		//translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset+13,5,bottomArmH/2]) rotate([90,0,0]) cylinder(d=3,h=30,$fn=12);
@@ -3006,8 +3007,8 @@ if( drawArray==[] || search(22,drawArray)!=[] )
 			translate([0,0,1+Bearing623Height()]) Bearing623();
 		}
 	}
-				// hot end 
-			color("silver") translate([xp,yp,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5]) cylinder(r=13.5,h=100);
+	// hot end 
+	//color("silver") translate([xp,yp,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5]) cylinder(d=17,h=100);
 	}
 }
 
@@ -3182,8 +3183,8 @@ if( !printLayout && (drawArray==[] || drawMetall) )
 	{
 		difference()
 		{
-				cylinder(r=4,h=300);
-				cylinder(r=3,h=300);
+				cylinder(r=4,h=280);
+				cylinder(r=3,h=285);
 		}
 	}
 }
