@@ -12,6 +12,7 @@ Details:
 * Z axis will be improved (at least 2 bearing for each rod and may be threaded rod, more modular way to attach - currently it is hard to upgrade without disassembly)
 
 History:
+* 28.07.2015 - V2 - WIP
 * 27.07.2015 - V1 - DONE
 * 27.04.2015 - V1 - WIP
 
@@ -19,7 +20,10 @@ Videos:
 https://youtu.be/Ef477o_Nw88
  
 Dimensions: 
-* 140x210x300mm (Height configurable)
+* Base footprint - 165x140mm, height - 330mm
+
+Printing Area:
+* 100x120x120mm
 
 Mass:
 * ~2.5 kg (looks like 3kg max)
@@ -34,8 +38,9 @@ Other features:
 
 Hardware: 
 * 4 Nema17 (24mm length shaft)
-* Ramps 1.4 (better with drv8825 due to 1/32 microstepping)
-* External power supply 5A (without Heated bed, not final)
+* Ramps 1.4
+* 4 drv8825 (drv8825 is better due to 1/32 microstepping)
+* External power supply 5A (without Heated bed)
 * Heated bed ????? depends on (but seems like require in 4x time less current than MK2B - because of 4 times lower area)
 * 3 small (20x11x7mm) end stoppers
 Optional:
@@ -55,9 +60,9 @@ Materials:
 * ~1.5 meters(2m max) - GT2 timing belt 6mm(width)
 * 3 - GT2 16 teeth pulleys (ID=5mm)
 * 4 - Nema17 (24mm shaft length) (39 mm Nema17 might be used for xy)
-* 6 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
+* 4 - 625 bearings (ID-5mm,OD-16mm,H-5mm)
 * 2 - 608 bearings (ID-8mm,OD-22mm,H-7mm)
-* 11 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
+* 21 - 623 bearings (ID-3mm,OD-10mm,H-4mm)
 * 1 - aluminium tube (ID-6mm,OD-8mm) - 350mm max
 * 1 - m5 threaded rod - 500mm max
 * 1 - m3 threaded rod - 2 meters max
@@ -74,7 +79,7 @@ SCAD:
 
 Slicer:
 * Slic3r
-* ABS - 0.4mm nozzle, 25% infill, 0.25mm layer height
+* ABS - 0.4mm nozzle, setup is described in scad file for each part
 
 Included Software:
 * Software/SScaraVisualizer.html (may not be up to date) or use (up to date) https://jsfiddle.net/PavloG/0vq1nf2v/
