@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [15];//[1,2,3,4,5];//[1,7,8];
+drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -63,7 +63,7 @@ drawArray = [15];//[1,2,3,4,5];//[1,7,8];
 // 301: Optional - xy steppers shaft to bearings coubpliers 
 
 // more printer friedly layout (note: implemented not for all parts)
-printLayout = 1;
+printLayout = 0;
 
 
 drawSteppers = 0;
@@ -81,6 +81,8 @@ drawPowerButton = 1;
 drawSpool = 0;
 
 
+BedSizeX = 125;
+BedSizeY = 120;
 
 isExpolode = 0;
 // arms pulleys
@@ -3308,5 +3310,5 @@ if( !printLayout && (drawArray==[] || drawMetall) )
 // bed
 if( !printLayout && (drawArray==[] || drawBed) )
 {
-	translate([-65,BedYOffset-BedYOffsetMarginY,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([125,120+BedYOffsetMarginY,3]);
+	translate([-65,BedYOffset-BedYOffsetMarginY,65+BedZOffset+z]) color ([1,0.5,0.5,0.5]) cube([BedSizeX,BedSizeY+BedYOffsetMarginY,3]);
 }
