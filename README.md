@@ -90,25 +90,26 @@ Included Software:
 Calibration Guide:
 Enable EEPROM in you firmware.
 
-XY calibration:
+Initial rough calibration:
+* G28 goto home
+* Homing position - M370 X#xx Y#yy - where #xx and #yy is an angles (##yy should be more 180+, +/- a few angles is enought)
+* Steps Per Units - M92 X## Y## where ## is a stepperUnitsPerRevolution*driverMicrostepping*gearboxration/360, (Nema17 1.8deg with drv8825 1/32), v1 = 200*32*5/360 = 88.888, v2 = 142.222
 
-* G28 goto home
-* Measure distance from nozzle to center (i.e. axis center)
-* M450 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative)
-* M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative)
-* G28 goto home
+Steps Per Unit calibration (WIP WIP WIP not checked):
+* G28 XY
+* G1 X-50 Y50
+* G1 X50 Y50
+* Tweak (M92 X## Y##) until travel path become straigh line (parrallel to X axis), repeat a few times (sometime using other ten Y50 values)
 * M500 to save data to EEPROM
-NOTE2: home offset is an angles not a mm (also can be used for fine tuning - especially with M370 command, see Way2)
-NOTE: it is possible to use use calibration plate from scad file (part #38 in stl folder)
 
-Way2 (more precise):
+XY calibration:
 
 * G28 goto home
 * M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative, +/-1 mm is enought)
 * G1 X## Y## (tweak X## and Y## to match angles for one arm to 0deg other to 180deg)
 * M370 X45 Y135 // move arms to 45 and 135 degrees
 * M206 X## Y## (where X## Y## is a angular distance to 45 and 135)
-* Repeat a few times untill you get 45 and 135 degrees exactly (one arm shuld rotate from 0deg to 45deg, other from 180deg to 135deg)
+* Repeat a few times until you get 45 and 135 degrees exactly (one arm shuld rotate from 0deg to 45deg, other from 180deg to 135deg)
 * M500 to save data to EEPROM
 NOTE: Steps per unit must me calibrated already
 NOTE2: Home position calculation will use M206 offset angles to calculate real home pos
