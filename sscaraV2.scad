@@ -2438,10 +2438,10 @@ if( drawArray==[] || search(16,drawArray)!=[] )
 	mountOffsetRZ = printLayout ? -90 : 0;
 	//
 	//
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1*spacersDistMultX,BaseGearboxThreadedRodsY1*spacersDistMultY,part7EndZ+h]) rotate([0,mountOffsetR,0+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,part7EndZ+h]) rotate([0,mountOffsetR,90+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3*spacersDistMultX,BaseGearboxThreadedRodsY3*spacersDistMultY,part7EndZ+h]) rotate([0,mountOffsetR,-90+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
-	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,part7EndZ+h]) rotate([0,mountOffsetR,180+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=5);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1*spacersDistMultX,BaseGearboxThreadedRodsY1*spacersDistMultY,part7EndZ]) rotate([0,mountOffsetR,0+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,part7EndZ]) rotate([0,mountOffsetR,90+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3*spacersDistMultX,BaseGearboxThreadedRodsY3*spacersDistMultY,part7EndZ]) rotate([0,mountOffsetR,-90+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,part7EndZ]) rotate([0,mountOffsetR,180+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=5);
 }
 
 // spacers 2
