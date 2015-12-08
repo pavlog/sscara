@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [22];//[1,2,3,4,5];//[1,7,8];
+drawArray = [15];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -2339,32 +2339,75 @@ if( drawArray==[] || search(14,drawArray)!=[] )
 	//platformAlum();
 }
 
+module zCarretBodyPart(Len,LenExtra=0)
+{
+	ThicknessZ = 5;
+
+	difference()
+	{
+		//color("blue") 
+		hull()
+		{
+			translate([-rodOffsetX-24.5,0,part6Z+10.2+z]) rotate([-90,0,0]) cylinder(r=0.1,h=Len+LenExtra);
+			translate([rodOffsetX+24.5,0,part6Z+10.2+z]) rotate([-90,0,0]) cylinder(r=0.1,h=Len+LenExtra);
+
+			translate([-rodOffsetX-24.5,0,part6Z+14.5+ThicknessZ+z]) rotate([-90,0,0]) cylinder(r=0.1,h=Len+LenExtra);
+			translate([rodOffsetX+24.5,0,part6Z+14.5+ThicknessZ+z]) rotate([-90,0,0]) cylinder(r=0.1,h=Len+LenExtra);
+		}
+		translate([0,-10,0])SCS6UUAll(1);
+		
+		translate([0,Len/2,part6Z+14.5+ThicknessZ+z-20]) rotate([0,0,0]) scale([1.8,1,1]) cylinder(r=Len/4,h=40);
+		translate([-rodOffsetX,Len/2,part6Z+14.5+ThicknessZ+z-20]) rotate([0,0,0]) scale([1,1.2,1]) cylinder(r=Len/4,h=40);
+		translate([rodOffsetX,Len/2,part6Z+14.5+ThicknessZ+z-20]) rotate([0,0,0]) scale([1,1.2,1]) cylinder(r=Len/4,h=40);
+	}
+}
+
+
 if( drawArray==[] || search(15,drawArray)!=[] )
 {
-	aY = printLayout ? 15 : 137;
-	aZ = printLayout ? 81 : part6Z+15.5+z;
+	//printLayout = 0;
+	aY = printLayout ? -60 : 0;
+	aZ = printLayout ? 243 : 0;
 	rY = printLayout ? -90 : 0;
+	//
+	Len = 30;
+	LenOffset = printLayout ? 10 : 0;
+	LenEndExtra = 10;
+	HolesOffse = 6;
 	///*
 	translate([0,aY,aZ]) rotate([rY,0,0])
 	{
-		difference()
+		translate([0,46+Len+LenOffset+Len,0]) difference()
 		{
+			
 			union()
 			{
-				color("red") translate([0,0,0]) cube([110,10,8],center=true);
-				translate([0,6,0.3]) cube([112,2,10],center=true);
+				color("orange")
+				{
+					zCarretBodyPart(Len,LenExtra=LenEndExtra);
+				}
+				translate([0,LenEndExtra+Len,part6Z+15+z]) cube([112,2,12],center=true);
 			}
 			// side holes
-			translate([rodOffsetX+20.5,0,-10]) cylinder(r=1.51,h=30,$fn=12);
-			mirror() translate([rodOffsetX+20.5,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+			translate([rodOffsetX+20.5,LenEndExtra+Len-HolesOffse,part6Z+15+z-10]) cylinder(r=1.51,h=30,$fn=12);
+			mirror() translate([rodOffsetX+20.5,LenEndExtra+Len-HolesOffse,part6Z+15+z-10]) cylinder(r=1.51,h=30,$fn=12);
 			// tweak holes
-			translate([rodOffsetX+6,0,-10]) cylinder(r=1.51,h=30,$fn=12);
-			mirror() translate([rodOffsetX+6,0,-10]) cylinder(r=1.51,h=30,$fn=12);
+			translate([rodOffsetX+6,LenEndExtra+Len-HolesOffse,part6Z+15+z-10]) cylinder(r=1.51,h=30,$fn=12);
+			mirror() translate([rodOffsetX+6,LenEndExtra+Len-HolesOffse,part6Z+15+z-10]) cylinder(r=1.51,h=30,$fn=12);
 			// center holes
-			translate([rodOffsetX-5,0,-10]) cylinder(r=1.51,h=30,$fn=12);
-			mirror() translate([rodOffsetX-5.5,0,-10]) cylinder(r=1.51,h=30,$fn=12);
-			translate([0,-20,-aZ]) SCS6UUAll(1);
+			translate([rodOffsetX-5,LenEndExtra+Len-HolesOffse,part6Z+15+z-10]) cylinder(r=1.51,h=30,$fn=12);
+			mirror() translate([rodOffsetX-5.5,LenEndExtra+Len-HolesOffse,part6Z+15+z-10]) cylinder(r=1.51,h=30,$fn=12);
+			translate([0,-10,0])SCS6UUAll(1);
 		}
+	}
+	//*/
+	color("blue") translate([0,46,0])
+	{
+		zCarretBodyPart(Len);
+	}
+	color("green") translate([0,46+Len+LenOffset,0])
+	{
+		zCarretBodyPart(Len);
 	}
 }
 
