@@ -4,12 +4,13 @@ Small size 3d printer with SCARA based mechanics
 Current Status: V2 - WIP (a lot of improvements on the way)
 
 Details:
-* x8 or x9 gear ratio (current is 5, with x8 precision will increased in 1.6)
-* Belt path will be shortened twice (no belt couplers at all, less stetch errors)
-* No teeth on big pulleys at all (more precision, easy to print).
+* x5 gear ratio
+* Belt path shortened twice
+* No belt coupliers
+* No teeth on big pulleys (more precision, easy to print).
 * Smaller dimensions (but with the same print area).
 * A lot of improvements - more modular and service friendly
-* Z axis will be improved (at least 2 bearing for each rod and may be threaded rod, more modular way to attach - currently it is hard to upgrade without disassembly)
+* Z axis improved a lot
 
 History:
 * 28.07.2015 - V2 - WIP
@@ -17,7 +18,7 @@ History:
 * 27.04.2015 - V1 - WIP
 
 Videos:
-https://youtu.be/Ef477o_Nw88
+v1 - https://youtu.be/Ef477o_Nw88
  
 Dimensions: 
 * Base footprint - 165x140mm, height - 330mm
