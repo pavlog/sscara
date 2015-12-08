@@ -4,7 +4,7 @@ Small size 3d printer with SCARA based mechanics
 Current Status: V2 - WIP (a lot of improvements on the way)
 
 V2 Improvements:
-* x5 gear ratio
+* x8 gear ratio
 * Belt path shortened twice
 * No belt coupliers
 * No teeth on big pulleys (more precision, easy to print).
