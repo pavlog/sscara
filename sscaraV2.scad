@@ -48,7 +48,7 @@ drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 12 - extruder bottom support  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 13 - extruder top support and top 608 support
 // 14 - z carret (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
-// 15 - bed end
+// 15 - bed parts (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled) (1 full anddivided to 2 parts stls available)
 // 16 - spacers to top panel 1st part (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 17 - spacers to top panel 2nd part (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 18 - spacers bottom arm  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
@@ -60,7 +60,7 @@ drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 24 - extruder spacers
 
 // 300: Optional - bearing spacers for XY Steppers 
-// 301: Optional - xy steppers shaft to bearings coubpliers 
+// 301: Optional - xy steppers shaft to bearings coupliers 
 
 // more printer friedly layout (note: implemented not for all parts)
 printLayout = 0;
