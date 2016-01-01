@@ -7,8 +7,8 @@ V2 Improvements:
 * x8 gear ratio
 * Belt path shortened twice
 * No belt coupliers
-* No teeth on big pulleys (more precision, easy to print).
-* Smaller dimensions (but with the same print area).
+* No teeth on big pulleys (more precision, easy to print)
+* Smaller dimensions (but with the same print area)
 * A lot of improvements - more modular and service friendly
 * Z axis improved a lot
 
@@ -47,15 +47,14 @@ Hardware:
 Optional:
 * HC-05 bluetooth module (i am happy with it, even firmware flashing done via bluetooth)
 
-Firmware:
-* Marlin (modified)
-** FIVE_BAR define added for SCARA define
-** added M450 - xyz min limits
-** added M451 - xyz max limits
-** added M452 - xyz home pos
-** added M370 X#Angle Y#Angle
-** G2/G3 commands support
-** Fixed math for pure SCARA (2 arms)
+Marlin Firmware modifications:
+* FIVE_BAR define added for SCARA define
+* added M450 - xyz min limits
+* added M451 - xyz max limits
+* added M452 - xyz home pos
+* added M370 X#Angle Y#Angle
+* G2/G3 commands support
+* Fixed math for pure SCARA (2 arms)
 
 Materials:
 * ~1.5 meters(2m max) - GT2 timing belt 6mm(width)
@@ -102,14 +101,17 @@ Steps Per Unit calibration (WIP WIP WIP not checked):
 * Tweak (M92 X## Y##) until travel path become straigh line (parrallel to X axis), repeat a few times (sometime using other ten Y50 values)
 * M500 to save data to EEPROM
 
-XY calibration:
+XY init calibration:
 
 * G28 goto home
 * M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative, +/-1 mm is enought)
-* G1 X## Y## (tweak X## and Y## to match angles for one arm to 0deg other to 180deg)
-* M370 X45 Y135 // move arms to 45 and 135 degrees
-* M206 X## Y## (where X## Y## is a angular distance to 45 and 135)
-* Repeat a few times until you get 45 and 135 degrees exactly (one arm shuld rotate from 0deg to 45deg, other from 180deg to 135deg)
+
+XY precise calibration:
+
+* G28 goto home
+* M370 X90 Y180 // move arms to 90 and 180 degrees
+* M206 X## Y## (where X## Y## is a angular distance to 90 and 180)
+* Repeat a few times until you get 90 and 180 degrees exactly
 * M500 to save data to EEPROM
 NOTE: Steps per unit must me calibrated already
 NOTE2: Home position calculation will use M206 offset angles to calculate real home pos
