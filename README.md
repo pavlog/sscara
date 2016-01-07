@@ -13,6 +13,7 @@ V2 Improvements:
 * Z axis improved a lot
 
 History:
+* 05.01.2016 - V2 - Final tests
 * 28.07.2015 - V2 - WIP
 * 27.07.2015 - V1 - DONE
 * 27.04.2015 - V1 - WIP
@@ -74,7 +75,6 @@ Materials:
 SCAD:
 * use drawArray = [] to draw everything or drawArray=[1,2,3] for parts
 * use printLayout to control parts/subparts layout (0 for design, 1 for export) (Some parts need to be rotated to 180 Y) (WIP)
-* isExpolode - variable to control explode mode view (WIP)
 * NemaSize - tweak nema len, NemaLengthMedium,NemaLengthShort,NemaLengthLong
 
 Slicer:
@@ -83,7 +83,6 @@ Slicer:
 
 Included Software:
 * Software/SScaraVisualizer.html (may not be up to date) or use (up to date) https://jsfiddle.net/PavloG/0vq1nf2v/
-* Software/ReprapHeatedBedGenerator heated bed generator (forked from https://github.com/tlalexander/ReprapHeatedBedGenerator)
 * Marlin firmware - use https://github.com/pavlog/Marlin (forked from https://github.com/MarlinFirmware/Marlin)
 
 Calibration Guide:
@@ -115,18 +114,6 @@ XY precise calibration:
 * M500 to save data to EEPROM
 NOTE: Steps per unit must me calibrated already
 NOTE2: Home position calculation will use M206 offset angles to calculate real home pos
-
-
-Steps Per Unit calibration:
-Theory: stepperUnitsPerRevolution*driverMicrostepping*gearboxration/360, sscara (with drv8825 1/32) = 200*32*5/360 = 88.888
-* G28 XY
-* G1 X-50
-* G1 X50
-* Measure real distance and correct units (M92 X## Y##) until travel distance will become 100mm
-* M500 to save data to EEPROM
-NOTE2: home offset is an angles not a mm (also can be use for fine tuning calibration especially with M370 command)
-
-Repeat XY and Units calibration a few times
 
 Z calibration
 * G28 Z

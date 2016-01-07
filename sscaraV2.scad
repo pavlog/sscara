@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [];//[1,2,3,4,5];//[1,7,8];
+drawArray = [25];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -58,20 +58,21 @@ drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 22 - top second arm
 // 23 - upper bearing fixator
 // 24 - extruder spacers
+// 25 - far bottom spacer
 
 // 300: Optional - bearing spacers for XY Steppers 
 // 301: Optional - xy steppers shaft to bearings coupliers 
 
 // more printer friedly layout (note: implemented not for all parts)
-printLayout = 0;
+printLayout = 1;
 
 
 drawSteppers = 0;
 drawBelts = 0;
 drawZBelts = 0;
 drawSwitchesAll = 1;
-drawBaseAllum = 9;
-drawLCD = 0;
+drawBaseAllum = 0;
+drawLCD = 1;
 drawMetall = 1;
 drawRamps = 0;
 drawRods = 1;
@@ -315,13 +316,16 @@ module DCJack5p5()
 
 module PowerButton()
 {
-	color("green") cylinder(d=9.5,h=20);
+	color("green") cylinder(d=12,h=20);
+	translate([-33/2,-15/2,-20]) cube([33,15,27]);
 }
 
 if( !printLayout && (drawArray==[] || drawPowerButton) )
 {
-	translate([-50,-30,95]) rotate([0,-90,0]) PowerButton();
+	translate([-50,-40,102]) rotate([0,-90,0]) PowerButton();
 }
+
+//color("grey") translate([-60,-60,80]) rotate([0,-90,0])  cube([60,60,3]);
 
 module fillet(r, h)
 {
@@ -1367,6 +1371,93 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,15-1.5]) rotate([0,0,180]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=3);
 }
 
+// bearing mount steppersspacers
+if( drawArray==[] || search(25,drawArray)!=[] )
+{
+	h = spacersH2/2;
+	//echo ("hh");
+	//echo(h);
+	//
+	//printLayout = 0;
+	//
+	spacersDistMultX = printLayout ? 1 : 1;
+	spacersDistMultY = printLayout ? 0.55 : 1;
+	spacersDistMultX2 = printLayout ? -80 : 1;
+	spacersRot = printLayout ? 0 : 0;
+	spacersRot2 = printLayout ? 0 : 0;
+	offX2 = printLayout ? 0 : 0;
+	offY2 = printLayout ? 0 : 0;
+
+	off2 = printLayout ? 0 : 0;
+	//
+	mountOffsetR = printLayout ? 0 : 0;
+	mountOffsetRZ = printLayout ? 0 : 0;
+	//
+	//
+	difference()
+	{
+		color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX3*spacersDistMultX,99,15-1.5]) rotate([0,mountOffsetR,-90+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=4);
+		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);
+	}
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX+spacersDistMultX2,99,15-1.5]) rotate([0,mountOffsetR,180+mountOffsetRZ]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=5);
+}
+
+
+/*
+
+	h = part5SpacerH;
+	//echo ("hh");
+	//echo(h);
+	//
+	//printLayout = 1;
+	//
+	spacersDistMultX = printLayout ? 0.22 : 1;
+	spacersDistMultY = printLayout ? 0.4 : 1;
+	spacersRot = printLayout ? 0 : 0;
+	spacersRot2 = printLayout ? 90 : 0;
+	offX2 = printLayout ? 0 : 0;
+	offY2 = printLayout ? 10 : 0;
+
+	off2 = printLayout ? 43 : 0;
+	
+	mountH = 15;
+	mountOffsetZ = printLayout ? mountH : 0;
+	mountOffsetZ2 = printLayout ? (h+h+mountH-3) : 0;
+	//
+	//
+	translate([printLayout ? 43 : 0,printLayout ? 35.5 : 0,0])
+	difference()
+	{
+		color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX1,100,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=5);
+		translate([LCDX,LCDY,LCDZ]) LCD20x4SmartController(1);
+	}
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX2*spacersDistMultX,BaseGearboxThreadedRodsY2*spacersDistMultY,15-1.5]) rotate([0,0,90]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=1);
+	// 
+	color("blue") translate([off2,0,0]) rotate([spacersRot,0,0])  difference()
+	{
+		union()
+		{
+			translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=2);
+			// switch x
+			switchXMount();
+		}
+		//rotate([30,0,0]) 
+		SwitchX(1);
+		//rotate([30,0,0]) 
+		//SwitchX(0);
+		hull()
+		{
+			translate([switchX_ox+1,switchX_oy-2,20]) rotate([90,switchX_r,90]) translate([3,-5,0]) cube([25,11,5]);
+			translate([switchX_ox+3,switchX_oy-2,25]) rotate([90,switchX_r,90]) translate([3,-5,0]) cube([25,11,5]);
+		}
+		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,15-1.5]) spacerHoles(m3PlatesRad,m3PlatesRad,h=h,bWings=2);
+		part4LinersSpheres(1.1);
+	}
+	color("blue") rotate([spacersRot,0,0]) translate([BaseGearboxThreadedRodsX4*spacersDistMultX,BaseGearboxThreadedRodsY4*spacersDistMultY,15-1.5]) rotate([0,0,180]) spacer(m3PlatesRad,m3PlatesRad,h=h,bWings=3);
+}
+*/
+
+
 // 608 bearing support bottom
 if( drawArray==[] || search(6,drawArray)!=[] )
 {
@@ -1381,6 +1472,7 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 	}
 	//ramps();
 }
+
 
 
 if( !printLayout && (drawArray==[] || drawMetall) )
