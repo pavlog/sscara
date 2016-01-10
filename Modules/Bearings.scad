@@ -60,6 +60,14 @@ module Bearing623()
 function Bearing623Height() = 4;
 function Bearing623Diameter() = 10;
 
+module Bearing624()
+{
+  translate ([0,0,2]) color ("silver") Bearing(outer = 6, inner = 4, attempt = 1.5, gap = 0.2, height = Bearing624Height(), hole = 1.5);
+}
+
+function Bearing624Height() = 5;
+function Bearing624Diameter() = 13;
+
 module Bearing608()
 {
   translate ([0,0,3.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 7, attempt = 2, gap = 0.2, height = Bearing608Height(), hole = 4);
@@ -112,6 +120,7 @@ translate ([0,0,40]) Bearing608();
 translate ([0,0,60]) Bearing6800();
 translate ([0,0,80]) BearingLM6UU();
 translate ([0,0,120]) BearingF512M();
+translate ([0,0,150]) Bearing624();
 
 // sizes from scs_uu.png in this directory
 module SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8,bHolesOnly=0)
@@ -142,17 +151,17 @@ module SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8,bHolesOnly=0)
 				}
 				translate([W/2,-1,h]) rotate([-90,0,0]) cylinder(d=D,h=W+2);
 				// mount holes
-				translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+1);
-				translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1,h=h);
+				translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+2,$fn=12);
+				translate([W/2-B/2,L/2-C/2,-1]) cylinder(d=S1,h=h,$fn=12);
 				// mount holes
-				translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+1);
-				translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1,h=h);
+				translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1-1,h=G+2,$fn=12);
+				translate([W/2+B/2,L/2-C/2,-1]) cylinder(d=S1,h=h,$fn=12);
 				// mount holes
-				translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+1);
-				translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1,h=h);
+				translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+2,$fn=12);
+				translate([W/2-B/2,L/2+C/2,-1]) cylinder(d=S1,h=h,$fn=12);
 				// mount holes
-				translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+1);
-				translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1,h=h);
+				translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1-1,h=G+2,$fn=12);
+				translate([W/2+B/2,L/2+C/2,-1]) cylinder(d=S1,h=h,$fn=12);
 			}
 		}
 	}
@@ -172,3 +181,78 @@ module SCS6UU(bHolesOnly=0)
 
 translate([50,0,30]) SCS6UU();
 color("red") translate([90,0,0]) SCS6UU(bHolesOnly=1);
+
+module shf8(bHolesOnly=0)
+{
+	if( bHolesOnly==1 )
+	{
+		translate([-16,0,-25.1]) cylinder(d=5.5,h=50);
+		translate([16,0,-25.1]) cylinder(d=5.5,h=50);
+		translate([0,0,-25.1]) cylinder(d=8,h=50);
+	}
+	else if( bHolesOnly==2 )
+	{
+		translate([-16,0,-25.1]) cylinder(d=5.5,h=50);
+		translate([16,0,-25.1]) cylinder(d=5.5,h=50);
+	}
+	else
+	{
+		difference()
+		{
+			union()
+			{
+				hull()
+				{
+					translate([-16,0,0]) cylinder(d=10,h=10);
+					translate([0,0,0]) cylinder(d=20,h=10);
+					translate([16,0,0]) cylinder(d=10,h=10);
+				}
+				translate([-10,0,0]) cube([20,13,10]);
+			}
+			translate([-16,0,-0.1]) cylinder(d=5.5,h=50);
+			translate([16,0,-0.1]) cylinder(d=5.5,h=50);
+			translate([0,0,-0.1]) cylinder(d=8,h=50);
+			translate([-12,10,5]) rotate([0,90,0]) cylinder(d=4,h=24);
+		}
+	}
+}
+
+translate([120,0,0]) shf8();
+
+module kfl08(bHolesOnly=0)
+{
+	if( bHolesOnly==1 )
+	{
+		translate([-36.5/2,0,-25.1]) cylinder(d=5,h=50);
+		translate([36.5/2,0,-25.1]) cylinder(d=5,h=50);
+		translate([0,0,-25.1]) cylinder(d=8,h=50);
+	}
+	else if( bHolesOnly==2 )
+	{
+		translate([-36.5/2,0,-25.1]) cylinder(d=5,h=50);
+		translate([36.5/2,0,-25.1]) cylinder(d=5,h=50);
+	}
+	else
+	{
+		difference()
+		{
+			union()
+			{
+				hull()
+				{
+					translate([-36.5/2,0,0]) cylinder(r=5.5,h=4);
+					translate([0,0,0]) cylinder(r=13.5,h=4);
+					translate([36.5/2,0,0]) cylinder(r=5.5,h=4);
+				}
+				translate([0,0,0]) cylinder(r=13,h=10);
+				translate([0,0,0]) cylinder(d=8+4,h=13);
+			}
+			translate([-36.5/2,0,-25.1]) cylinder(d=5,h=50);
+			translate([36.5/2,0,-25.1]) cylinder(d=5,h=50);
+			translate([0,0,-25.1]) cylinder(d=8,h=50);
+		}
+	}
+}
+
+translate([180,0,0]) kfl08();
+

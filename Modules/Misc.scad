@@ -101,3 +101,30 @@ module Nema17_shaft24_Stepper(bSrewsOnly=0,NemaSize=NemaLengthLong)
 		color ("silver") translate([0,0,.01]) cylinder(d=extr,h=2,$fn=32);
 	}
 }
+
+// MY NEMA with 24mm length shafts
+module Nema17_shaft22_Stepper(bSrewsOnly=0,NemaSize=NemaLengthLong)
+{
+	if( !bSrewsOnly )
+	{
+		color ("silver")
+		{		
+			motor(Nema17,NemaSize);
+			translate([0,0,-40+18]) cylinder(r=2.5,h=22,$fn=32);
+		}
+		Nema17Len = lookup(NemaSize, Nema17);
+		color ("gold") translate([21,-5,Nema17Len-5]) cube ([5,10,5]);
+	}
+	else
+	{
+		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+		color ("silver") translate([holeDist,holeDist,-30]) cylinder(r=1.51,h=35,$fn=32);
+		color ("silver") translate([-holeDist,holeDist,-30]) cylinder(r=1.51,h=35,$fn=32);
+		color ("silver") translate([holeDist,-holeDist,-30]) cylinder(r=1.51,h=35,$fn=32);
+		color ("silver") translate([-holeDist,-holeDist,-30]) cylinder(r=1.51,h=35,$fn=32);
+		color ("silver") translate([0,0,-20]) cylinder(r=2.6,h=25,$fn=32);
+		extr = lookup(NemaRoundExtrusionDiameter, Nema17);
+		color ("silver") translate([0,0,.01]) cylinder(d=extr,h=2,$fn=32);
+	}
+}
+Nema17_shaft22_Stepper();

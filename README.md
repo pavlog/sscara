@@ -13,6 +13,8 @@ V2 Improvements:
 * Z axis improved a lot
 
 History:
+* 28.07.2015 - V3 - WIP
+* 11.01.2016 - V2 - DONE (fail)
 * 05.01.2016 - V2 - Final tests
 * 28.07.2015 - V2 - WIP
 * 27.07.2015 - V1 - DONE
@@ -90,30 +92,33 @@ Enable EEPROM in you firmware.
 
 Initial rough calibration:
 * G28 goto home
-* Homing position - M370 X#xx Y#yy - where #xx and #yy is an angles (##yy should be more 180+, +/- a few angles is enought)
 * Steps Per Units - M92 X## Y## where ## is a stepperUnitsPerRevolution*driverMicrostepping*gearboxration/360, (Nema17 1.8deg with drv8825 1/32), v1 = 200*32*5/360 = 88.888, v2 = 142.222
-
-Steps Per Unit calibration (WIP WIP WIP not checked):
-* G28 XY
-* G1 X-50 Y50
-* G1 X50 Y50
-* Tweak (M92 X## Y##) until travel path become straigh line (parrallel to X axis), repeat a few times (sometime using other ten Y50 values)
-* M500 to save data to EEPROM
 
 XY init calibration:
 
 * G28 goto home
-* M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the center (xx should negative, +/-1 mm is enought)
+* M452 X#xx Y#yy - where #xx and #yy is a measured distance from nozzle to the axis center (xx should negative, +/-1 mm is enought)
+
+NOTE: Put your min max software limits a little bit bigger (i used 3 cm)  (use M450 and M451), this is required for the next steps.
 
 XY precise calibration:
 
+Precise Steps Per Units calibration:
 * G28 goto home
-* M370 X90 Y180 // move arms to 90 and 180 degrees
-* M206 X## Y## (where X## Y## is a angular distance to 90 and 180)
+* M370 X90+#xx Y180+#yy // move arms to 90 and 180 degrees, #xx and #yy is an extra angle to move arms exactly to 90 and 180 degrees
+* M370 X0+#xx Y90+#yy // #xx and #yy from prev step
+* if your arms not exacly 0 and 90 degrees use M92 X## Y## +/- values until all sequence above will get 0 and 90 degrees
 * Repeat a few times until you get 90 and 180 degrees exactly
 * M500 to save data to EEPROM
-NOTE: Steps per unit must me calibrated already
-NOTE2: Home position calculation will use M206 offset angles to calculate real home pos
+
+
+Precise home offsets calibration:
+* G28 goto home
+* M370 X90 Y180 // move arms to 90 and 180 degrees
+* M206 X## Y## (where X## Y## is a angular distance to 90 and 180, this is homing offsets in angles, can be used from prev steps)
+* Repeat a few times until you get 90 and 180 degrees exactly
+* M500 to save data to EEPROM
+
 
 Z calibration
 * G28 Z
