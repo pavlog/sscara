@@ -11,9 +11,14 @@ use <Modules/LCD.scad>
 use <Modules/Misc.scad>
 use <Modules/Profiles.scad>
 
-//
-ex = 50;
-ey = 20;
+// almost parralel
+//ex = -100;
+//ey = 170;
+// small angle
+ex = 10;
+ey = 30;
+//ex = 70;
+//ey = 130;
 z = 0;//125;
 //z = 140;
 
@@ -25,7 +30,7 @@ EndPointMountAngle = 0;
 //
 BedSizeX = 200;
 BedSizeY = 200;
-BedYOffset = 30;
+BedYOffset = 20;
 BedXOffset = -150;
 //
 m5Rclearance = 0.1;
@@ -670,8 +675,76 @@ if( drawArray==[] || search(2,drawArray)!=[] )
 		//translate([0,0,(7-4)/2+2]) rotate([0,0,q11+90]) rotate([90,0,0]) translate([(22/2+3),0,-19]) cylinder(d=4,h=200,$fn=16);
 		//translate([0,0,(7-4)/2+2]) rotate([0,0,q11+90]) rotate([90,0,0]) translate([(22/2+3),0,-18]) hex_nut(4);
 		//translate([0,0,(7-4)/2+2]) rotate([0,0,q11+90]) rotate([90,0,0]) translate([-(22/2+3),0,-18]) hex_nut(4);
+
+		// subpart 4
+		translate([printLayout ? -30 : 21,printLayout ? 60 : 0,printLayout ? 24 : 0])
+		rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) 
+		color("magenta")
+		{
+			rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) intersection()
+			{
+				difference()
+				{	
+					armsEndEffector();
+					translate([20,0,7]) scale([1,1,1]) cylinder(d=33,h=7);
+				}
+				translate([0,-25,0])
+				{	
+					cube([20,50,25]);
+					//cube([10,50,50]);
+					//translate([0,0,14])cube([20,50,7]);
+				}
+			}
+			translate([printLayout ? 15 : 0,0,printLayout ? -13 : 0]) rotate([0,printLayout ? 180 : 0,printLayout ? 0 : 0]) intersection()
+			{
+				armsEndEffector();
+				translate([20,-25,0]) cube([20,50,7]);
+			}
+			translate([printLayout ? 6 : 0,0,printLayout ? -34 : 0]) rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) intersection()
+			{
+				armsEndEffector();
+				translate([20,-25,14]) cube([20,50,7]);
+			}
+		}
+		//rotate([0,90,0]) cylinder(r=4,h=41);
+
 	}
+
+
+
 }
+
+
+hull()
+{
+	xd = dhalf + l * cos(q11);
+  yd = l * sin(q11);
+	a = printLayout ? 0 : atan((y-yd)/(x-xd));
+	
+	smallArmLen = 41;
+
+	rotAngle = bPrintLayout ? 0 : a;
+	translate([0,0,yStepperZPlane+3+22+7+7/2]) rotate([0,0,rotAngle]) 
+	{
+
+		// subpart 4
+		translate([printLayout ? -30 : smallArmLen,printLayout ? 60 : 0,printLayout ? 24 : 0])
+		rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) 
+		color("magenta")
+		{
+			sphere(r=3);
+		}
+	}
+
+	translate ([xd,yd,yStepperZPlane+3+22+7+7/2])
+		rotate([0,0,a+180]) 
+	{
+			translate([-smallArmLen,0,0]) sphere(r=3);
+	}
+
+
+}
+
 
 module armsRods(d=4+0.2,h=100,fn=24,rot=0)
 {
@@ -700,7 +773,7 @@ module armsEndEffector()
 // 
 if( drawArray==[] || search(3,drawArray)!=[] )
 {
-	printLayout = 1;
+	printLayout = 0;
 
 	a = printLayout ? 0 : q11;
 	ax = printLayout ? 0 : 0;
@@ -743,7 +816,7 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 		// subpart 3
 		translate([printLayout ? -30 : 21+19+40,printLayout ? 60 : 0,printLayout ? 24 : 0])
 		rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) 
-		!color("magenta")
+		color("magenta")
 		{
 			rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) intersection()
 			{
