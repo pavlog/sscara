@@ -938,12 +938,34 @@ module part5(printLayout)
 						rotate([0,0,-90]) translate([25,0,0]) cylinder(r=5,h=7);
 						translate([50,-23,0]) cube([10,10,7]);
 					}
+					difference()
+					{
+						translate([0,-13,0]) scale([1.4,1,1]) cylinder(r=5,h=7);
+						#hull()
+						{
+						translate([-8,-16.1,-1]) scale([1.0,1,1]) cylinder(r=3,h=7+2,$fn=32);
+						translate([-8,-40,-1]) scale([1.0,1,1]) cylinder(r=3,h=7+2,$fn=32);
+						}
+						translate([8,-16,-1]) scale([1.0,1,1]) cylinder(r=3,h=7+2,$fn=32);
+					}
+					translate([5,-17,0]) scale([1,1,1]) cylinder(r=3,h=7);
+					//difference()
+					//{
+					//	translate([5,-17,0]) scale([1.2,1,1]) cylinder(r=3,h=7);
+					//	translate([7.3,-15,-1]) scale([1.3,1,1]) cylinder(r=1.5,h=7+2,$fn=32);
+					//}
 				}
 //				translate([28,-25,7/2])  rotate([90,0,-90]) cylinder(r=6,h=19);
 			}
 			color("red") translate([0,0,-1]) cylinder(d=3,h=30,$fn=32);
-			#translate([-30,-26,7/2])  rotate([90,0,90+7]) cylinder(d=4,h=170,$fn=32);
-//			translate([28,-25,0])  rotate([90,0,-90]) cylinder(d=4,h=19);
+			translate([-30,-26,7/2])  rotate([90,0,90+7]) cylinder(d=4,h=170,$fn=32);
+				
+						hull()
+						{
+							translate([6.9,-14.9,-1]) scale([1.0,1,1]) cylinder(r=1.5,h=7+2,$fn=32);
+							translate([10,-14.6,-1]) scale([1.0,1,1]) cylinder(r=1.5,h=7+2,$fn=32);
+							//translate([7.3,-15,-1]) scale([1.3,1,1]) cylinder(r=1.5,h=7+2,$fn=32);
+						}
 		}
 	}
 
@@ -967,7 +989,7 @@ module part5(printLayout)
 				color("green") hull()
 				{
 					translate([-50,-22,0]) cube([20,14,7]);
-					translate([-95,-27,0]) cube([20,10,7]);
+					translate([-85,-26.3,0]) cube([20,10,7]);
 					//translate([0,-10,0]) cylinder(r=5,h=7);
 					//rotate([0,0,-90]) translate([22,0,0]) cylinder(r=5,h=7);
 				}
