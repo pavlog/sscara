@@ -87,6 +87,9 @@ Included Software:
 * Software/SScaraVisualizer.html (may not be up to date) or use (up to date) https://jsfiddle.net/PavloG/0vq1nf2v/
 * Marlin firmware - use https://github.com/pavlog/Marlin (forked from https://github.com/MarlinFirmware/Marlin)
 
+Reachability visualizer
+* http://jsfiddle.net/PavloG/0vq1nf2v/
+
 Calibration Guide:
 Enable EEPROM in you firmware.
 
