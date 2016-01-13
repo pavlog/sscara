@@ -17,14 +17,14 @@ use <Modules/Profiles.scad>
 //ex = -100;
 //ey = 170;
 // small angle
-//ex = 10;
-//ey = 30;
+ex = 10;
+ey = 30;
 // middle 
 //ex = 0;
 //ey = 130;
 //
-ex = 0;
-ey = 30;
+//ex = 0;
+//ey = 30;
 //
 z = 0;//125;
 //z = 140;
@@ -817,11 +817,11 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 				armsEndEffector();
 				translate([20,-25,0]) cube([20,50,7]);
 			}
-			translate([printLayout ? 6 : 0,0,printLayout ? -34 : 0]) rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) intersection()
-			{
-				armsEndEffector();
-				translate([20,-25,14]) cube([20,50,7]);
-			}
+			//translate([printLayout ? 6 : 0,0,printLayout ? -34 : 0]) rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) intersection()
+			//{
+			//	armsEndEffector();
+			//	translate([20,-25,14]) cube([20,50,7]);
+			//}
 		}
 	}
 	//translate ([0,0,part1ZBase+21/2]) rotate([90,0,q11+90]) cylinder(d=30,h=40);
@@ -829,61 +829,125 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 
 if( drawArray==[] || search(4,drawArray)!=[] )
 {
+	printLayout = 1;
+	drawArraySubpart = [1,2];//[1,2,3,4,5];//[1,7,8];
   xd = dhalf + l * cos(q11);
   yd = l * sin(q11);
 	a = printLayout ? 0 : atan((y-yd)/(x-xd));
 	//echo (a);
 	difference()
 	{
-	translate ([xd,yd,51])
-		rotate([0,0,a+180]) 
-	{
-		difference()
+		translate ([xd,yd,51])
+			rotate([0,0,a+180]) 
 		{
-			union()
+			difference()
 			{
-				cylinder(r=15,h=bottomArmH);
-				color("blue") 
-				hull()
+				union()
 				{
-					translate([0,0,0]) cylinder(r=9,h=bottomArmH);
-					translate([-3,-25,0]) cylinder(r=9,h=bottomArmH);
+					if( drawArraySubpart==[] || search(1,drawArraySubpart)!=[] )
+					{
+						color("gray") 
+						cylinder(r=15,h=bottomArmH);
+						color("blue") 
+						hull()
+						{
+							translate([0,0,0]) cylinder(r=5,h=bottomArmH);
+							translate([-0,-25,0]) cylinder(r=5,h=bottomArmH);
+						}
+
+						color("green") 
+						difference()
+						{
+							hull()
+							{
+								translate([0,-15,0]) cylinder(r=7,h=bottomArmH);
+								translate([0,-25,0]) cylinder(r=7,h=bottomArmH);
+							}
+							hull()
+							{
+								color("red") translate([8,-16,-1]) cylinder(d=6,h=30,$fn=32);
+								color("red") translate([10,-27,-1]) cylinder(d=5,h=30,$fn=32);
+							}
+						}
+						
+						difference()
+						{
+							color("red") translate([5,-17,0]) cylinder(d=2,h=7,$fn=32);
+							color("red") translate([6,-15.8,-1]) cylinder(d=2,h=30,$fn=32);
+						}
+
+						color("blue") 
+						hull() 
+						{
+							translate([0,-27.1,0]) scale([0.8,1,1]) cylinder(r=9,h=bottomArmH);
+							translate([Linkage_2-30,-10,0]) cylinder(r=8,h=bottomArmH);
+						}
+						color("blue") 
+						hull() 
+						{
+							//translate([Linkage_2-20,-10,0]) cylinder(r=8,h=bottomArmH);
+							//translate([Linkage_2*0.85,0,0]) cylinder(r=8,h=bottomArmH);
+						}
+					}
+					/*
+					*/
+					if( drawArraySubpart==[] || search(2,drawArraySubpart)!=[] )
+					{
+						color("green") 
+						{
+							hull() 
+							{
+								translate([Linkage_2-57,-16.5,7]) scale([0.8,1,1]) cylinder(r=8,h=bottomArmH);
+								translate([Linkage_2-30,-10,7]) cylinder(r=8,h=bottomArmH);
+							}
+							hull()
+							{
+								//translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
+								translate([Linkage_2,0,7]) cylinder(r=8+4,h=bottomArmH);
+								translate([Linkage_2-30,-10,7]) cylinder(r=8,h=bottomArmH);
+								translate([Linkage_2-30,-10,7]) cylinder(r=8,h=bottomArmH);
+							}
+						}
+						translate([Linkage_2,0,7]) rotate([0,0,-50]) translate([0,-4,0]) cube([16,8,bottomArmH]);
+					}
+				}
+				// hot end mount hole
+				if( drawArraySubpart==[] || search(2,drawArraySubpart)!=[] )
+				{
+					translate([Linkage_2,0,-1]) rotate([0,0,-50]) translate([0,-0.5,0]) cube([20,1,20]);
+					translate([Linkage_2,0,7+7/2]) rotate([0,0,-50]) translate([12,10,0]) rotate([90,0,0])   cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
+					#translate([Linkage_2,0,7+7/2]) rotate([0,0,-50])  translate([12,-4,0]) rotate([90,0,0])  cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
+					translate([Linkage_2,0,7+7/2]) rotate([0,0,-50]) translate([12,20,0]) rotate([90,0,0])   cylinder(d=3,h=40,$fn=12);
+					color("red") translate([Linkage_2,0,-1]) cylinder(r=8+0.1,h=30,$fn=32);
 				}
 
-///*
-				color("blue") 
-				hull() 
+				if( drawArraySubpart==[] || search(1,drawArraySubpart)!=[] || search(2,drawArraySubpart)!=[] )
 				{
-					translate([5,-25,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_2-9,-6,0]) cylinder(r=ArmNearestW/2-1,h=bottomArmH);
+					color("red") translate([Linkage_2-30,-10,-1]) rotate([0,0,-166])
+					{
+						color("red") translate([0,0,0]) cylinder(d=4,h=30,$fn=32);
+						color("red") translate([14,0,0]) cylinder(d=4,h=30,$fn=32);
+						color("red") translate([14*2,0,0]) cylinder(d=4,h=30,$fn=32);
+						color("red") translate([14*3,0,0]) cylinder(d=4,h=30,$fn=32);
+						color("red") translate([14*4,0,0]) cylinder(d=4,h=30,$fn=32);
+						color("red") translate([14*5,0,0]) cylinder(d=4,h=30,$fn=32);
+					}
+					
+					color("red") translate([0,0,-1]) cylinder(d=4,h=30,$fn=32);
+					hull()
+					{
+						color("red") translate([-8,-16,-1]) cylinder(d=6,h=30,$fn=32);
+						color("red") translate([-10,-27.2,-1]) cylinder(d=5,h=30,$fn=32);
+					}
 				}
-//*/
-				color("blue") 
-				hull()
-				{
-					//translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_2,0,0]) cylinder(r=1.5+3.5,h=bottomArmH);
-					translate([Linkage_2-9,-6,0]) cylinder(r=ArmNearestW/2-1,h=bottomArmH);
-				}
-				
-		//translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset+13,5,bottomArmH/2]) rotate([90,0,0]) cylinder(d=3,h=30,$fn=12);
-
-				//translate([Linkage_2-13,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
 			}
-			color("red") translate([Linkage_2,0,-1]) cylinder(d=3,h=30,$fn=32);
-			color("red") translate([0,0,-1]) cylinder(d=3,h=30,$fn=32);
-			//translate([Linkage_2,0,4]) cylinder(d=Bearing6800Diameter()+b6800Clearance,h=bottomArmH,$fn=32);
-			//color("red") translate([0,0,-1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=30,$fn=32);
-			//color("red") translate([0,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=30,$fn=32);
+			//color("red") translate([Linkage_2,0,15]) rotate([0,180,0])  heatsinkE3DV5(0,100);
+			if( drawArray==[] )
+			{
+				translate([0,0,1]) Bearing623();
+				translate([0,0,1+Bearing623Height()]) Bearing623();
+			}
 		}
-		if( drawArray==[] )
-		{
-			translate([0,0,1]) Bearing623();
-			translate([0,0,1+Bearing623Height()]) Bearing623();
-		}
-	}
-	// hot end 
-	//color("silver") translate([xp,yp,armsZ+bottomArmH+armsZExtra-Bearing625Height()-2.5]) cylinder(d=17,h=100);
 	}
 }
 
