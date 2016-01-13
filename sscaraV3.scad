@@ -24,7 +24,7 @@ ey = 170;
 //ey = 130;
 //
 //ex = 0;
-//ey = 30;
+//ey = 160;
 //
 z = 0;//125;
 //z = 140;
@@ -1007,11 +1007,11 @@ module part4(printLayout,drawArraySubpart)
 	}
 }
 
-!if( drawArray==[] || search(4,drawArray)!=[] )
+if( drawArray==[] || search(4,drawArray)!=[] )
 {
 	
 	//printLayout = 1;
-	drawArraySubpart = [3];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
+	drawArraySubpart = [1,2,3];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
 	difference()
 	{
 		part4(printLayout,drawArraySubpart);
