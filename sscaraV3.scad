@@ -14,11 +14,11 @@ use <Modules/Profiles.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-//ex = -100;
-//ey = 170;
+ex = -100;
+ey = 170;
 // small angle
-ex = 10;
-ey = 30;
+//ex = 10;
+//ey = 30;
 // middle 
 //ex = 0;
 //ey = 130;
@@ -817,20 +817,19 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 				armsEndEffector();
 				translate([20,-25,0]) cube([20,50,7]);
 			}
-			//translate([printLayout ? 6 : 0,0,printLayout ? -34 : 0]) rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) intersection()
-			//{
-			//	armsEndEffector();
-			//	translate([20,-25,14]) cube([20,50,7]);
-			//}
+			translate([printLayout ? 6 : 0,0,printLayout ? -34 : 0]) rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) intersection()
+			{
+				armsEndEffector();
+				translate([20,-25,14]) cube([20,50,7]);
+			}
 		}
 	}
 	//translate ([0,0,part1ZBase+21/2]) rotate([90,0,q11+90]) cylinder(d=30,h=40);
 }
+	smallArmLen = 41;
 
-if( drawArray==[] || search(4,drawArray)!=[] )
-{
-	printLayout = 1;
-	drawArraySubpart = [1,2];//[1,2,3,4,5];//[1,7,8];
+module part4(printLayout,drawArraySubpart)
+{		
   xd = dhalf + l * cos(q11);
   yd = l * sin(q11);
 	a = printLayout ? 0 : atan((y-yd)/(x-xd));
@@ -846,6 +845,10 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 				{
 					if( drawArraySubpart==[] || search(1,drawArraySubpart)!=[] )
 					{
+						difference()
+						{
+							union()
+							{
 						color("gray") 
 						cylinder(r=15,h=bottomArmH);
 						color("blue") 
@@ -872,8 +875,8 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 						
 						difference()
 						{
-							color("red") translate([5,-17,0]) cylinder(d=2,h=7,$fn=32);
-							color("red") translate([6,-15.8,-1]) cylinder(d=2,h=30,$fn=32);
+							color("red") translate([5.5,-16.5,0]) cylinder(d=3,h=7,$fn=32);
+							color("red") translate([6.4,-15.25,-1]) cylinder(d=2.5,h=30,$fn=32);
 						}
 
 						color("blue") 
@@ -888,6 +891,15 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 							//translate([Linkage_2-20,-10,0]) cylinder(r=8,h=bottomArmH);
 							//translate([Linkage_2*0.85,0,0]) cylinder(r=8,h=bottomArmH);
 						}
+					}
+									
+					color("red") translate([0,0,-1]) cylinder(d=4,h=30,$fn=32);
+					hull()
+					{
+						color("red") translate([-8,-16,-1]) cylinder(d=6,h=30,$fn=32);
+						color("red") translate([-10,-27.2,-1]) cylinder(d=5,h=30,$fn=32);
+					}
+				}
 					}
 					/*
 					*/
@@ -907,37 +919,81 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 								translate([Linkage_2-30,-10,7]) cylinder(r=8,h=bottomArmH);
 								translate([Linkage_2-30,-10,7]) cylinder(r=8,h=bottomArmH);
 							}
+							translate([Linkage_2,0,7]) cylinder(r=8+4,h=10);
+
 						}
-						translate([Linkage_2,0,7]) rotate([0,0,-50]) translate([0,-4,0]) cube([16,8,bottomArmH]);
+						translate([Linkage_2,0,7]) rotate([0,0,-50]) translate([0,-4,0]) cube([16,8,10]);
+					}
+					if( drawArraySubpart==[] || search(3,drawArraySubpart)!=[] )
+					{
+						armH = 10;
+						difference()
+						{
+							union()
+							{
+								color("yellow") 
+								{
+									hull() 
+									{
+										translate([Linkage_2-100,-29,7]) scale([1,1,1]) cylinder(r=12,h=armH);
+										translate([Linkage_2-72,-20,7]) cylinder(r=9,h=armH);
+									}
+									hull() 
+									{
+										translate([Linkage_2-100,-29,7]) scale([1,1,1]) cylinder(r=12,h=armH);
+										translate([Linkage_2-120,-28,7]) cylinder(r=12,h=armH);
+									}
+									hull() 
+									{
+										translate([Linkage_2-120,-28,7]) cylinder(r=12,h=armH);
+										translate([Linkage_2-134,-18,7]) scale([1,1,1]) cylinder(r=12,h=armH);
+									}
+									hull() 
+									{
+										translate([Linkage_2-134,-18,7]) scale([1,1,1]) cylinder(r=12,h=armH);
+										translate([Linkage_2-140,0,7]) cylinder(r=14,h=armH);
+									}
+									/*
+									hull()
+									{
+										//translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
+										translate([Linkage_2,0,7]) cylinder(r=8+4,h=armH);
+										translate([Linkage_2-30,-10,7]) cylinder(r=8,h=armH);
+										translate([Linkage_2-30,-10,7]) cylinder(r=8,h=armH);
+									}
+									translate([Linkage_2,0,7]) cylinder(r=8+4,h=armH+2);
+									*/
+
+								}
+								//translate([Linkage_2,0,7]) rotate([0,0,-50]) translate([0,-4,0]) cube([16,8,10]);
+							}
+							translate([0,0,7-1]) cylinder(r=23,h=armH+2);
+						}
 					}
 				}
 				// hot end mount hole
 				if( drawArraySubpart==[] || search(2,drawArraySubpart)!=[] )
 				{
 					translate([Linkage_2,0,-1]) rotate([0,0,-50]) translate([0,-0.5,0]) cube([20,1,20]);
-					translate([Linkage_2,0,7+7/2]) rotate([0,0,-50]) translate([12,10,0]) rotate([90,0,0])   cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
-					#translate([Linkage_2,0,7+7/2]) rotate([0,0,-50])  translate([12,-4,0]) rotate([90,0,0])  cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
-					translate([Linkage_2,0,7+7/2]) rotate([0,0,-50]) translate([12,20,0]) rotate([90,0,0])   cylinder(d=3,h=40,$fn=12);
+					translate([Linkage_2,0,7+10/2]) rotate([0,0,-50]) translate([12,10,0]) rotate([90,0,0])   cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
+					translate([Linkage_2,0,7+10/2]) rotate([0,0,-50])  translate([12,-4,0]) rotate([90,0,0])  cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
+					translate([Linkage_2,0,7+10/2]) rotate([0,0,-50]) translate([12,20,0]) rotate([90,0,0])   cylinder(d=3,h=40,$fn=12);
 					color("red") translate([Linkage_2,0,-1]) cylinder(r=8+0.1,h=30,$fn=32);
 				}
 
-				if( drawArraySubpart==[] || search(1,drawArraySubpart)!=[] || search(2,drawArraySubpart)!=[] )
+				if( drawArraySubpart==[] ||
+					search(1,drawArraySubpart)!=[] || 
+					search(2,drawArraySubpart)!=[] ||
+					search(3,drawArraySubpart)!=[] )
 				{
 					color("red") translate([Linkage_2-30,-10,-1]) rotate([0,0,-166])
 					{
-						color("red") translate([0,0,0]) cylinder(d=4,h=30,$fn=32);
-						color("red") translate([14,0,0]) cylinder(d=4,h=30,$fn=32);
-						color("red") translate([14*2,0,0]) cylinder(d=4,h=30,$fn=32);
-						color("red") translate([14*3,0,0]) cylinder(d=4,h=30,$fn=32);
-						color("red") translate([14*4,0,0]) cylinder(d=4,h=30,$fn=32);
-						color("red") translate([14*5,0,0]) cylinder(d=4,h=30,$fn=32);
-					}
-					
-					color("red") translate([0,0,-1]) cylinder(d=4,h=30,$fn=32);
-					hull()
-					{
-						color("red") translate([-8,-16,-1]) cylinder(d=6,h=30,$fn=32);
-						color("red") translate([-10,-27.2,-1]) cylinder(d=5,h=30,$fn=32);
+						color("red") translate([0,0,0]) cylinder(d=3,h=30,$fn=32);
+						color("red") translate([14,0,0]) cylinder(d=3,h=30,$fn=32);
+						color("red") translate([14*2,0,0]) cylinder(d=3,h=30,$fn=32);
+						color("red") translate([14*3,0,0]) cylinder(d=3,h=30,$fn=32);
+						color("red") translate([14*4,0,0]) cylinder(d=3,h=30,$fn=32);
+						color("red") translate([14*5,0,0]) cylinder(d=3,h=30,$fn=32);
 					}
 				}
 			}
@@ -951,9 +1007,38 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 	}
 }
 
+!if( drawArray==[] || search(4,drawArray)!=[] )
+{
+	
+	//printLayout = 1;
+	drawArraySubpart = [3];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
+	difference()
+	{
+		part4(printLayout,drawArraySubpart);
+		union() 
+		{
+			q11 = printLayout ? 0 : q11;
+			xd = dhalf + l * cos(q11);
+			yd = l * sin(q11);
+			a = printLayout ? 0 : atan((y-yd)/(x-xd));
+			a2 = printLayout ? 0 : atan2(yd,xd);
+			rotAngle = printLayout ? 0 : a;
+			rotAngle2 = printLayout ? 0 : -rotAngle+a2;
+			hull()
+			{
+				rotAngle = bPrintLayout ? 0 : a;
+				translate ([xd,yd,yStepperZPlane+3])
+					rotate([0,0,a+180]) 
+				{
+						translate([-smallArmLen,0,0]) cylinder(d=4,h=50,$fn=16);
+				}
+			}
+		}
+	}
+}
+
 module part5(printLayout)
 {
-	smallArmLen = 41;
 	q11 = printLayout ? 0 : q11;
 	xd = dhalf + l * cos(q11);
   yd = l * sin(q11);
