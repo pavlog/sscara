@@ -14,14 +14,17 @@ use <Modules/Profiles.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-ex = -100;
-ey = 170;
+//ex = -100;
+//ey = 170;
 // small angle
 //ex = 10;
 //ey = 30;
 // middle 
 //ex = 0;
 //ey = 130;
+//
+ex = 0;
+ey = 30;
 //
 z = 0;//125;
 //z = 140;
@@ -941,7 +944,7 @@ module part5(printLayout)
 					difference()
 					{
 						translate([0,-13,0]) scale([1.4,1,1]) cylinder(r=5,h=7);
-						#hull()
+						hull()
 						{
 						translate([-8,-16.1,-1]) scale([1.0,1,1]) cylinder(r=3,h=7+2,$fn=32);
 						translate([-8,-40,-1]) scale([1.0,1,1]) cylinder(r=3,h=7+2,$fn=32);
@@ -995,7 +998,8 @@ module part5(printLayout)
 				}
 //				translate([28,-25,7/2])  rotate([90,0,-90]) cylinder(r=6,h=19);
 			}
-			color("red") translate([0,0,-1]) cylinder(d=Bearing624Diameter(),h=30,$fn=32);
+			color("red") translate([0,0,2]) cylinder(d=Bearing624Diameter(),h=7,$fn=32);
+			color("red") translate([0,0,-1]) cylinder(d=rolson_hex_nut_dia(4)+1,h=15,$fn=32);
 			hull()
 			{
 				translate([-35,5,-0.5]) cube([15,10,8]);
@@ -1010,8 +1014,9 @@ module part5(printLayout)
 
 if( drawArray==[] || search(5,drawArray)!=[] )
 {
-	printLayout = 1;
-	!intersection()
+	//printLayout = 1;
+	// subpart 1
+	intersection()
 	{
 		part5(printLayout);
 	
@@ -1028,6 +1033,27 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 			translate([smallArmLen,0,0]) rotate(rotAngle2)
 			{
 				translate([-120,0,7/2])  rotate([90,0,90]) cylinder(d=100,h=120,$fn=32);
+			}
+		}
+	}
+	// subpart 2
+	intersection()
+	{
+		part5(printLayout);
+	
+		smallArmLen = 41;
+		q11 = printLayout ? 0 : q11;
+		xd = dhalf + l * cos(q11);
+		yd = l * sin(q11);
+		a = printLayout ? 0 : atan((y-yd)/(x-xd));
+		a2 = printLayout ? 0 : atan2(yd,xd);
+		rotAngle = printLayout ? 0 : a;
+		rotAngle2 = printLayout ? 0 : -rotAngle+a2;
+		translate([xd,yd,yStepperZPlane+3+22+7]) rotate([0,0,rotAngle]) 
+		{
+			translate([smallArmLen,0,0]) rotate(rotAngle2)
+			{
+				translate([-120+120,0,7/2])  rotate([90,0,90]) cylinder(d=100,h=120,$fn=32);
 			}
 		}
 	}
