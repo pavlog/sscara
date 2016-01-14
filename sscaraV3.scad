@@ -128,14 +128,14 @@ Nema17Len = lookup(NemaSize, Nema17);
 xStepperX = -33;
 xStepperY = 0;
 xStepperRZ = 0;
-xStepperZ = 78+3+5;
+xStepperZ = 78+3+10;
 
 
 yStepperX = -33;
 yStepperY = 0;
 yStepperRZ = 0;
 yStepperZ = 41;
-yStepperZPlane = 41;
+yStepperZPlane = 44;
 
 alumXOffset = 60;
 
@@ -1206,6 +1206,58 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 			}
 		}
 	}
+}
+
+if( drawArray==[] || search(6,drawArray)!=[] )
+{
+	//printLayout = 1;
+	// subpart 1
+	//		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
+	color("green") translate([-60,-20,yStepperZPlane-4]) cube([10,10,52]);
+	nemaPlateSize = 46;
+	nemaPlateSizeY = 44;
+	nemaPlate2SizeX = 20;
+	difference()
+	{
+		union()
+		{
+			translate([yStepperX-nemaPlateSize/2,-nemaPlateSizeY/2,yStepperZPlane-4]) cube([nemaPlateSize+24,nemaPlateSizeY,4]);
+			color("blue") translate([-nemaPlate2SizeX/2,-nemaPlateSizeY/2,nemaPlateSizeY-11]) cube([nemaPlate2SizeX+4,nemaPlateSizeY,7]);
+			if( printLayout==0 )
+			{
+				color("green") translate([0,0,yStepperZPlane-13-7]) rotate([0,0,-90]) shf8();
+			}
+		}
+		cylinder(d=8,h=100);
+		hull()
+		{
+			translate([yStepperX,yStepperY,yStepperZPlane-5]) cylinder(d=23,h=2);
+			translate([yStepperX-3,yStepperY,yStepperZPlane-5]) cylinder(d=23,h=2);
+		}
+		translate([yStepperX,yStepperY,yStepperZPlane-5]) cylinder(d=5,h=20);
+		color("green") translate([0,0,yStepperZPlane-13]) rotate([0,0,-90]) shf8(1);
+		translate([xStepperX,xStepperY,yStepperZPlane])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
+		translate([xStepperX-1,xStepperY,yStepperZPlane])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
+		translate([xStepperX-2,xStepperY,yStepperZPlane])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
+		translate([xStepperX-3,xStepperY,yStepperZPlane])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
+		translate([-30,11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4,h=50,$fn=12);
+		translate([-10,11,yStepperZPlane-7.5]) rotate([0,90,0])rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(4),h=rolson_hex_nut_hi(4),$fn=6);
+		translate([-30,-11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4,h=50,$fn=12);
+		translate([-10,-11,yStepperZPlane-7.5]) rotate([0,90,0])rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(4),h=rolson_hex_nut_hi(4),$fn=6);
+	}
+	
 }
 
 
@@ -2983,12 +3035,6 @@ if( !printLayout && (drawArray==[] || drawSteppers) )
 			translate([holeDist,-holeDist,-xStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
 			translate([holeDist,holeDist,-xStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
 		}
-		//
-		translate([holeDist,-holeDist,-xStepperZ+pulley1Z+1]) Bearing623();
-		translate([holeDist,-holeDist,-xStepperZ+pulley1Z+1+4]) Bearing623();
-		//
-		translate([-holeDist,-holeDist,-xStepperZ+pulley1Z+1]) Bearing623();
-		translate([-holeDist,-holeDist,-xStepperZ+pulley1Z+1+4]) Bearing623();
   }
   // y stepper
   translate([yStepperX,yStepperY,yStepperZ])
@@ -3004,12 +3050,6 @@ if( !printLayout && (drawArray==[] || drawSteppers) )
 			translate([holeDist,-holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
 			translate([-holeDist,holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
 		}
-		//
-		translate([holeDist,-holeDist,-xStepperZ+pulley2Z+1]) Bearing623();
-		translate([holeDist,-holeDist,-xStepperZ+pulley2Z+1+4]) Bearing623();
-		//
-		translate([-holeDist,-holeDist,-xStepperZ+pulley2Z+1]) Bearing623();
-		translate([-holeDist,-holeDist,-xStepperZ+pulley2Z+1+4]) Bearing623();
   }
 }
 
