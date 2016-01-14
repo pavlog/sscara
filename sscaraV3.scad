@@ -128,7 +128,7 @@ Nema17Len = lookup(NemaSize, Nema17);
 xStepperX = -33;
 xStepperY = 0;
 xStepperRZ = 0;
-xStepperZ = 78+3+10;
+xStepperZ = 78+5+10;
 
 
 yStepperX = -33;
@@ -136,6 +136,11 @@ yStepperY = 0;
 yStepperRZ = 0;
 yStepperZ = 41;
 yStepperZPlane = 44;
+
+part1ZBase = yStepperZPlane+3;
+part2ZBase = part1ZBase+21;
+
+
 
 alumXOffset = 60;
 
@@ -535,8 +540,6 @@ module part1Idler(bPrintLayout)
 	}
 }
 
-part1ZBase = yStepperZPlane+3;
-
 if( drawArray==[] || search(1,drawArray)!=[] )
 {
 	//bPrintLayout = 1;
@@ -609,6 +612,7 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 	}
 }
 
+// part2
 if( drawArray==[] || search(2,drawArray)!=[] )
 {
 	//printLayout = 1;
@@ -617,7 +621,7 @@ if( drawArray==[] || search(2,drawArray)!=[] )
 	a = printLayout ? 0 : atan((y-yd)/(x-xd));
 
 	rotAngle = bPrintLayout ? 0 : a;
-	translate([0,0,yStepperZPlane+3+22]) rotate([0,0,rotAngle]) 
+	translate([0,0,part2ZBase]) rotate([0,0,rotAngle]) 
 	{
 		if( bPrintLayout )
 		{
@@ -836,7 +840,7 @@ module part4(printLayout,drawArraySubpart)
 	//echo (a);
 	difference()
 	{
-		translate ([xd,yd,51])
+		translate ([xd,yd,part1ZBase+7])
 			rotate([0,0,a+180]) 
 		{
 			difference()
@@ -1027,7 +1031,7 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 			hull()
 			{
 				rotAngle = bPrintLayout ? 0 : a;
-				translate ([xd,yd,yStepperZPlane+3])
+				translate ([xd,yd,part1ZBase])
 					rotate([0,0,a+180]) 
 				{
 						translate([-smallArmLen,0,0]) cylinder(d=4,h=50,$fn=16);
@@ -1049,7 +1053,7 @@ module part5(printLayout)
 	hull()
 	{
 		rotAngle = bPrintLayout ? 0 : a;
-		translate([0,0,yStepperZPlane+3+22+7+7/2]) rotate([0,0,rotAngle]) 
+		translate([0,0,part2ZBase+7+7/2]) rotate([0,0,rotAngle]) 
 		{
 			// subpart 4
 			translate([printLayout ? -30 : smallArmLen,printLayout ? 60 : 0,printLayout ? 24 : 0])
@@ -1060,7 +1064,7 @@ module part5(printLayout)
 			}
 		}
 
-		translate ([xd,yd,yStepperZPlane+3+22+7+7/2])
+		translate ([xd,yd,part2ZBase+7+7/2])
 			rotate([0,0,a+180]) 
 		{
 				translate([-smallArmLen,0,0]) sphere(r=0.1);
@@ -1069,7 +1073,7 @@ module part5(printLayout)
 	*/
 	rotAngle = printLayout ? 0 : a;
 	rotAngle2 = printLayout ? 0 : -rotAngle+a2;
-	translate([0,0,yStepperZPlane+3+22+7]) rotate([0,0,rotAngle]) 
+	translate([0,0,part2ZBase+7]) rotate([0,0,rotAngle]) 
 	{
 		translate([smallArmLen,0,0]) rotate(rotAngle2)
 		difference()
@@ -1121,7 +1125,7 @@ module part5(printLayout)
 		}
 	}
 
-	translate([xd,yd,yStepperZPlane+3+22+7]) rotate([0,0,rotAngle]) 
+	translate([xd,yd,part2ZBase+7]) rotate([0,0,rotAngle]) 
 	{
 		translate([smallArmLen,0,0]) rotate(rotAngle2)
 		difference()
@@ -1177,7 +1181,7 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 		a2 = printLayout ? 0 : atan2(yd,xd);
 		rotAngle = printLayout ? 0 : a;
 		rotAngle2 = printLayout ? 0 : -rotAngle+a2;
-		translate([xd,yd,yStepperZPlane+3+22+7]) rotate([0,0,rotAngle]) 
+		translate([xd,yd,part2ZBase+7]) rotate([0,0,rotAngle]) 
 		{
 			translate([smallArmLen,0,0]) rotate(rotAngle2)
 			{
@@ -1198,7 +1202,7 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 		a2 = printLayout ? 0 : atan2(yd,xd);
 		rotAngle = printLayout ? 0 : a;
 		rotAngle2 = printLayout ? 0 : -rotAngle+a2;
-		translate([xd,yd,yStepperZPlane+3+22+7]) rotate([0,0,rotAngle]) 
+		translate([xd,yd,part2ZBase+7]) rotate([0,0,rotAngle]) 
 		{
 			translate([smallArmLen,0,0]) rotate(rotAngle2)
 			{
@@ -1208,12 +1212,11 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	}
 }
 
-if( drawArray==[] || search(6,drawArray)!=[] )
+module part6()
 {
-	//printLayout = 1;
-	// subpart 1
-	//		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
-	color("green") translate([-60,-20,yStepperZPlane-4]) cube([10,10,52]);
+	sideSize = lookup(NemaSideSize, Nema17)+0.5;
+	//color("green") translate([-60,-20,yStepperZPlane-4]) cube([10,10,52]);
+	color("blue") translate([-60,-20,yStepperZPlane]) cube([10,10,50]);
 	nemaPlateSize = 46;
 	nemaPlateSizeY = 44;
 	nemaPlate2SizeX = 20;
@@ -1222,6 +1225,8 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 		union()
 		{
 			translate([yStepperX-nemaPlateSize/2,-nemaPlateSizeY/2,yStepperZPlane-4]) cube([nemaPlateSize+24,nemaPlateSizeY,4]);
+			translate([yStepperX-nemaPlateSize/2,-sideSize/2-3,yStepperZPlane-7]) cube([nemaPlateSize+24,3,7]);
+			translate([yStepperX-nemaPlateSize/2,+sideSize/2,yStepperZPlane-7]) cube([nemaPlateSize+24,3,7]);
 			color("blue") translate([-nemaPlate2SizeX/2,-nemaPlateSizeY/2,nemaPlateSizeY-11]) cube([nemaPlate2SizeX+4,nemaPlateSizeY,7]);
 			if( printLayout==0 )
 			{
@@ -1257,6 +1262,15 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 		translate([-30,-11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4,h=50,$fn=12);
 		translate([-10,-11,yStepperZPlane-7.5]) rotate([0,90,0])rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(4),h=rolson_hex_nut_hi(4),$fn=6);
 	}
+	
+}
+
+if( drawArray==[] || search(6,drawArray)!=[] )
+{
+	//printLayout = 1;
+	// subpart 1
+	part6();
+	translate([0,0,134]) mirror([0,0,1]) part6();
 	
 }
 
