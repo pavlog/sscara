@@ -138,7 +138,7 @@ yStepperZ = 41;
 yStepperZPlane = 44;
 
 part1ZBase = yStepperZPlane+3;
-part2ZBase = part1ZBase+21;
+part2ZBase = part1ZBase+21+3;
 
 
 
@@ -950,24 +950,33 @@ module part4(printLayout,drawArraySubpart)
 									hull() 
 									{
 										translate([Linkage_2-120,-28,7]) cylinder(r=12,h=armH);
-										translate([Linkage_2-134,-18,7]) scale([1,1,1]) cylinder(r=12,h=armH);
+										translate([Linkage_2-134,-20,7]) scale([1,1,1]) cylinder(r=12,h=armH);
+									}
+								}
+								//translate([Linkage_2,0,7]) rotate([0,0,-50]) translate([0,-4,0]) cube([16,8,10]);
+							}
+							translate([0,0,7-1]) cylinder(r=23,h=armH+2);
+						}
+					}
+					if( drawArraySubpart==[] || search(4,drawArraySubpart)!=[] )
+					{
+						armH = 10;
+						difference()
+						{
+							union()
+							{
+								color("green") 
+								{
+									hull() 
+									{
+										translate([Linkage_2-120,-28,7+8]) cylinder(r=12,h=9);
+										translate([Linkage_2-134,-20,7+8]) scale([1,1,1]) cylinder(r=12,h=9);
 									}
 									hull() 
 									{
-										translate([Linkage_2-134,-18,7]) scale([1,1,1]) cylinder(r=12,h=armH);
-										translate([Linkage_2-140,0,7]) cylinder(r=14,h=armH);
+										translate([Linkage_2-134,-20,7+8]) scale([1,1,1]) cylinder(r=12,h=9);
+										translate([Linkage_2-140,0,7+8]) cylinder(r=14,h=9);
 									}
-									/*
-									hull()
-									{
-										//translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-										translate([Linkage_2,0,7]) cylinder(r=8+4,h=armH);
-										translate([Linkage_2-30,-10,7]) cylinder(r=8,h=armH);
-										translate([Linkage_2-30,-10,7]) cylinder(r=8,h=armH);
-									}
-									translate([Linkage_2,0,7]) cylinder(r=8+4,h=armH+2);
-									*/
-
 								}
 								//translate([Linkage_2,0,7]) rotate([0,0,-50]) translate([0,-4,0]) cube([16,8,10]);
 							}
@@ -1000,6 +1009,22 @@ module part4(printLayout,drawArraySubpart)
 						color("red") translate([14*5,0,0]) cylinder(d=3,h=30,$fn=32);
 					}
 				}
+				if( drawArraySubpart==[] ||
+					search(4,drawArraySubpart)!=[] ||
+					search(4,drawArraySubpart)!=[] )
+				{
+													hull() 
+									{
+										translate([Linkage_2-120,-28,7+8]) cylinder(d=3,h=9);
+										translate([Linkage_2-134,-20,7+8]) scale([1,1,1]) cylinder(r=12,h=9);
+									}
+									hull() 
+									{
+										translate([Linkage_2-134,-20,7+8]) scale([1,1,1]) cylinder(r=12,h=9);
+										translate([Linkage_2-140,0,7+8]) cylinder(r=14,h=9);
+									}
+								}
+
 			}
 			//color("red") translate([Linkage_2,0,15]) rotate([0,180,0])  heatsinkE3DV5(0,100);
 			if( drawArray==[] )
@@ -1011,11 +1036,11 @@ module part4(printLayout,drawArraySubpart)
 	}
 }
 
-if( drawArray==[] || search(4,drawArray)!=[] )
+!if( drawArray==[] || search(4,drawArray)!=[] )
 {
 	
 	//printLayout = 1;
-	drawArraySubpart = [1,2,3];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
+	drawArraySubpart = [3,4];//[1,2,3,4];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
 	difference()
 	{
 		part4(printLayout,drawArraySubpart);
