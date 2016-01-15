@@ -128,7 +128,7 @@ Nema17Len = lookup(NemaSize, Nema17);
 xStepperX = -33;
 xStepperY = 0;
 xStepperRZ = 0;
-xStepperZ = 78+5+10;
+xStepperZ = 78+5+15;
 
 
 yStepperX = -33;
@@ -1036,11 +1036,11 @@ module part4(printLayout,drawArraySubpart)
 	}
 }
 
-!if( drawArray==[] || search(4,drawArray)!=[] )
+if( drawArray==[] || search(4,drawArray)!=[] )
 {
 	
 	//printLayout = 1;
-	drawArraySubpart = [3,4];//[1,2,3,4];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
+	drawArraySubpart = [1,2,3,4];//[1,2,3,4];//[1,2,3];//[1,2,3,4,5];//[1,7,8];
 	difference()
 	{
 		part4(printLayout,drawArraySubpart);
@@ -1237,21 +1237,21 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	}
 }
 
-module part6()
-{
-	sideSize = lookup(NemaSideSize, Nema17)+0.5;
-	//color("green") translate([-60,-20,yStepperZPlane-4]) cube([10,10,52]);
-	color("blue") translate([-60,-20,yStepperZPlane]) cube([10,10,50]);
-	nemaPlateSize = 46;
+	nemaPlateSize = 50;
 	nemaPlateSizeY = 44;
 	nemaPlate2SizeX = 20;
+	sideSize = lookup(NemaSideSize, Nema17)+0.5;
+
+module part6(printLayout)
+{
+	//color("green") translate([-60,-20,yStepperZPlane-4]) cube([10,10,52]);
 	difference()
 	{
 		union()
 		{
-			translate([yStepperX-nemaPlateSize/2,-nemaPlateSizeY/2,yStepperZPlane-4]) cube([nemaPlateSize+24,nemaPlateSizeY,4]);
-			translate([yStepperX-nemaPlateSize/2,-sideSize/2-3,yStepperZPlane-7]) cube([nemaPlateSize+24,3,7]);
-			translate([yStepperX-nemaPlateSize/2,+sideSize/2,yStepperZPlane-7]) cube([nemaPlateSize+24,3,7]);
+			translate([yStepperX-nemaPlateSize/2-2,-nemaPlateSizeY/2,yStepperZPlane-4]) cube([nemaPlateSize+24,nemaPlateSizeY,4]);
+			translate([yStepperX-nemaPlateSize/2-2,-sideSize/2-3,yStepperZPlane-7]) cube([nemaPlateSize+24,3,7]);
+			translate([yStepperX-nemaPlateSize/2-2,+sideSize/2,yStepperZPlane-7]) cube([nemaPlateSize+24,3,7]);
 			color("blue") translate([-nemaPlate2SizeX/2,-nemaPlateSizeY/2,nemaPlateSizeY-11]) cube([nemaPlate2SizeX+4,nemaPlateSizeY,7]);
 			if( printLayout==0 )
 			{
@@ -1294,9 +1294,14 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 {
 	//printLayout = 1;
 	// subpart 1
-	part6();
-	translate([0,0,134]) mirror([0,0,1]) part6();
+	part6(printLayout);
+	// subpart 2
+	translate([0,0,139]) mirror([0,0,1]) part6(printLayout);
 	
+	color("blue") translate([-60,-20,yStepperZPlane]) cube([10,10,51]);
+
+	color("green") translate([-60,-sideSize/2-3,yStepperZPlane]) cube([16,sideSize+6,5]);
+
 }
 
 
