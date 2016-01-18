@@ -1261,8 +1261,8 @@ module part6(printLayout)
 		cylinder(d=8,h=100);
 		hull()
 		{
-			translate([yStepperX,yStepperY,yStepperZPlane-5]) cylinder(d=23,h=2);
-			translate([yStepperX-3,yStepperY,yStepperZPlane-5]) cylinder(d=23,h=2);
+			translate([yStepperX,yStepperY,yStepperZPlane-5]) cylinder(d=23,h=3);
+			translate([yStepperX-5,yStepperY,yStepperZPlane-5]) cylinder(d=23,h=3);
 		}
 		translate([yStepperX,yStepperY,yStepperZPlane-5]) cylinder(d=5,h=20);
 		color("green") translate([0,0,yStepperZPlane-13]) rotate([0,0,-90]) shf8(1);
@@ -1282,6 +1282,14 @@ module part6(printLayout)
 		{
 			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
 		}
+		translate([xStepperX-4,xStepperY,yStepperZPlane])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
+		translate([xStepperX-5,xStepperY,yStepperZPlane])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
 		translate([-30,11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4,h=50,$fn=12);
 		translate([-10,11,yStepperZPlane-7.5]) rotate([0,90,0])rotate([0,0,30]) cylinder(d=rolson_hex_nut_dia(4),h=rolson_hex_nut_hi(4),$fn=6);
 		translate([-30,-11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4,h=50,$fn=12);
@@ -1292,16 +1300,41 @@ module part6(printLayout)
 
 if( drawArray==[] || search(6,drawArray)!=[] )
 {
-	//printLayout = 1;
+	printLayout = 1;
 	// subpart 1
 	part6(printLayout);
 	// subpart 2
 	translate([0,0,139]) mirror([0,0,1]) part6(printLayout);
-	
-	color("blue") translate([-60,-20,yStepperZPlane]) cube([10,10,51]);
-
-	color("green") translate([-60,-sideSize/2-3,yStepperZPlane]) cube([16,sideSize+6,5]);
-
+	// subpart 3 (2 times)
+	color("blue") translate([0,0,yStepperZPlane]) difference()
+	{
+		cylinder(d=12,h=5,$fn=32);
+		cylinder(d=8,h=6,$fn=32);
+	}
+	// subpart 4
+	color("blue") translate([0,0,yStepperZPlane+23]) difference()
+	{
+		cylinder(d=12,h=3,$fn=32);
+		cylinder(d=8,h=6,$fn=32);
+	}
+	// subpart 5
+	difference()
+	{
+		color("orange") translate([-nemaPlate2SizeX/2-2,-nemaPlateSizeY/2+1,nemaPlateSizeY-11]) cube([2,nemaPlateSizeY-2,7]);
+		translate([-11,11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4.2,h=50,$fn=12);
+		translate([-11,-11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4.2,h=50,$fn=12);
+	}
+	// subpart 6
+	translate([0,0,139]) mirror([0,0,1]) difference()
+	{
+		color("orange") translate([-nemaPlate2SizeX/2-2,-nemaPlateSizeY/2+1,nemaPlateSizeY-11]) cube([2,nemaPlateSizeY-2,7]);
+		translate([-11,11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4.2,h=50,$fn=12);
+		translate([-11,-11,yStepperZPlane-7.5]) rotate([0,90,0]) cylinder(d=4.2,h=50,$fn=12);
+	}
+	// 
+	//color("blue") translate([-60,-20,yStepperZPlane]) cube([10,10,51]);
+	// 
+	//color("green") translate([-60,-sideSize/2-3,yStepperZPlane]) cube([16,sideSize+6,5]);
 }
 
 
