@@ -10,6 +10,7 @@ use <Modules/HotEnds.scad>
 use <Modules/LCD.scad>
 use <Modules/Misc.scad>
 use <Modules/Profiles.scad>
+use <Modules/RAMPS.scad>
 
 //ex = 70;
 //ey = 130;
@@ -3230,24 +3231,10 @@ if( drawArray==[] || search(66,drawArray)!=[] )
   }
 }
 
-module ramps()
-{
-	//http://www.thingiverse.com/thing:34621
-	//echo ("rr");
-	//echo (Nema17Len+xStepperZ+15-1.5+part5SpacerH);
-	//
-	translate ([RampsX,-27+3,135+25]) rotate([0,-90,180]) 
-	{	
-		import("STL/NonPrintedParts/RAMPS1_4.STL", convexity=3);
-		translate([-67.9,4,5]) color( "blue") cube([10,15,22.5]);
-		color([0.5,0.5,1,0.2]) translate([-72,-12,-32]) cube([125,50,62]);
-	}
-}
-
 // ramps 1.4
 if( !printLayout && (drawArray==[] || drawRamps) )
 {
-	ramps();
+	RAMPS();
 }
 
 if( !printLayout && (drawArray==[] || drawMetall) )
