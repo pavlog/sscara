@@ -11,6 +11,9 @@ use <Modules/LCD.scad>
 use <Modules/Misc.scad>
 use <Modules/Profiles.scad>
 use <Modules/RAMPS.scad>
+include <Modules/dimlines.scad>
+include <Modules/TextGenerator.scad>
+
 
 //ex = 70;
 //ey = 130;
@@ -129,7 +132,7 @@ Nema17Len = lookup(NemaSize, Nema17);
 xStepperX = -33;
 xStepperY = 0;
 xStepperRZ = 0;
-xStepperZ = 78+5+15;
+xStepperZ = 78+5+15+3;
 
 
 yStepperX = -33;
@@ -139,7 +142,7 @@ yStepperZ = 41;
 yStepperZPlane = 44;
 
 part1ZBase = yStepperZPlane+3;
-part2ZBase = part1ZBase+21+3;
+part2ZBase = part1ZBase+21+5;
 
 
 
@@ -188,6 +191,43 @@ if( !printLayout && drawSpool )
 		translate([0,-60,125]) rotate([90,0,0]) cylinder(d=53,h=70);
 	}
 }
+
+DIM_LINE_WIDTH = 1;
+DIM_HEIGHT = 0.1;
+DIM_TEXT_RENDER = 1;
+
+
+module LProfileWithDimensions(x=10,y=10,w=1.5,len=200)
+{
+LProfile(x,y,4,len);
+color("black") translate([0,-10,0]) 
+{
+	rotate([0,0,90]) line(length=15, width=DIM_LINE_WIDTH/2, height=DIM_HEIGHT,
+		left_arrow=false, right_arrow=false);
+	rotate([0,0,90]) translate([0,-y,0]) line(length=15, width=DIM_LINE_WIDTH/2, height=DIM_HEIGHT,
+		left_arrow=false, right_arrow=false);	
+	dimensions(y, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	rotate([0,-90,180]) dimensions(x, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+}
+	color("black") translate([-10,0,5]) rotate([0,0,90]) dimensions(len, DIM_LINE_WIDTH/2, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+}
+
+
+module CProfileWithDimensions(x=10,y=10,w=1.5,len=200)
+{
+CProfile(x,y,4,len);
+color("black") translate([0,-10,0]) 
+{
+	rotate([0,0,90]) line(length=15, width=DIM_LINE_WIDTH/2, height=DIM_HEIGHT,
+		left_arrow=false, right_arrow=false);
+	rotate([0,0,90]) translate([0,-y,0]) line(length=15, width=DIM_LINE_WIDTH/2, height=DIM_HEIGHT,
+		left_arrow=false, right_arrow=false);	
+	dimensions(y, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	rotate([0,-90,180]) dimensions(x, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+}
+	color("black") translate([-10,0,5]) rotate([0,0,90]) dimensions(len, DIM_LINE_WIDTH/2, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+}
+
 
 // static const part
 EX = EndPointMountOffset*cos(EndPointMountAngle)+Linkage_2;
@@ -1336,6 +1376,80 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 	//color("blue") translate([-60,-20,yStepperZPlane]) cube([10,10,51]);
 	// 
 	//color("green") translate([-60,-sideSize/2-3,yStepperZPlane]) cube([16,sideSize+6,5]);
+}
+
+
+translate([-64+1.5,42/2,nemaPlateSizeY-2]) rotate([0,0,180]) rotate([0,-90,0]) CProfileWithDimensions(23,55,2.5,42);
+
+color("yellow") translate([-118.5+1,42/2,nemaPlateSizeY-16]) rotate([90,0,0]) rotate([0,0,0]) CProfileWithDimensions(23,55,2.5,85);
+
+
+bearingZOffset = -16;
+bearingZ2Offset = 53-16;
+rodsZ = 16;
+baseOffset = 22;
+rodsDist = 70;
+//z = 120;
+color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=250);
+color("red") translate([-74.5-3,0,rodsZ]) rotate([0,0,90])  shf8();
+color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=250);
+color("red") translate([-74.5-3-rodsDist,0,rodsZ]) rotate([0,0,-90])  shf8();
+
+color("red") translate([-74.5-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("red") translate([-74.5-rodsDist-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("green") translate([-74.5-3,0,nemaPlateSizeY+bearingZ2Offset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("green") translate([-74.5-rodsDist-3,0,nemaPlateSizeY+bearingZ2Offset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+//translate([-130,-20,-baseOffset+50]) cube([20,40,84]);
+
+
+
+translate([-169-10,-20,-baseOffset]) cube([20,40,300]);
+translate([-88,-20,-baseOffset]) cube([20,40,38]);
+
+		if( !printLayout )
+		{
+			translate([-106-5-1.5,0,49-baseOffset]) rotate([180,0,0]) Nema17_shaft24_Stepper();//0,NemaSize);
+		}
+
+translate([11,0,0]) 
+		{
+
+color("brown") translate([-106-5-1.5,0,49-baseOffset+7])
+		difference()
+		{
+cylinder(d=20,h=25);
+translate([0,0,-1]) cylinder(d=8,h=35);
+		}
+translate([-106-5-1.5,0,49-baseOffset+70])
+		difference()
+		{
+union()
+		{
+cylinder(d=10.2,h=10+3.5+1.5);
+translate([0,0,10]) cylinder(d=22,h=3.5);
+		}
+		translate([0,0,-1]) cylinder(d=8,h=33);
+	}
 }
 
 
@@ -3109,9 +3223,9 @@ if( !printLayout && (drawArray==[] || drawSteppers) )
 		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 		color("grey")
 		{
-			translate([-holeDist,-holeDist,-xStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
-			translate([holeDist,-holeDist,-xStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
-			translate([holeDist,holeDist,-xStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
+			translate([-holeDist,-holeDist,-xStepperZ+90]) cylinder(r=1.51,h=40);
+			translate([holeDist,-holeDist,-xStepperZ+90]) cylinder(r=1.51,h=40);
+			translate([holeDist,holeDist,-xStepperZ+90]) cylinder(r=1.51,h=40);
 		}
   }
   // y stepper
@@ -3124,9 +3238,9 @@ if( !printLayout && (drawArray==[] || drawSteppers) )
 		holeDist = lookup(NemaDistanceBetweenMountingHoles, Nema17) * 0.5;
 		color("grey")
 		{
-			translate([-holeDist,-holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
-			translate([holeDist,-holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
-			translate([-holeDist,holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=xStepperZ+5);
+			translate([-holeDist,-holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=50);
+			translate([holeDist,-holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=50);
+			translate([-holeDist,holeDist,-yStepperZ+firtstNumZ-1]) cylinder(r=1.51,h=50);
 		}
   }
 }
