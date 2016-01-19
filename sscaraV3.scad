@@ -1381,18 +1381,19 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 
 translate([-64+1.5,42/2,nemaPlateSizeY-2]) rotate([0,0,180]) rotate([0,-90,0]) CProfileWithDimensions(23,55,2.5,42);
 
-color("yellow") translate([-118.5+1,42/2,nemaPlateSizeY-16]) rotate([90,0,0]) rotate([0,0,0]) CProfileWithDimensions(23,55,2.5,85);
+color("yellow") translate([-118.5+1,42/2,nemaPlateSizeY-16]) rotate([90,0,0]) rotate([0,0,0]) CProfileWithDimensions(21,55,2.5,85);
 
 
 bearingZOffset = -16;
 bearingZ2Offset = 53-16;
 rodsZ = 16;
-baseOffset = 22;
+baseOffset = 35;
 rodsDist = 70;
+rodsLen = 200;
 //z = 120;
-color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=250);
+color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=rodsLen);
 color("red") translate([-74.5-3,0,rodsZ]) rotate([0,0,90])  shf8();
-color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=250);
+color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=rodsLen);
 color("red") translate([-74.5-3-rodsDist,0,rodsZ]) rotate([0,0,-90])  shf8();
 
 color("red") translate([-74.5-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
@@ -1419,20 +1420,25 @@ color("green") translate([-74.5-rodsDist-3,0,nemaPlateSizeY+bearingZ2Offset+z]) 
 	SCS8UU(1);
 }
 
-//translate([-130,-20,-baseOffset+50]) cube([20,40,84]);
+//color("magenta") translate([-120,-20,-baseOffset+63]) cube([20,40,6+18]);
 
+color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensions(6+18, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+
+color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensions(6+18+35, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+
+color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensions(6+18+35+18, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 
 
 translate([-169-10,-20,-baseOffset]) cube([20,40,300]);
-translate([-88,-20,-baseOffset]) cube([20,40,38]);
+translate([-81,-20,-baseOffset]) cube([20,40,38]);
 
+translate([10,0,0]) 
+		{
 		if( !printLayout )
 		{
 			translate([-106-5-1.5,0,49-baseOffset]) rotate([180,0,0]) Nema17_shaft24_Stepper();//0,NemaSize);
 		}
 
-translate([11,0,0]) 
-		{
 
 color("brown") translate([-106-5-1.5,0,49-baseOffset+7])
 		difference()
