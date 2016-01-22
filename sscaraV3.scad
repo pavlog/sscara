@@ -1388,13 +1388,16 @@ bearingZOffset = -16;
 bearingZ2Offset = 53-16;
 rodsZ = 16;
 baseOffset = 35;
-rodsDist = 70;
-rodsLen = 200;
+rodsDist = 51;
+rodsLen = 250;
+T8Len = 200;
 //z = 120;
 color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=rodsLen);
 color("red") translate([-74.5-3,0,rodsZ]) rotate([0,0,90])  shf8();
 color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=rodsLen);
 color("red") translate([-74.5-3-rodsDist,0,rodsZ]) rotate([0,0,-90])  shf8();
+
+color("green") translate([-74.5-3-rodsDist+51/2,0,rodsZ+30]) cylinder(d=8,h=T8Len);
 
 color("red") translate([-74.5-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
 {
@@ -1429,8 +1432,11 @@ color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensio
 color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensions(6+18+35+18, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 
 
-translate([-169-10,-20,-baseOffset]) cube([20,40,300]);
-translate([-81,-20,-baseOffset]) cube([20,40,38]);
+translate([-143,-22,-baseOffset]) cube([2,44,300]);
+//translate([-81,-20,-baseOffset]) cube([20,40,48]);
+
+//translate([-161,-20,-baseOffset]) cube([20,40,300]);
+//translate([-81,-20,-baseOffset]) cube([20,40,48]);
 
 translate([10,0,0]) 
 		{
