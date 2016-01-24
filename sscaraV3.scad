@@ -1388,16 +1388,33 @@ bearingZOffset = -16;
 bearingZ2Offset = 53-16;
 rodsZ = 16;
 baseOffset = 35;
-rodsDist = 51;
+rodsDist = 52;
 rodsLen = 250;
 T8Len = 200;
 //z = 120;
-color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=rodsLen);
-color("red") translate([-74.5-3,0,rodsZ]) rotate([0,0,90])  shf8();
-color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=rodsLen);
-color("red") translate([-74.5-3-rodsDist,0,rodsZ]) rotate([0,0,-90])  shf8();
+shfX1 = -74.5-3;
+shfY1 = 0;
+shfX2 = -74.5-3-rodsDist;
+shfY2 = 0;
 
-color("green") translate([-74.5-3-rodsDist+51/2,0,rodsZ+30]) cylinder(d=8,h=T8Len);
+zStepperX = -106-5-1.5+10;
+zStepperY = 0;
+zStepperZ = 49-35;
+
+plateZ2 = 245;
+
+color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=rodsLen);
+color("red") translate([shfX1,shfY1,rodsZ]) rotate([0,0,90])  shf8();
+color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=rodsLen);
+color("red") translate([shfX2,shfY2,rodsZ]) rotate([0,0,-90])  shf8();
+
+
+color("red") translate([shfX1,shfY1,plateZ2-10]) rotate([0,0,-90])  shf8();
+color("red") translate([shfX2,shfY2,plateZ2-10]) rotate([0,0,-90])  shf8();
+color("red") translate([zStepperX,zStepperY,plateZ2]) rotate([180,0,90])  kfl08();
+
+
+color("green") translate([zStepperX,zStepperY,rodsZ+20]) cylinder(d=8,h=T8Len);
 
 color("red") translate([-74.5-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
 {
@@ -1431,6 +1448,9 @@ color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensio
 
 color("magenta") translate([-120,-20,-baseOffset+63])	rotate([90,-90,0])dimensions(6+18+35+18, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 
+color("magenta") translate([-65,-20,-baseOffset+63+14])	rotate([90,-90,0])dimensions(10, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+
+color("magenta") translate([-65,-20,-baseOffset+63+14])	rotate([90,-90,0])dimensions(10+35, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 
 translate([-143,-22,-baseOffset]) cube([2,44,300]);
 //translate([-81,-20,-baseOffset]) cube([20,40,48]);
@@ -1438,74 +1458,79 @@ translate([-143,-22,-baseOffset]) cube([2,44,300]);
 //translate([-161,-20,-baseOffset]) cube([20,40,300]);
 //translate([-81,-20,-baseOffset]) cube([20,40,48]);
 
-translate([10,0,0]) 
-		{
-		if( !printLayout )
-		{
-			translate([-106-5-1.5,0,49-baseOffset]) rotate([180,0,0]) Nema17_shaft24_Stepper();//0,NemaSize);
-		}
+translate([zStepperX,zStepperY,zStepperZ]) rotate([180,0,0]) Nema17_shaft24_Stepper();
 
 
-color("brown") translate([-106-5-1.5,0,49-baseOffset+7])
+color("brown") translate([zStepperX,zStepperY,49-baseOffset+7])
+difference()
+{
+	cylinder(d=20,h=25);
+	translate([0,0,-1]) cylinder(d=8,h=35);
+}
+
+color("red") translate([zStepperX,zStepperY,49-baseOffset+70])
 		difference()
 		{
-cylinder(d=20,h=25);
-translate([0,0,-1]) cylinder(d=8,h=35);
-		}
-translate([-106-5-1.5,0,49-baseOffset+70])
-		difference()
-		{
-union()
-		{
-cylinder(d=10.2,h=10+3.5+1.5);
-translate([0,0,10]) cylinder(d=22,h=3.5);
+			union()
+			{
+				cylinder(d=10.2,h=10+3.5+1.5);
+				translate([0,0,10]) cylinder(d=22,h=3.5);
 		}
 		translate([0,0,-1]) cylinder(d=8,h=33);
 	}
-}
 
-
-pulley2FixatorZ = pulley2Z+pulleysH; 
-part5SpacerH = Nema17Len+(xStepperZ-15+3.5)+2+2;
-part6Z = part5SpacerH+15-1.5;
-
-
-//translate([0,0,part6Z]) cylinder(r=100,h=1);
-
-if( !printLayout && (drawArray==[] || drawMetall) ) 
+union()
 {
-	// bearing
-	translate ([0,0,pulley2FixatorZ]) color( "Silver") hex_nut(5);
-}
-
-
-BaseGearboxThreadedRodsX1 = -55.5;
-BaseGearboxThreadedRodsY1 = -59;
-BaseGearboxThreadedRodsX2 = 55.5;
-BaseGearboxThreadedRodsY2 = -59;
-BaseGearboxThreadedRodsX3 = -55.5;
-BaseGearboxThreadedRodsY3 = 0;
-BaseGearboxThreadedRodsX4 = 55.5;
-BaseGearboxThreadedRodsY4 = 0;
-BaseGearboxThreadedRodsH = 285;// cut 290 initially
-module BaseGearboxThreadedRods()
-{
-	color("silver") 
+	w = 80;
+	h = 46;
+	difference()
 	{
-		translate([BaseGearboxThreadedRodsX1,BaseGearboxThreadedRodsY1,-5]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
-		translate([BaseGearboxThreadedRodsX2,BaseGearboxThreadedRodsY2,-5])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
-		//
-		translate([BaseGearboxThreadedRodsX3,BaseGearboxThreadedRodsY3,-5]) rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
-		translate([BaseGearboxThreadedRodsX4,BaseGearboxThreadedRodsY4,-5])  rotate([0,0,0]) scale([1,1,1]) cylinder(d=3.1,h=BaseGearboxThreadedRodsH,$fn=16);
+		translate([-85-rodsDist-3,-23,13]) cube([w,h,3]);
+		color("red") translate([shfX1,shfY1,rodsZ-10]) rotate([0,0,90])  shf8(2);
+		color("red") translate([shfX2,shfY2,rodsZ-10]) rotate([0,0,90])  shf8(2);
+		translate([zStepperX,zStepperY,zStepperZ]) rotate([180,0,0]) Nema17_shaft24_Stepper(1);//0,NemaSize);
+		translate([zStepperX,zStepperY,zStepperZ-5]) cylinder(d=25,h=10);
 	}
+	color("magenta") translate([-85-rodsDist-3,23,-baseOffset+55])	dimensions(w, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,-16,-baseOffset+55])	dimensions(10.5, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,-16,-baseOffset+55])	dimensions(10.5+52, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1,-23,-baseOffset+55])	rotate([0,0,90]) dimensions(7, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1,-23,-baseOffset+55])	rotate([0,0,90]) dimensions(7+32, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1-35,-23,-baseOffset+55])	rotate([0,0,90]) dimensions(h, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	// stepper
+	color("green") translate([zStepperX-15.5,-23,-baseOffset+55])	rotate([0,0,90]) dimensions(7.5, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([zStepperX+31/2,-23,-baseOffset+55])	rotate([0,0,90]) dimensions(7.5+31, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,15.5,-baseOffset+55])	dimensions(22, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([-85-rodsDist-3,15.5,-baseOffset+55])	dimensions(22+31, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,0,-baseOffset+55])	dimensions(22+31/2, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 }
 
-// m3 threaded rods
-if( !printLayout && (drawArray==[] || drawMetall) )
+///*
+union()
 {
-	BaseGearboxThreadedRods();
+	w = 80;
+	h = 46;
+	difference()
+	{
+		translate([-85-rodsDist-3,-23,plateZ2]) cube([w,h,3]);
+		color("red") translate([shfX1,shfY1,plateZ2]) rotate([0,0,90])  shf8(2);
+		color("red") translate([shfX2,shfY2,plateZ2]) rotate([0,0,90])  shf8(2);
+		translate([zStepperX,zStepperY,plateZ2]) rotate([-180,0,90]) kfl08(1);
+	}
+	color("magenta") translate([-85-rodsDist-3,23,plateZ2+5])	dimensions(w, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,-16,plateZ2+5])	dimensions(10.5, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,-16,plateZ2+5])	dimensions(10.5+52, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1,-23,plateZ2+5])	rotate([0,0,90]) dimensions(7, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1,-23,plateZ2+5])	rotate([0,0,90]) dimensions(7+32, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1-35,-23,plateZ2+5])	rotate([0,0,90]) dimensions(h, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	// stepper
+	color("green") translate([zStepperX,-23,plateZ2+5])	rotate([0,0,90]) dimensions(4, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([zStepperX,-23,plateZ2+5])	rotate([0,0,90]) dimensions(4+37, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	//color("magenta") translate([-85-rodsDist-3,15.5,plateZ2+5])	dimensions(22, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	//color("green") translate([-85-rodsDist-3,15.5,plateZ2+5])	dimensions(22+31, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	//color("magenta") translate([-85-rodsDist-3,0,plateZ2+5])	dimensions(22+31/2, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 }
-
+//*/
 m3PlatesRad = rolson_hex_nut_dia(3)/2+0.9;
 
 module switchXMount()
@@ -1726,9 +1751,6 @@ if( !printLayout && (drawArray==[] || drawSwitchesAll==1) )
 	ZMaxEndStopper();
 }
 
-zStepperX = 5;
-zStepperY = 33;
-zStepperZ = 57;
 nemaH = lookup(NemaRoundExtrusionDiameter, Nema17);
 ZStepperBottomZ = zStepperZ-nemaH-3;
 
@@ -3222,9 +3244,6 @@ module ZStepper(bHolesOnly)
 
 if( !printLayout && (drawArray==[] || drawSteppers) )
 {
-  // z stepper
-	if( drawZSteppers )
-		ZStepper();
   // x stepper
   translate([xStepperX,xStepperY,xStepperZ])
   {
