@@ -1379,10 +1379,107 @@ if( drawArray==[] || search(6,drawArray)!=[] )
 }
 
 
+union()
+{
 translate([-64+1.5,42/2,nemaPlateSizeY-2]) rotate([0,0,180]) rotate([0,-90,0]) CProfileWithDimensions(23,55,2.5,42);
 
 color("yellow") translate([-118.5+1,42/2,nemaPlateSizeY-16]) rotate([90,0,0]) rotate([0,0,0]) CProfileWithDimensions(21,55,2.5,85);
+}
 
+module nutHolder()
+{
+	difference()
+	{
+	color("blue") translate([zStepperX,zStepperY,49-baseOffset+50]) translate([-13,-18.5,29]) cube([26,37,20]);
+color("red") translate([zStepperX,zStepperY,49-baseOffset+64])
+	rotate([0,0,45]) T8Nut(1);	
+		translate([zStepperX,zStepperY,49-baseOffset]) cylinder(d=10.2,h=100,$fn=32);
+	
+		
+		translate([zStepperX+4+4,zStepperY+50,49-baseOffset+94]) rotate([90,0,0]) cylinder(d=3,h=100,$fn=32);
+		translate([zStepperX+4+4,zStepperY+50,49-baseOffset+84]) rotate([90,0,0]) cylinder(d=3,h=100,$fn=32);
+		translate([zStepperX-2,zStepperY+50,49-baseOffset+84]) rotate([90,0,0]) cylinder(d=3,h=100,$fn=32);
+		translate([zStepperX-2,zStepperY+50,49-baseOffset+94]) rotate([90,0,0]) cylinder(d=3,h=100,$fn=32);
+
+		hull() 
+		{
+		translate([zStepperX-2,zStepperY-10,49-baseOffset+84+20]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		translate([zStepperX-2,zStepperY-10,49-baseOffset+84-0.7]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		}
+
+		mirror([0,1,0]) hull() 
+		{
+		translate([zStepperX-2,zStepperY-10,49-baseOffset+84+20]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		translate([zStepperX-2,zStepperY-10,49-baseOffset+84-0.7]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		}
+
+		//#translate([0,30,0]) 
+		hull() 
+		{
+		translate([zStepperX+4+4,zStepperY+13,49-baseOffset+84-0.7]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		translate([zStepperX+4+4,zStepperY+13,49-baseOffset+84+20]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		}
+
+		hull() 
+		{
+		translate([zStepperX+4+4,zStepperY-10,49-baseOffset+84-0.7]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		translate([zStepperX+4+4,zStepperY-10,49-baseOffset+84+20]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.4,h=3,$fn=6);
+		}
+
+
+		//#translate([0,0,30]) 
+		///*
+		hull() 
+		{
+		translate([zStepperX-4-5.5-3.5,zStepperY-12,49-baseOffset+61]) cylinder(d=rolson_hex_nut_dia(4)+4,h=6,$fn=12);
+		translate([zStepperX-4-5.5-3.5,zStepperY-12,49-baseOffset+61+40]) cylinder(d=rolson_hex_nut_dia(4)+4,h=6,$fn=12);
+		}
+
+		hull() 
+		{
+		translate([zStepperX-4-5.5-3.5,zStepperY+12,49-baseOffset+61]) cylinder(d=rolson_hex_nut_dia(4)+4,h=6,$fn=12);
+		translate([zStepperX-4-5.5-3.5,zStepperY+12,49-baseOffset+61+40]) cylinder(d=rolson_hex_nut_dia(4)+4,h=6,$fn=12);
+		}
+//*/
+	}
+}
+union()
+{
+	/*
+	color("red") translate([-74.5-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("red") translate([-74.5-rodsDist-3,0,nemaPlateSizeY+bearingZOffset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("green") translate([-74.5-3,0,nemaPlateSizeY+bearingZ2Offset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("green") translate([-74.5-rodsDist-3,0,nemaPlateSizeY+bearingZ2Offset+z]) rotate([0,0,-90]) rotate([90,0,0]) 
+{
+	SCS8UU();
+	SCS8UU(1);
+}
+
+color("yellow") translate([-118.5+1,42/2,nemaPlateSizeY-16]) rotate([90,0,0]) rotate([0,0,0]) CProfileWithDimensions(21,55,2.5,85);
+color("red") translate([zStepperX,zStepperY,49-baseOffset+64])
+	rotate([0,0,45]) T8Nut();
+	*/
+intersection()
+{
+nutHolder();
+	translate([zStepperX-50,zStepperY-50,49-baseOffset+79]) cube([100,100,10]);
+}
+}
 
 bearingZOffset = -16;
 bearingZ2Offset = 53-16;
@@ -1403,6 +1500,9 @@ zStepperZ = 49-35;
 
 plateZ2 = 245;
 
+kfl08_rot = -33;
+shf81_rot = -7;
+
 color("blue") translate([-74.5-3,0,rodsZ]) cylinder(d=8,h=rodsLen);
 color("red") translate([shfX1,shfY1,rodsZ]) rotate([0,0,90])  shf8();
 color("blue") translate([-74.5-3-rodsDist,0,rodsZ]) cylinder(d=8,h=rodsLen);
@@ -1410,8 +1510,8 @@ color("red") translate([shfX2,shfY2,rodsZ]) rotate([0,0,-90])  shf8();
 
 
 color("red") translate([shfX1,shfY1,plateZ2-10]) rotate([0,0,-90])  shf8();
-color("red") translate([shfX2,shfY2,plateZ2-10]) rotate([0,0,-90])  shf8();
-color("red") translate([zStepperX,zStepperY,plateZ2]) rotate([180,0,90])  kfl08();
+color("red") translate([shfX2,shfY2,plateZ2-10]) rotate([0,0,-90+shf81_rot])  shf8();
+color("red") translate([zStepperX,zStepperY,plateZ2]) rotate([180,0,90+kfl08_rot])  kfl08();
 
 
 color("green") translate([zStepperX,zStepperY,rodsZ+20]) cylinder(d=8,h=T8Len);
@@ -1468,7 +1568,8 @@ difference()
 	translate([0,0,-1]) cylinder(d=8,h=35);
 }
 
-color("red") translate([zStepperX,zStepperY,49-baseOffset+70])
+module T8Nut(bHolesOnly=0)
+{
 		difference()
 		{
 			union()
@@ -1477,7 +1578,23 @@ color("red") translate([zStepperX,zStepperY,49-baseOffset+70])
 				translate([0,0,10]) cylinder(d=22,h=3.5);
 		}
 		translate([0,0,-1]) cylinder(d=8,h=33);
+		translate([8,0,5]) cylinder(d=3.3,h=10,$fn=12);
+		translate([-8,0,5]) cylinder(d=3.3,h=10,$fn=12);
+		translate([0,8,5]) cylinder(d=3.3,h=10,$fn=12);
+		translate([0,-8,5]) cylinder(d=3.3,h=10,$fn=12);
 	}
+	if( bHolesOnly )
+	{
+		translate([8,0,0]) cylinder(d=3.3,h=50,$fn=12);
+		translate([-8,0,0]) cylinder(d=3.3,h=50,$fn=12);
+		translate([0,8,0]) cylinder(d=3.3,h=50,$fn=12);
+		translate([0,-8,0]) cylinder(d=3.3,h=50,$fn=12);
+	}
+}
+
+color("red") translate([zStepperX,zStepperY,49-baseOffset+90]) rotate([180,0,0]) 
+	T8Nut();
+
 
 union()
 {
@@ -1512,20 +1629,32 @@ union()
 	h = 46;
 	difference()
 	{
+		viewType = 2;//2;
 		translate([-85-rodsDist-3,-23,plateZ2]) cube([w,h,3]);
-		color("red") translate([shfX1,shfY1,plateZ2]) rotate([0,0,90])  shf8(2);
-		color("red") translate([shfX2,shfY2,plateZ2]) rotate([0,0,90])  shf8(2);
-		translate([zStepperX,zStepperY,plateZ2]) rotate([-180,0,90]) kfl08(1);
+		color("red") translate([shfX1,shfY1,plateZ2-10]) rotate([0,0,-90])  shf8(viewType);
+		color("red") translate([shfX2,shfY2,plateZ2-10]) rotate([0,0,-90+shf81_rot])  shf8(viewType);
+		color("green")  translate([zStepperX,zStepperY,plateZ2]) rotate([-180,0,90+kfl08_rot]) kfl08(viewType);
 	}
+	//color("red") translate([-85-rodsDist-3+25,-23,plateZ2]) cube([20,2,50]);
 	color("magenta") translate([-85-rodsDist-3,23,plateZ2+5])	dimensions(w, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
-	color("magenta") translate([-85-rodsDist-3,-16,plateZ2+5])	dimensions(10.5, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
-	color("magenta") translate([-85-rodsDist-3,-16,plateZ2+5])	dimensions(10.5+52, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,-16,plateZ2+5])	dimensions(10.5-2, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_LEFT);
+	color("green") translate([-85-rodsDist-3+8.5,-23,plateZ2+5])	rotate([0,0,90]) dimensions(23-15.9, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_LEFT);
+//	color("red") translate([-85-rodsDist-3+8.5,-15.9,plateZ2]) cylinder(d=5,$fn=24);
+
+	//color("red") translate([-85-rodsDist-3+12.5,15.9,plateZ2]) cylinder(d=5,$fn=24);
+	color("magenta") translate([-85-rodsDist-3,16,plateZ2+5])	dimensions(12.5, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_LEFT);
+	color("green") translate([-85-rodsDist-3+12.5,-23,plateZ2+5])	rotate([0,0,90]) dimensions(20+18.9, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+
+	
+	color("magenta") translate([-85-rodsDist-3,-16,plateZ2+5])	dimensions(10.5+52, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_RIGHT);
 	color("green") translate([shfX1,-23,plateZ2+5])	rotate([0,0,90]) dimensions(7, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
-	color("green") translate([shfX1,-23,plateZ2+5])	rotate([0,0,90]) dimensions(7+32, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
-	color("green") translate([shfX1-35,-23,plateZ2+5])	rotate([0,0,90]) dimensions(h, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1-12+12,-23,plateZ2+5])	rotate([0,0,90]) dimensions(7+32, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("green") translate([shfX1-35+50,-23,plateZ2+5])	rotate([0,0,90]) dimensions(h, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 	// stepper
-	color("green") translate([zStepperX,-23,plateZ2+5])	rotate([0,0,90]) dimensions(4, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
-	color("green") translate([zStepperX,-23,plateZ2+5])	rotate([0,0,90]) dimensions(4+37, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,-15.5-5,plateZ2+5])	dimensions(10.5+17, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_LEFT);
+	color("green") translate([-85-rodsDist-3+27.5,-23,plateZ2+5])	rotate([0,0,90]) dimensions(7.5, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_LEFT);
+	color("green") translate([-85-rodsDist-3+47.5,-23,plateZ2+5])	rotate([0,0,90]) dimensions(4+34, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
+	color("magenta") translate([-85-rodsDist-3,21,plateZ2+5])	dimensions(10.5+37, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 	//color("magenta") translate([-85-rodsDist-3,15.5,plateZ2+5])	dimensions(22, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 	//color("green") translate([-85-rodsDist-3,15.5,plateZ2+5])	dimensions(22+31, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
 	//color("magenta") translate([-85-rodsDist-3,0,plateZ2+5])	dimensions(22+31/2, DIM_LINE_WIDTH, height=DIM_HEIGHT, loc=DIM_OUTSIDE);
