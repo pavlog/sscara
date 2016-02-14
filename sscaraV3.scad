@@ -54,14 +54,14 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [1,2,3,4,5,6];//[1,2,3,4,5];//[1,7,8];
+drawArray = [1,2,3,4,5,6,7];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
 // 4 - base for xy steppers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 5 - steppers spacers (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 6 - rods supports mount and 608(bottom)  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
-// 7 - rods supports mount and 608(top)  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
+// 7 - zmin stopper  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 8 - rods fixators + z max end stopper  (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supports enabled)
 // 9 - base for z stepper (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 10 - ramps1.4 bottom mounts (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -1670,6 +1670,78 @@ module switchXMount()
 }
 
 
+if( drawArray==[] || search(7,drawArray)!=[] )
+{
+
+//zmin
+translate([-30,0,-5]) union()
+{
+	translate([0,0,5])
+	difference()
+	{
+	translate([0,-11,-15]) cube([8,22,10]);
+
+			translate([0,-10,-5]) rotate([-90,0,90]) EndSwitchBody20x11(1);
+		translate([4,0,-30]) cylinder(d=3,h=50,$fn=32);
+		translate([4,0,-30]) rotate([0,0,-90]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=17,$fn=6);
+		translate([4,-11,-30]) cylinder(d=7,h=50,$fn=4);
+		translate([4,11,-30]) cylinder(d=7,h=50,$fn=4);
+}
+	translate([0,0,5])
+			translate([0,-10,-5]) rotate([-90,0,90]) EndSwitchBody20x11(0);
+
+color("green") 
+{
+	difference()
+	{
+	union()
+	{
+	union()
+	{
+	translate([-1,-22.5+2,-30]) cube([10,11.5-2,30]);
+		translate([4,-11,-30]) cylinder(d=7,h=30,$fn=4);
+	}
+	mirror([0,1,0]) union()
+	{
+	translate([-1,-22.5+2,-30]) cube([10,11.5-2,30]);
+		translate([4,-11,-30]) cylinder(d=7,h=30,$fn=4);
+	}
+	hull()
+	{
+	translate([-2,-22.5+2,-30]) cube([12,45-4,6]);
+	translate([-1,-22.5+2,-22]) cube([10,45-4,1]);
+	}
+}
+translate([4,-25,-5]) rotate([-90,0,0]) cylinder(d=3,h=15,$fn=16);
+mirror([0,1,0])translate([4,-25,-5]) rotate([-90,0,0]) cylinder(d=3,h=15,$fn=16);
+//translate([40,-22.5,-30]) rotate([0,0,90]) LProfile(20,20,2,150-6);
+//mirror([0,1,0]) #translate([40,-22.5,-30]) rotate([0,0,90]) LProfile(40,40,2,150-6);
+
+hull()
+{
+translate([4,-18,-5]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=3,$fn=6);
+translate([4,-18,5]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=3,$fn=6);
+}
+
+mirror([0,1,0]) hull()
+{
+translate([4,-18,-5]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=3,$fn=6);
+translate([4,-18,5]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=3,$fn=6);
+}
+
+		translate([4,0,-30]) cylinder(d=3,h=50,$fn=32);
+
+translate([-25,-25,-30.1]) cube([50,50,2]);
+
+}
+}
+
+}
+}
+
+
+
+
 if( drawArray==[] || search(300,drawArray)!=[] )
 {
 		translate([xStepperX+printLayout ? 10 : 0,xStepperY,4]) color("grey")
@@ -1777,25 +1849,6 @@ plateHCover = (Bearing608Height()+2)-plateH;
 
 part7EndZ = part6Z+plateH+plateHCover;
 
-// 608 bearing support up
-if( drawArray==[] || search(7,drawArray)!=[] )
-{
-	h = part5SpacerH;
-
-	plateOffset = printLayout ? 0 : 0;
-	plateRot = printLayout ? 180 : 0;
-	
-
-	translate([0,plateOffset,0]) rotate([plateRot,0,0])
-	{
-		difference()
-		{
-			color("green") p5_plate(plateH,plateHCover);
-			//
-			p5_plate_holes(h);
-		}
-	}
-}
 
 module ZRods()
 {
