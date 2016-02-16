@@ -18,8 +18,8 @@ include <Modules/TextGenerator.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-ex = -100;
-ey = 170;
+ex = 40;
+ey = 5;
 // small angle
 //ex = 10;
 //ey = 30;
@@ -36,8 +36,6 @@ z = 0;//125;
 
 Linkage_1 = 100;
 Linkage_2 = 100;
-EndPointMountOffset = 0;
-EndPointMountAngle = 0;
 //
 BedSizeX = 200;
 BedSizeY = 200;
@@ -53,7 +51,7 @@ BearingRClearance = 0.3;
 outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
-//drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
+//drawArray = [2,4,5];//[1,2,3,4,5];//[1,7,8];
 drawArray = [1,2,3,4,5,6,7];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
@@ -229,13 +227,6 @@ color("black") translate([0,-10,0])
 }
 
 
-// static const part
-EX = EndPointMountOffset*cos(EndPointMountAngle)+Linkage_2;
-EY = EndPointMountOffset*sin(EndPointMountAngle);
-lHp2 = (EX)*(EX)+EY*EY;
-lH = sqrt(lHp2);
-dhalf = 0.0;
-LH3 = Linkage_2/lH;
 l2 = Linkage_1 * Linkage_1;
 L2 = Linkage_2 * Linkage_2;
 //echo(EX);
@@ -246,39 +237,8 @@ L2 = Linkage_2 * Linkage_2;
 l = Linkage_1;
 L = Linkage_2;
 
-//AA = -2 * l * (ex - dhalf);
-BB = -2 * l * ey;
-//CC = (ex - dhalf) * (ex - dhalf) + ey * ey + l2 - lHp2;
-FF = (ex + dhalf) * (ex + dhalf) + ey * ey + l2 - lHp2;
-EE = -2  * l * (ex+dhalf);
-Det2e = BB * BB - (FF * FF - EE * EE);
-
-qq21e = (-BB + sqrt(Det2e)) / (FF - EE);
-q21e = 2 * atan(qq21e);
-
-xxd = -dhalf + l * cos(q21e);
-yyd = l * sin(q21e);
-
-//echo(lH);
-//echo(xxd);
-//echo(yyd);
-//color("red") translate([xxd,yyd,200]) cylinder(r=5,h=100);
-
-K = EndPointMountOffset;
-//echo("K");
-//echo(K);
-//echo(lH);
-//echo(L);
-//echo("dd-ee");
-//echo(sqrt((ex-xxd)*(ex-xxd)+(ey-yyd)*(ey-yyd)));
-
-cosa1 = (L*L+lH*lH-K*K)/(2*L*lH);
-sina1 = sqrt(1-cosa1*cosa1);
-rx = ex-xxd;
-ry = ey-yyd;
-x = (rx*cosa1+ry*sina1)*LH3+xxd;
-y = (-rx*sina1+ry*cosa1)*LH3+yyd;
-
+x = ex;
+y = ey;
 //x = 0;
 //y = 60;// offset from axis to printed area
 
@@ -288,21 +248,18 @@ y = (-rx*sina1+ry*cosa1)*LH3+yyd;
 
 //color("red") translate([x,y,200]) cylinder(r=5,h=100);
 
-/*
-hull()
-{
-	cylinder(r=1,h=100);
-	translate([xxd,yyd,0]) cylinder(r=1,h=100);
-}
-*/
 
-A = -2 * l * (x - dhalf);
+
+A = -2 * l * x;
 B = -2 * y * l;
-C = (x - dhalf) * (x - dhalf) + y * y + l2 - L2;
-F = (x + dhalf) * (x + dhalf) + y * y + l2 - L2;
-E = -2  * l * (x+dhalf);
+C = x * x + y * y + l2 - L2;
+F = x * x + y * y + l2 - L2;
+E = -2  * l * x;
 Det1 = B * B - (C * C - A * A);
 Det2 = B * B - (F * F - E * E);
+
+//echo (Det1);
+//echo (Det2);
 
 qq11 = (-B - sqrt(Det1)) / (C - A);
 q11 = 2 * atan(qq11);
@@ -311,60 +268,33 @@ q11 = 2 * atan(qq11);
 
 //qq21 = (-B - sqrt(Det2)) / (F - E);
 //q21 = 2 * atan(qq21);
-qq22 = (-B + sqrt(Det2)) / (F - E);
-q22 = 2 * atan(qq22);
 
-q22Pos = q22 < 0 ? 360+q22 : q22;
+qq22 = (-B + sqrt(Det2)) / (F - E);
+q22a = 2 * atan(qq22);
+//q22 = -q22a;
+q22 = q22a+180;
+
+//q22Pos = q22 < 0 ? 360+q22 : q22;
 
 //echo("q22,q11");
 //echo(q22Pos);
-//echo(q11);
+echo(q11);
+echo(q22);
 
-xd = -dhalf + l * cos(q22);
-yd = l * sin(q22);
+//xd = l * cos(q22);
+//yd = l * sin(q22);
 
-xb = -dhalf + l * cos(q11);
-yb = l * sin(q11);
+//xb = l * cos(q11);
+//yb = l * sin(q11);
 
-hx = xb-xd;
-hy = yb-yd;
-H = sqrt(hx*hx+hy*hy);
-LH = L/H;
-cosa = (H*H)/(2*L*H);
-sina = -sqrt(1-cosa*cosa);
-xxp = (hx*cosa+hy*sina)*LH+xd;
-yyp = (-hx*sina+hy*cosa)*LH+yd;
 
-cosz = cos(-EndPointMountAngle);
-sinz = sin(-EndPointMountAngle);
-
-//echo (cosz);
-
-LH2 = EndPointMountOffset/L;
-hhx = xxp-xd;
-hhy = yyp-yd;
-xp = (hhx*cosz+hhy*sinz)*LH2+xxp;
-yp = (-hhx*sinz+hhy*cosz)*LH2+yyp;
-//xp = xxp;
-//yp = yyp;
-
-//echo (hhx);
-//echo (hhy);
-
-//echo("hh");
-//echo (xp);
-//echo(yp);
-//echo("LH2");
-//echo (LH2);
-//echo("xd,yd");
-//echo (xd);
-//echo(yd);
-//color("green") translate([xp,yp,200]) cylinder(r=2,h=100);
-//color("blue") translate([xxp,yyp,200]) cylinder(r=3,h=100);
-//color("magenta") translate([xb,yb,200]) cylinder(r=1,h=100);
-//color("silver") translate([ex,ey,200]) cylinder(r=3,h=100);
-//color("magenta") translate([xd,yd,200]) cylinder(r=1,h=100);
-
+// forward kinematic
+xp = cos(q11)*Linkage_1+cos(q22-180)*Linkage_2;
+yp = sin(q11)*Linkage_1+sin(q22-180)*Linkage_2;
+//echo("xf,yf");
+//echo(xf);
+//echo(yf);
+//translate([xf,yf,0]) cylinder(r=5,h=10);
 
 WIP = 1;
 
@@ -557,9 +487,9 @@ module part1Idler_full()
 		}
 }
 
-module part1Idler(bPrintLayout)
+module part1Idler(printLayout)
 {
-	if( bPrintLayout==1 )
+	if( printLayout==1 )
 	{
 		intersection()
 		{
@@ -567,7 +497,7 @@ module part1Idler(bPrintLayout)
 			translate([0,-50,0]) cube([100,100,100]);
 		}
 	}
-	else if( bPrintLayout==2 )
+	else if( printLayout==2 )
 	{
 		intersection()
 		{
@@ -583,11 +513,11 @@ module part1Idler(bPrintLayout)
 
 if( drawArray==[] || search(1,drawArray)!=[] )
 {
-	//bPrintLayout = 1;
-	rotAngle = bPrintLayout ? 0 : q11;
+	//printLayout = 1;
+	rotAngle = printLayout ? 0 : q11;
 	translate([0,0,part1ZBase]) rotate([0,0,rotAngle]) 
 	{
-		if( bPrintLayout )
+		if( printLayout )
 		{
 			part1Idler(1);
 			translate([-5,0,0]) part1Idler(2);
@@ -596,9 +526,9 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 		{
 			part1Idler();
 		}
-		pulleyOffsX = bPrintLayout ? -5 : 0;
-		pulleyOffsY = bPrintLayout ? 45 : 0;
-		pulleyOffsZ = bPrintLayout ? 0 : 7;
+		pulleyOffsX = printLayout ? -5 : 0;
+		pulleyOffsY = printLayout ? 45 : 0;
+		pulleyOffsZ = printLayout ? 0 : 7;
 		translate([pulleyOffsX,pulleyOffsY,pulleyOffsZ]) difference()
 		{
 			color("magenta")
@@ -633,10 +563,10 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 			);
 			idlerMountHoles();
 		}
-		topIdlerOffsetZ = bPrintLayout ? 0 : 14;
+		topIdlerOffsetZ = printLayout ? 0 : 14;
 		translate([0,0,topIdlerOffsetZ])
 		{
-		if( bPrintLayout )
+		if( printLayout )
 		{
 			translate([25,0,0]) part1Idler(1);
 			translate([-25,0,0]) part1Idler(2);
@@ -657,14 +587,16 @@ if( drawArray==[] || search(1,drawArray)!=[] )
 if( drawArray==[] || search(2,drawArray)!=[] )
 {
 	//printLayout = 1;
-	xd = dhalf + l * cos(q11);
-  yd = l * sin(q11);
-	a = printLayout ? 0 : atan((y-yd)/(x-xd));
+	//xd = l * cos(q11);
+  //yd = l * sin(q11);
+//	a = printLayout ? 0 : atan2((y-yd),(x-xd));
+	a = printLayout ? 0 : q22;//atan((y-yd)/(x-xd));
+	echo(a);
 
-	rotAngle = bPrintLayout ? 0 : a;
+	rotAngle = printLayout ? 0 : a;
 	translate([0,0,part2ZBase]) rotate([0,0,rotAngle]) 
 	{
-		if( bPrintLayout )
+		if( printLayout )
 		{
 			part1Idler(1);
 			translate([-5,0,0]) part1Idler(2);
@@ -673,9 +605,9 @@ if( drawArray==[] || search(2,drawArray)!=[] )
 		{
 			part1Idler();
 		}
-		pulleyOffsX = bPrintLayout ? -5 : 0;
-		pulleyOffsY = bPrintLayout ? 45 : 0;
-		pulleyOffsZ = bPrintLayout ? 0 : 7;
+		pulleyOffsX = printLayout ? -5 : 0;
+		pulleyOffsY = printLayout ? 45 : 0;
+		pulleyOffsZ = printLayout ? 0 : 7;
 		translate([pulleyOffsX,pulleyOffsY,pulleyOffsZ]) difference()
 		{
 			color("magenta")
@@ -710,10 +642,10 @@ if( drawArray==[] || search(2,drawArray)!=[] )
 			);
 			idlerMountHoles();
 		}
-		topIdlerOffsetZ = bPrintLayout ? 0 : 14;
+		topIdlerOffsetZ = printLayout ? 0 : 14;
 		translate([0,0,topIdlerOffsetZ])
 		{
-		if( bPrintLayout )
+		if( printLayout )
 		{
 			translate([25,0,0]) part1Idler(1);
 			translate([-25,0,0]) part1Idler(2);
@@ -875,9 +807,9 @@ if( drawArray==[] || search(3,drawArray)!=[] )
 
 module part4(printLayout,drawArraySubpart)
 {		
-  xd = dhalf + l * cos(q11);
+  xd = l * cos(q11);
   yd = l * sin(q11);
-	a = printLayout ? 0 : atan((y-yd)/(x-xd));
+	a = printLayout ? 0 : q22;//atan((y-yd)/(x-xd));
 	//echo (a);
 	difference()
 	{
@@ -1088,15 +1020,15 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 		union() 
 		{
 			q11 = printLayout ? 0 : q11;
-			xd = dhalf + l * cos(q11);
+			xd = l * cos(q11);
 			yd = l * sin(q11);
-			a = printLayout ? 0 : atan((y-yd)/(x-xd));
+			a = printLayout ? 0 : atan2((y-yd)/(x-xd));
 			a2 = printLayout ? 0 : atan2(yd,xd);
 			rotAngle = printLayout ? 0 : a;
 			rotAngle2 = printLayout ? 0 : -rotAngle+a2;
 			hull()
 			{
-				rotAngle = bPrintLayout ? 0 : a;
+				rotAngle = printLayout ? 0 : a;
 				translate ([xd,yd,part1ZBase])
 					rotate([0,0,a+180]) 
 				{
@@ -1110,15 +1042,15 @@ if( drawArray==[] || search(4,drawArray)!=[] )
 module part5(printLayout)
 {
 	q11 = printLayout ? 0 : q11;
-	xd = dhalf + l * cos(q11);
+	xd = l * cos(q11);
   yd = l * sin(q11);
-	a = printLayout ? 0 : atan((y-yd)/(x-xd));
+	a = printLayout ? 0 : q22;// atan((y-yd)/(x-xd));
 	a2 = printLayout ? 0 : atan2(yd,xd);
 	
 	/*
 	hull()
 	{
-		rotAngle = bPrintLayout ? 0 : a;
+		rotAngle = printLayout ? 0 : a;
 		translate([0,0,part2ZBase+7+7/2]) rotate([0,0,rotAngle]) 
 		{
 			// subpart 4
@@ -1241,9 +1173,9 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	
 		smallArmLen = 41;
 		q11 = printLayout ? 0 : q11;
-		xd = dhalf + l * cos(q11);
+		xd = l * cos(q11);
 		yd = l * sin(q11);
-		a = printLayout ? 0 : atan((y-yd)/(x-xd));
+		a = printLayout ? 0 : q22;//atan((y-yd)/(x-xd));
 		a2 = printLayout ? 0 : atan2(yd,xd);
 		rotAngle = printLayout ? 0 : a;
 		rotAngle2 = printLayout ? 0 : -rotAngle+a2;
@@ -1262,7 +1194,7 @@ if( drawArray==[] || search(5,drawArray)!=[] )
 	
 		smallArmLen = 41;
 		q11 = printLayout ? 0 : q11;
-		xd = dhalf + l * cos(q11);
+		xd = l * cos(q11);
 		yd = l * sin(q11);
 		a = printLayout ? 0 : atan((y-yd)/(x-xd));
 		a2 = printLayout ? 0 : atan2(yd,xd);
@@ -1824,25 +1756,6 @@ if( drawArray==[] || search(25,drawArray)!=[] )
 }
 
 
-
-if( !printLayout && (drawArray==[] || drawMetall) )
-{
-	translate ([0,0,part6Z+1]) Bearing608(); 
-}
-
-module SCS6UUAll(bHolesOnly=0)
-{
-	translate([-rodOffsetX,0,part6Z+10+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
-	translate([rodOffsetX,0,part6Z+10+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
-
-	translate([-rodOffsetX,0,part6Z+36+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
-	translate([rodOffsetX,0,part6Z+36+z]) rotate([90,0,0]) SCS6UU(bHolesOnly);
-}
-
-if( !printLayout && drawMetall )
-{
-	SCS6UUAll(0);
-}
 
 plateH = 4;
 plateHCover = (Bearing608Height()+2)-plateH;
@@ -2983,272 +2896,6 @@ module armCubeBearings()
 		}
 }
 
-// bottom arm
-if( drawArray==[] || search(19,drawArray)!=[])
-{
-	//printLayout = 0;
-
-	a = printLayout ? 0 : q22;
-	ax = printLayout ? 0 : 0;
-
-	translate ([0,0,armsZ+armsZExtra]) rotate([ax,0,a])
-	{
-		//color("red") translate([-4,0,20]) hull()
-		//{
-		//	translate([0,-1.5,0])  cube([3,3,10]);
-		//	translate([75.5-3,-1.5,0]) cube([3,3,10]);
-		//}
-		
-		///*
-		translate([printLayout ? 10 : 0,0,0]) rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) intersection()
-		{
-			armCube();
-			translate([0,-25,-1]) cube([50,50,50]);
-		}
-		translate([printLayout ? -10 : 0,0,0]) rotate([0,printLayout ? -90 : 0,printLayout ? 0 : 0])  intersection()
-		{
-			armCube();
-			mirror() translate([0,-25,-1]) cube([50,50,50]);
-		}
-		rotate([0,printLayout ? 180 : 0,printLayout ? 0 : 0]) 
-		translate([printLayout ? -90 : 0,printLayout ? 30 : 0,printLayout ? 6.5 : 0]) //rotate([0,printLayout ? -90 : 0,printLayout ? 0 : 0])  
-		intersection()
-		{
-			translate([Linkage_1,0,0])  armCubeBearings();
-			translate([Linkage_1,0,0]) translate([-25,-25,-1]) cube([50,50,13]);
-		}
-		color("green") rotate([0,printLayout ? 0 : 0,printLayout ? 0 : 0]) 
-		translate([printLayout ? -90 : 0,printLayout ? 30 : 0,printLayout ? -27.5 : 0])  
-		intersection()
-		{
-			translate([Linkage_1,0,0])  armCubeBearings();
-			translate([Linkage_1,0,0]) translate([-25,-25,13]) cube([50,50,13]);
-		}
-		//*/
-		translate([printLayout ? -30 : 0,printLayout ? 60 : 0,printLayout ? 24 : 0])
-		rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) 
-		color("blue") difference()
-		{
-			hull()
-			{
-				translate([27,0,0]) armsRods(d=rolson_hex_nut_dia(3)+1,h=48/2);
-			}
-			translate([27,0,0]) armsRods(d=3+0.2,h=100);
-			color("red") translate([0,0,10.5]) rotate([0,90,0]) cylinder(d=10,h=100,$fn=32);
-			translate([27-0.1,0,0]) armsRods(d=rolson_hex_nut_dia(3),h=rolson_hex_nut_hi(3)+0.3,fn=6);
-		}
-		//
-		translate([printLayout ? 10 : 0,printLayout ? 60 : 0,printLayout ? 24+48/2 : 0])
-		rotate([0,printLayout ? 90 : 0,printLayout ? 0 : 0]) 
-		color("lightblue") difference()
-		{
-			hull()
-			{
-				translate([27+48/2,0,0]) armsRods(d=rolson_hex_nut_dia(3)+1,h=48/2);
-			}
-			translate([27,0,0]) armsRods(d=3+0.2,h=100);
-			color("red") translate([0,0,10.5]) rotate([0,90,0]) cylinder(d=10,h=100,$fn=32);
-			translate([27+48/2-0.1,0,0]) armsRods(d=rolson_hex_nut_dia(3),h=rolson_hex_nut_hi(3)+0.3,fn=6);
-		}
-	}
-	/*
-	translate ([0,0,armsZ+armsZExtra]) rotate([ax,0,a])
-	{
-		difference()
-		{
-			union()
-			{
-				hull()
-				{
-					cylinder(r=ArmNearestD/2+2,h=bottomArmH+7);
-					translate([Linkage_1*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH+7);
-				}
-				hull()
-				{
-					cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_1,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-				}
-				hull()
-				{
-					translate([Linkage_1*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_1,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-				}
-				translate([6,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
-				translate([0,0,bottomArmH]) cylinder(r=ArmNearestD/2+2,h=Bearing625Height());
-			}
-			translate([Linkage_1,0,1]) cylinder(d=Bearing623Diameter()+0.6,h=bottomArmH+2,$fn=64);
-			translate([Linkage_1,0,-1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=bottomArmH+2);
-			//translate([0,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
-			translate([0,0,-1]) cylinder(d=8+0.6,h=bottomArmH+20,$fn=64);
-			//color("blue") translate([0,0,bottomArmH-1]) cylinder(d=BearingF512MDiameter()+BearingRClearance*2,h=1+1,$fn=24);
-			translate([4,-0.5,-1]) cube([10.5,1,bottomArmH+20]);
-			// fixator
-			translate([0,0,bottomArmH/2+4])
-			{
-				color("red") translate([6,50,0]) rotate([90,0,0]) cylinder(r=1.51,h=100,$fn=24);
-				color("red") translate([6,16,0]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-				color("red") translate([6,-6,0]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			}
-		//
-			translate([Linkage_1*0.35,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
-			translate([Linkage_1*0.70,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
-			translate([0,0,bottomArmH+6]) cylinder(d=Bearing625Diameter()+0.8,h=Bearing625Height()+1,$fn=64);
-
-		}
-		if( drawArray==[] )
-		{
-			translate([Linkage_1,0,1]) Bearing623();
-			translate([Linkage_1,0,1+Bearing623Height()]) Bearing623();
-			color("silver") translate([Linkage_1,0,1+Bearing623Height()+Bearing623Height()]) hex_nut(5);
-		}
-	}
-	*/
-	a1 = printLayout ? 0 : q22;
-	ay1 = printLayout ? 23 : 0;
-	az1 = printLayout ? -30 : 0;
-/*
-	translate ([0,ay1,armsZ+armsZExtra+30+az1]) rotate([0,0,a1])
-	{
-		//cylinder(r=Bearing623Diameter()+2,h=bottomArmH+Bearing625Height());
-		difference()
-		{
-			union()
-			{
-				hull()
-				{
-					cylinder(d=Bearing625Diameter()+5,h=bottomArmH);
-					translate([2,0,0]) cylinder(d=Bearing625Diameter()+5,h=bottomArmH);
-					translate([Linkage_1*0.15,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-				}
-				hull()
-				{
-					cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_1,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-				}
-				hull()
-				{
-					translate([Linkage_1*0.85,0,0]) cylinder(r=ArmNearestW/2,h=bottomArmH);
-					translate([Linkage_1,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-				}
-				translate([6,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
-			translate([-13,0,bottomArmH/2]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+3.5,h=13,$fn=24);
-			}
-			translate([Linkage_1,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
-			translate([Linkage_1,0,-1]) cylinder(d=rolson_hex_nut_dia(3)+1,h=bottomArmH+2);
-			//translate([0,0,1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH+2);
-			translate([0,0,-1]) cylinder(d=rolson_hex_nut_dia(5)+1,h=bottomArmH+2);
-			hull()
-			{
-			color("blue") translate([0,0,2]) cylinder(d=Bearing625Diameter()+BearingRClearance*2,h=bottomArmH);
-			color("blue") translate([2,0,2]) cylinder(d=Bearing625Diameter()+BearingRClearance*2,h=bottomArmH);
-			}
-				// mount holes
-			translate([5,-0.5,0]) cube([12.5,1,bottomArmH+2]);
-			color("red") translate([12,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100,$fn=24);
-			color("red") translate([12,17,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=11,$fn=12);
-			color("red") translate([12,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=13,$fn=24);
-			color("red") translate([-18,0,bottomArmH/2]) rotate([0,90,0]) cylinder(d=3,h=13,$fn=24);
-			color("red") translate([-10,0,bottomArmH/2]) rotate([0,90,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=13,$fn=6);
-						// mount holes 2
-			translate([Linkage_1-11,-0.5,0]) cube([12.5,1,bottomArmH+2]);
-			color("red") translate([Linkage_1-7,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100,$fn=24);
-			color("red") translate([Linkage_1-7,17,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			color("red") translate([Linkage_1-7,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-
-			translate([Linkage_1*0.35,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
-			translate([Linkage_1*0.70,0,0]) cylinder(d=3,h=bottomArmH+2,$fn=23);
-
-
-		}
-		if( drawArray==[] )
-		{
-			translate([Linkage_1,0,1]) Bearing623();
-			translate([Linkage_1,0,1+Bearing623Height()]) Bearing623();
-			color("silver") translate([Linkage_1,0,1+Bearing623Height()+Bearing623Height()]) hex_nut(5);
-		}
-	}
-	*/
-}
-
-//echo (bottomArmH);
-
-if( drawArray==[] || search(20,drawArray)!=[])
-{
-	//printLayout=0;
-	xd = -dhalf + l * cos(q22);
-  yd = l * sin(q22);
-	a = printLayout ? 0 : atan((y-yd)/(x-xd));
-	mountRotZ = -90;
-	translate ([xd,yd,armsZ+bottomArmH+armsZExtra+2.5-7])
-		rotate([0,0,a]) 
-	{
-		color("brown") difference()
-		{
-			union()
-			{
-				color("blue") 
-				hull()
-				{
-					cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([5,20,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-				}
-
-				color("blue") 
-				hull() 
-				{
-					translate([5,20,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-				}
-
-				color("red") 
-				hull()
-				{
-					translate([Linkage_2,0,0]) cylinder(r=ArmNearestD/2,h=bottomArmH);
-					translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,0]) cylinder(d=16+6,h=bottomArmH);
-				}
-				color("red") hull()
-				{
-					translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,0])
-					{
-						cylinder(d=16+6,h=bottomArmH);
-						rotate([0,0,mountRotZ]) translate([8,0,0]) cylinder(d=10,h=bottomArmH);
-					}
-				}
-				translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,0]) rotate([0,0,mountRotZ]) translate([0,-4,0]) cube([16,8,bottomArmH]);
-
-				//translate([Linkage_2-13,6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=12,$fn=12);
-			}
-			translate([Linkage_2,0,-1]) cylinder(d=8,h=30,$fn=32);
-			translate([Linkage_2,0,+1]) cylinder(d=Bearing623Diameter()+0.2,h=bottomArmH,$fn=32);
-			translate([0,0,-1]) cylinder(d=3.0,h=30,$fn=32);
-
-			//translate([Linkage_2-20,-0.5,-1]) cube([20.5,1,bottomArmH+2]);
-			//color("red") translate([Linkage_2-13,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100);
-			//color("red") translate([Linkage_2-13,16,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			//color("red") translate([Linkage_2-13,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-		// end effector arm
-		translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,bottomArmH/2])  rotate([0,0,mountRotZ])  translate([13,10,0]) rotate([90,0,0])  cylinder(d=3,h=30,$fn=12);
-
-				translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,bottomArmH/2]) rotate([0,0,mountRotZ])  translate([13,10,0]) rotate([90,0,0])   cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
-
-				translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle])  translate([EndPointMountOffset,0,bottomArmH/2]) rotate([0,0,mountRotZ])  translate([13,-4,0]) rotate([90,0,0])  cylinder(d=rolson_hex_nut_dia(3),h=3+3,$fn=12);
-
-			//translate([Linkage_2-20,-0.5,-1]) cube([20.5,1,bottomArmH+2]);
-			//color("red") translate([Linkage_2-13,50,bottomArmH/2]) rotate([90,0,0]) cylinder(r=1.51,h=100);
-			//color("red") translate([Linkage_2-13,16,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			//color("red") translate([Linkage_2-13,-6,bottomArmH/2]) rotate([90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=10,$fn=12);
-			
-			translate([Linkage_2,0,0]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,0]) rotate([0,0,mountRotZ]) translate([0,-0.5,0]) cube([20,1,20]);
-		// hot end mount hole
-			color("silver") translate([Linkage_2,0,-1]) rotate([0,0,EndPointMountAngle]) translate([EndPointMountOffset,0,0]) cylinder(r=8+0.1,h=100);
-		}
-		if( drawArray==[] )
-		{
-			translate([Linkage_2,0,1]) Bearing623();
-			translate([Linkage_2,0,1+Bearing623Height()]) Bearing623();
-		}
-	}
-}
 
 if( !printLayout && (drawArray==[] || drawMetall) )
 {
