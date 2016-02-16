@@ -18,8 +18,8 @@ include <Modules/TextGenerator.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-ex = 40;
-ey = 5;
+ex = 50;
+ey = 0;
 // small angle
 //ex = 10;
 //ey = 30;
@@ -52,7 +52,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [2,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [1,2,3,4,5,6,7];//[1,2,3,4,5];//[1,7,8];
+drawArray = [1,2,3,4,5,6,7,8];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -1672,6 +1672,32 @@ translate([-25,-25,-30.1]) cube([50,50,2]);
 }
 
 
+if( drawArray==[] || search(8,drawArray)!=[] )
+{
+	!difference()
+	{
+		union()
+		{
+//		hull()
+		{
+			translate([-37,-20,z+73+7+5]) rotate([0,0,90]) cube([18,10,23-5]);
+		}
+		hull()
+		{
+			translate([-44,-20,z+73+2+23]) rotate([0,0,90]) cube([10,13,5]);
+			translate([-49,-14,z+73+2+23]) rotate([0,0,90]) cube([33,8,5]);
+		}
+		}	
+			translate([xStepperX,xStepperY,z+73+7]) cylinder(d=18,h=50);
+			translate([-35,-20,z+74]) rotate([0,0,90]) EndSwitchBody20x11(1);
+			translate([-35,-20,z+90]) rotate([0,0,90]) EndSwitchBody20x11(1);
+		translate([yStepperX-5,yStepperY,z+73+30])
+		{
+			rotate([0,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
+		}
+	}
+			translate([-35,-20,z+74+5]) rotate([0,0,90]) EndSwitchBody20x11();
+}
 
 
 if( drawArray==[] || search(300,drawArray)!=[] )
@@ -1799,45 +1825,6 @@ module ZMaxEndStopper(holesOnly=0)
 	{
 			translate([-39.5,10,5]) rotate([-90,0,0]) EndSwitchBody20x11(holesOnly);
 	}
-}
-
-module part8()
-{
-  printOffset = printLayout ? -10 : 0;
-	translate([printOffset,0,0]) rodsFixator();
-	difference()
-	{
-		union()
-		{
-			mirror() rodsFixator();
-			hull()
-			{
-				hull()
-				{
-					translate([-rodOffsetX+8,7.9+0.5,part6Z-10]) cylinder(r=2,h=10,$fn=32);
-					translate([-rodOffsetX+9,5,part6Z-10]) cylinder(r=2,h=10,$fn=32);
-				}
-				translate([-rodOffsetX-8,7.9+0.5,part6Z-10]) cylinder(r=2,h=10,$fn=32);
-			}
-			hull()
-			{
-				translate([-rodOffsetX-8,7.9+0.5,part6Z-10]) cylinder(r=2,h=10,$fn=32);
-				translate([-rodOffsetX-8,1,part6Z-10]) cylinder(r=2,h=10,$fn=32);
-				translate([-rodOffsetX,7.9,part6Z-10]) cylinder(r=2,h=10,$fn=32);
-			}
-		}
-		ZMaxEndStopper(1);
-		translate([0,0,part6Z]) 
-		{
-				translate([-34.5,6,-2]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3));
-				translate([-25.5,6,-2]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3));
-		}
-	}
-}
-// rods fixators and z max endstopper mount
-if( drawArray==[] || search(8,drawArray)!=[] )
-{
-	part8();
 }
 
 // z max end stopper
