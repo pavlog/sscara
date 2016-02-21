@@ -1724,8 +1724,8 @@ if( drawArray==[] || search(9,drawArray)!=[] )
 		}
 		}	
 			translate([xStepperX,xStepperY,z+40]) cylinder(d=18.5,h=50,$fn=32);
-			translate([-23,-25,z+45]) rotate([0,0,90]) EndSwitchBody20x11(1);
-			translate([-23,-25,z+50]) rotate([0,0,90]) EndSwitchBody20x11(1);
+			translate([-23,-25.5,z+45]) rotate([0,0,90]) EndSwitchBody20x11(1);
+			translate([-23,-25.5,z+50]) rotate([0,0,90]) EndSwitchBody20x11(1);
 		translate([yStepperX,yStepperY,z+45])
 		{
 			rotate([0,0,0]) rotate([180,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
