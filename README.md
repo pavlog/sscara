@@ -1,16 +1,9 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
-Current Status: V2 - WIP (a lot of improvements on the way)
+Current Status: V3 - WIP
 
-V2 Improvements:
-* x8 gear ratio
-* Belt path shortened twice
-* No belt coupliers
-* No teeth on big pulleys (more precision, easy to print)
-* Smaller dimensions (but with the same print area)
-* A lot of improvements - more modular and service friendly
-* Z axis improved a lot
+V3 Video - https://youtu.be/qMoxgC5KaG4
 
 History:
 * 28.07.2015 - V3 - WIP
@@ -21,16 +14,8 @@ History:
 * 27.04.2015 - V1 - WIP
 
 Videos:
-v1 - https://youtu.be/Ef477o_Nw88
+v3 - https://youtu.be/qMoxgC5KaG4
  
-Dimensions: 
-* Base footprint - 165x140mm, height - 330mm
-
-Printing Area:
-* 100x120x120mm
-
-Mass:
-* ~2.5 kg (looks like 3kg max)
 
 Precision:
 WIP
@@ -108,8 +93,8 @@ XY precise calibration:
 
 Precise Steps Per Units calibration:
 * G28 goto home
-* M370 X90+#xx Y180+#yy // move arms to 90 and 180 degrees, #xx and #yy is an extra angle to move arms exactly to 90 and 180 degrees
-* M370 X0+#xx Y90+#yy // #xx and #yy from prev step
+* M370 X0+#xx Y-90+#yy // move arms to 90 and 180 degrees, #xx and #yy is an extra angle to move arms exactly to 90 and 180 degrees
+* M370 X90+#xx Y0+#yy // #xx and #yy from prev step
 * if your arms not exacly 0 and 90 degrees use M92 X## Y## +/- values until all sequence above will get 0 and 90 degrees
 * Repeat a few times until you get 90 and 180 degrees exactly
 * M500 to save data to EEPROM
@@ -117,7 +102,7 @@ Precise Steps Per Units calibration:
 
 Precise home offsets calibration:
 * G28 goto home
-* M370 X90 Y180 // move arms to 90 and 180 degrees
+* M370 X0 Y-90 // move arms to 0 and -90 degrees
 * M206 X## Y## (where X## Y## is a angular distance to 90 and 180, this is homing offsets in angles, can be used from prev steps)
 * Repeat a few times until you get 90 and 180 degrees exactly
 * M500 to save data to EEPROM
@@ -125,8 +110,6 @@ Precise home offsets calibration:
 
 Z calibration
 * G28 Z
-* G1 Z0
-* M451 Z#zz+#ZZ where #zz is a distance beween nozzle and platform and #ZZ curent max distance
-* M452 Z#zz+#ZZ where #zz is a distance beween nozzle and platform and #ZZ curent max distance
+* Ajust platform height
 
 Development blog - https://3dgems.blogspot.com
