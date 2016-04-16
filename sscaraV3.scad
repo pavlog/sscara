@@ -18,8 +18,8 @@ include <Modules/TextGenerator.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-ex = 45;
-ey = -10;
+ex = 50;
+ey = 50;
 // small angle
 //ex = 10;
 //ey = 30;
@@ -252,15 +252,25 @@ y = ey;
 
 
 A = -2 * l * x;
+echo("A");
+echo(A);
 B = -2 * y * l;
+echo("B");
+echo(B);
 C = x * x + y * y + l2 - L2;
+echo("C");
+echo(C);
 F = x * x + y * y + l2 - L2;
+echo("F");
+echo(F);
 E = -2  * l * x;
+echo("E");
+echo(E);
 Det1 = B * B - (C * C - A * A);
 Det2 = B * B - (F * F - E * E);
 
-//echo (Det1);
-//echo (Det2);
+echo (Det1);
+echo (Det2);
 
 qq11 = (-B - sqrt(Det1)) / (C - A);
 q11 = 2 * atan(qq11);
@@ -274,7 +284,7 @@ q11 = 2 * atan(qq11);
 qq22 = (-B + sqrt(Det2)) / (F - E);
 q22a = 2 * atan(qq22);
 //q22 = -q22a;
-q22 = q22a+180;
+q22 = q22a-180;
 
 //q22Pos = q22 < 0 ? 360+q22 : q22;
 
@@ -282,6 +292,7 @@ q22 = q22a+180;
 //echo(q22Pos);
 echo(q11);
 echo(q22);
+//echo(q22 < 0 ? 2*3.145+q22 : q22);
 
 //xd = l * cos(q22);
 //yd = l * sin(q22);
@@ -291,8 +302,8 @@ echo(q22);
 
 
 // forward kinematic
-xp = cos(q11)*Linkage_1+cos(q22-180)*Linkage_2;
-yp = sin(q11)*Linkage_1+sin(q22-180)*Linkage_2;
+xp = cos(q11)*Linkage_1+cos(q22+180)*Linkage_2;
+yp = sin(q11)*Linkage_1+sin(q22+180)*Linkage_2;
 //echo("xf,yf");
 //echo(xf);
 //echo(yf);
@@ -1849,13 +1860,89 @@ mirror([0,1,0]) hull()
 
 union()
 {
-!color ("blue") panelHolder();
+color ("blue") panelHolder();
 mirror([0,1,0]) color ("blue") panelHolder();
 }
 
 
 }
 }
+
+
+bMountsOnly = 3;
+!translate([-147,-49/2,250]) union()
+{
+	difference()
+	{
+	union()
+	{
+		difference()
+		{
+		if( bMountsOnly==0 )
+		{
+			cube([88,49,14]);
+			//translate([8,0,-0.1])  cube([80,4,9]);
+			translate([8,0,-0.1])  cube([80,49,9]);
+			translate([8,3.5,-0.1])  cube([80,49-7,11]);
+			translate([8,15,-0.1])  cube([81,17,9]);
+			//translate([8,49-4,-0.1])  cube([80,4,9]);
+			translate([3,4.5,-0.1])  cube([8,40,9]);
+			//translate([8,4.5,-0.1])  cube([80,40,9]);
+		}
+		}
+		union()
+		{
+			if( bMountsOnly==0 || bMountsOnly==1 || bMountsOnly==3 )
+			{
+			translate([88-43-5,49-3.5-12,0]) cube([10,12,11]);
+			translate([88-43-5,3.5,0]) cube([10,12,11]);
+			translate([88-43-5+1,3.5,0]) cube([10,12,11]);
+			}
+			if( bMountsOnly==0 || bMountsOnly==1 || bMountsOnly==2 )
+			{
+			translate([88-12,49-3.5-12,-0.1]) cube([12,12,11]);
+			translate([88-12,3.5,-0.1]) cube([12,12,11]);
+			}
+		}
+	}
+		translate([88-43,-20,3]) rotate([-90,0,0]) cylinder(d=3,h=100,$fn=12);
+		translate([88-4,-20,3]) rotate([-90,0,0]) cylinder(d=3,h=100,$fn=12);
+		//
+		translate([88-4,3,3]) rotate([-90,0,0]) cylinder(d=6.5,h=4.5,$fn=6);
+	  translate([88-4,49-3-4.5,3]) rotate([-90,0,0]) cylinder(d=6.5,h=4.5,$fn=6);
+		translate([88-43,3,3]) rotate([-90,0,0]) cylinder(d=6.5,h=4,$fn=6);
+		translate([88-43,49-3-4.5,3]) rotate([-90,0,0]) cylinder(d=6.5,h=4,$fn=6);
+		//translate([88-4,0,3]) rotate([-90,0,0]) cylinder(d=6.5,h=4.5,$fn=6);
+		//#translate([88-63,49/2-15,3]) rotate([0,0,0]) cylinder(d=3,h=100,$fn=12);
+		//#translate([88-63,49/2+15,3]) rotate([0,0,0]) cylinder(d=3,h=100,$fn=12);
+		//#translate([88-23,49/2-15,3]) rotate([0,0,0]) cylinder(d=3,h=100,$fn=12);
+		//#translate([88-23,49/2+15,3]) rotate([0,0,0]) cylinder(d=3,h=100,$fn=12);
+
+		hull()
+		{
+			translate([88-6-2.5,9+2,14-10]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+			translate([88-25,9+2,14-10]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+		}
+		translate([88-6-2.5,9+2,-1]) rotate([0,0,0]) cylinder(d=3,h=30,$fn=12);
+		
+		hull()
+		{
+			translate([88-6-2.5,49-(9+2),14-10]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+			translate([88-25,49-(9+2),14-10]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+		}
+		translate([88-6-2.5,49-(9+2),-1]) rotate([0,0,0]) cylinder(d=3,h=30,$fn=12);
+
+
+		hull()
+		{
+			translate([88-43+3,9,14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+			translate([88-43+25,9,14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+		}
+		translate([88-43+3,9,-1]) rotate([0,0,0]) cylinder(d=3,h=30,$fn=12);
+
+}
+}
+
 
 if( drawArray==[] || search(300,drawArray)!=[] )
 {
