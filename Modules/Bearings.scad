@@ -1,7 +1,7 @@
 function radius_to_balls(r_ball, r) = 180 / asin(r_ball / r);
 function ball_to_radius(n, r) = r * sin(180 / n);
 
-sphereFn = 8;//45
+sphereFn = 6;//45
 cylinderFn = 18;//45
 genPin = 0;
 module Bearing(outer, inner, attempt, gap, hole, height) 
@@ -14,15 +14,15 @@ module Bearing(outer, inner, attempt, gap, hole, height)
 	for(i = [0 : n])
 		rotate(a = [0, 0, theta * i])
 			translate([inner, 0, 0])
-				union() {/*
-					sphere(r = r - gap, center = true, $fn = 45); */
+				union() 
+    {
 					sphere(r = r - 0.5*gap, center = true, $fn = sphereFn);
 					assign(rad = pinRadius - gap)
 	if( genPin )
 	{
 		cylinder(r1 = rad, r2 = rad, h = height, center = true, $fn = cylinderFn);
 	}
-				}
+	}
 	// The inner race:
 	difference() 
 	{
@@ -46,7 +46,11 @@ module Bearing(outer, inner, attempt, gap, hole, height)
 }
 module Bearing625()
 {
-  translate ([0,0,2.5]) color ("silver") Bearing(outer = 8, inner = 5, attempt = 1.5, gap = 0.2, height = 5, hole = 2.5);
+  color ("silver") difference()
+  {
+		cylinder(d = Bearing625Diameter(), h = Bearing625Height(),$fn=cylinderFn);
+		translate([0,0,-0.1]) cylinder(d = 8, h = Bearing625Height()+0.3,$fn=cylinderFn);
+  }
 }
 
 function Bearing625Height() = 5;
@@ -54,7 +58,11 @@ function Bearing625Diameter() = 16;
 
 module Bearing623()
 {
-  translate ([0,0,2]) color ("silver") Bearing(outer = 5, inner = 3, attempt = 1.5, gap = 0.2, height = Bearing623Height(), hole = 1.5);
+  color ("silver") difference()
+  {
+		cylinder(d = Bearing623Diameter(), h = Bearing623Height(),$fn=cylinderFn);
+		translate([0,0,-0.1]) cylinder(d = 3, h = Bearing623Height()+0.3,$fn=cylinderFn);
+  }
 }
 
 function Bearing623Height() = 4;
@@ -67,13 +75,27 @@ module Bearing624()
 
 function Bearing624Height() = 5;
 function Bearing624Diameter() = 13;
-
 module Bearing608()
 {
-  translate ([0,0,3.5]) color ("silver") Bearing(outer = Bearing608Diameter()/2, inner = 7, attempt = 2, gap = 0.2, height = Bearing608Height(), hole = 4);
+  color ("silver") difference()
+  {
+		cylinder(d = Bearing608Diameter(), h = Bearing608Height(),$fn=cylinderFn);
+		translate([0,0,-0.1]) cylinder(d = 8, h = Bearing608Height()+0.3,$fn=cylinderFn);
+  }
 }
 function Bearing608Height() = 7;
 function Bearing608Diameter() = 22;
+
+module Bearing688()
+{
+  color ("silver") difference()
+  {
+		cylinder(d = Bearing688Diameter(), h = Bearing688Height(),$fn=cylinderFn);
+		translate([0,0,-0.1]) cylinder(d = 8, h = Bearing688Height()+0.3,$fn=cylinderFn);
+  }
+}
+function Bearing688Height() = 5;
+function Bearing688Diameter() = 16;
 
 module Bearing6800()
 {
@@ -120,7 +142,8 @@ translate ([0,0,40]) Bearing608();
 translate ([0,0,60]) Bearing6800();
 translate ([0,0,80]) BearingLM6UU();
 translate ([0,0,120]) BearingF512M();
-translate ([0,0,150]) Bearing624();
+translate ([0,0,140]) Bearing688();
+translate ([0,0,160]) Bearing624();
 
 // sizes from scs_uu.png in this directory
 module SCSxUU(D=8,L=30,W=34,T=6,G=18,F=22,h=11,B=24,C=18,S1=4,L1=8,bHolesOnly=0)
