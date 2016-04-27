@@ -3,10 +3,12 @@ Small size 3d printer with SCARA based mechanics
 
 Current Status: V3 - WIP
 
-V3 Video - https://youtu.be/qMoxgC5KaG4
+V3 Videos
+https://youtu.be/qMoxgC5KaG4
+https://youtu.be/IasEUXix5cc
 
 History:
-* 28.07.2015 - V3 - WIP
+* 28.01.2016 - V3 - WIP
 * 11.01.2016 - V2 - DONE (fail)
 * 05.01.2016 - V2 - Final tests
 * 28.07.2015 - V2 - WIP

@@ -18,8 +18,8 @@ include <Modules/TextGenerator.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-ex = 50;
-ey = 50;
+ex = -120;
+ey = 90;
 // small angle
 //ex = 10;
 //ey = 30;
@@ -252,25 +252,24 @@ y = ey;
 
 
 A = -2 * l * x;
-echo("A");
-echo(A);
+//echo("A");
+//echo(A);
 B = -2 * y * l;
-echo("B");
-echo(B);
+//echo("B");
+//echo(B);
 C = x * x + y * y + l2 - L2;
-echo("C");
-echo(C);
-F = x * x + y * y + l2 - L2;
-echo("F");
-echo(F);
-E = -2  * l * x;
-echo("E");
-echo(E);
+//echo("C");
+//echo(C);
+//F = x * x + y * y + l2 - L2;
+//echo("F");
+//echo(F);
+//E = -2  * l * x;
+//echo("E");
+//echo(E);
 Det1 = B * B - (C * C - A * A);
-Det2 = B * B - (F * F - E * E);
 
-echo (Det1);
-echo (Det2);
+//echo (Det1);
+//echo (Det2);
 
 qq11 = (-B - sqrt(Det1)) / (C - A);
 q11 = 2 * atan(qq11);
@@ -281,7 +280,7 @@ q11 = 2 * atan(qq11);
 //qq21 = (-B - sqrt(Det2)) / (F - E);
 //q21 = 2 * atan(qq21);
 
-qq22 = (-B + sqrt(Det2)) / (F - E);
+qq22 = (-B + sqrt(Det1)) / (C - A);
 q22a = 2 * atan(qq22);
 //q22 = -q22a;
 q22 = q22a-180;
@@ -291,7 +290,9 @@ q22 = q22a-180;
 //echo("q22,q11");
 //echo(q22Pos);
 echo(q11);
-echo(q22);
+
+angle22 = (q22<=0 && q22>-180) ? q22 : (360+q22);//q22<=0 && q22>-180 ? q22 : (q22>=0 && q22<=180)  
+echo(angle22);
 //echo(q22 < 0 ? 2*3.145+q22 : q22);
 
 //xd = l * cos(q22);
@@ -1869,16 +1870,16 @@ mirror([0,1,0]) color ("blue") panelHolder();
 }
 
 
-bMountsOnly = 3;
-!translate([-147,-49/2,250]) union()
+bMountsOnly = 4;
+translate([-147,-49/2,250]) union()
 {
 	difference()
 	{
 	union()
 	{
+			if( bMountsOnly==0 || bMountsOnly==4 )
+			{
 		difference()
-		{
-		if( bMountsOnly==0 )
 		{
 			cube([88,49,14]);
 			//translate([8,0,-0.1])  cube([80,4,9]);
@@ -1888,13 +1889,15 @@ bMountsOnly = 3;
 			//translate([8,49-4,-0.1])  cube([80,4,9]);
 			translate([3,4.5,-0.1])  cube([8,40,9]);
 			//translate([8,4.5,-0.1])  cube([80,40,9]);
-		}
+			translate([88-8,49/2-7.5,5])  cube([8,15,9]);
+			}
 		}
 		union()
 		{
 			if( bMountsOnly==0 || bMountsOnly==1 || bMountsOnly==3 )
 			{
 			translate([88-43-5,49-3.5-12,0]) cube([10,12,11]);
+			translate([88-43-5+1,49-3.5-12,0]) cube([10,12,11]);
 			translate([88-43-5,3.5,0]) cube([10,12,11]);
 			translate([88-43-5+1,3.5,0]) cube([10,12,11]);
 			}
@@ -1935,10 +1938,17 @@ bMountsOnly = 3;
 
 		hull()
 		{
-			translate([88-43+3,9,14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+			translate([88-43-3,9,14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
 			translate([88-43+25,9,14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
 		}
-		translate([88-43+3,9,-1]) rotate([0,0,0]) cylinder(d=3,h=30,$fn=12);
+		translate([88-43-3,9,-1]) rotate([0,0,0]) cylinder(d=3,h=30,$fn=12);
+
+		hull()
+		{
+			translate([88-43-3,49-(9),14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+			translate([88-43+25,49-(9),14-8]) rotate([0,0,90]) cylinder(d=rolson_hex_nut_dia(3)+1,h=3,$fn=6);
+		}
+		translate([88-43-3,49-(9),-1]) rotate([0,0,0]) cylinder(d=3,h=30,$fn=12);
 
 }
 }
