@@ -1,13 +1,15 @@
 # sscara
 Small size 3d printer with SCARA based mechanics
 
-Current Status: V3 - WIP
+Current Status: V3 - DONE
 
-V3 Videos
+V3 Videos:
 https://youtu.be/qMoxgC5KaG4
 https://youtu.be/IasEUXix5cc
+https://youtu.be/JhraS_r1Fzk
 
 History:
+* 01.05.2016 - V3 - DONE
 * 28.01.2016 - V3 - WIP
 * 11.01.2016 - V2 - DONE (fail)
 * 05.01.2016 - V2 - Final tests
@@ -15,9 +17,6 @@ History:
 * 27.07.2015 - V1 - DONE
 * 27.04.2015 - V1 - WIP
 
-Videos:
-v3 - https://youtu.be/qMoxgC5KaG4
- 
 
 Precision:
 WIP

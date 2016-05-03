@@ -18,8 +18,8 @@ include <Modules/TextGenerator.scad>
 //ex = 70;
 //ey = 130;
 // almost parralel
-ex = -120;
-ey = 90;
+ex = -100;
+ey = 100;
 // small angle
 //ex = 10;
 //ey = 30;
@@ -251,45 +251,26 @@ y = ey;
 
 
 
-A = -2 * l * x;
-//echo("A");
-//echo(A);
-B = -2 * y * l;
-//echo("B");
-//echo(B);
-C = x * x + y * y + l2 - L2;
-//echo("C");
-//echo(C);
-//F = x * x + y * y + l2 - L2;
-//echo("F");
-//echo(F);
-//E = -2  * l * x;
-//echo("E");
-//echo(E);
-Det1 = B * B - (C * C - A * A);
+  SCARA_C2 =   ( (x*x) + (y*y) - l2 - L2 ) / (2*l*L);
+  
+  SCARA_S2 = sqrt( 1 - (SCARA_C2*SCARA_C2) );
+  
+  SCARA_K1 = l + L * SCARA_C2;
+  SCARA_K2 = L * SCARA_S2;
+  
+  SCARA_theta = ( atan2(x,y)-atan2(SCARA_K1, SCARA_K2) ) * -1;
+  SCARA_psi   =   atan2(SCARA_S2,SCARA_C2);
+  
+  q11 = SCARA_theta;
+  q22a = (SCARA_theta + SCARA_psi);
 
-//echo (Det1);
-//echo (Det2);
+  q22=q22a-180;
 
-qq11 = (-B - sqrt(Det1)) / (C - A);
-q11 = 2 * atan(qq11);
-//qq12 = (-B + sqrt(Det1)) / (C - A);
-//q12 = 2 * atan(qq12);
-//q11 = -20;
-
-//qq21 = (-B - sqrt(Det2)) / (F - E);
-//q21 = 2 * atan(qq21);
-
-qq22 = (-B + sqrt(Det1)) / (C - A);
-q22a = 2 * atan(qq22);
-//q22 = -q22a;
-q22 = q22a-180;
-
-//q22Pos = q22 < 0 ? 360+q22 : q22;
 
 //echo("q22,q11");
 //echo(q22Pos);
 echo(q11);
+echo(q22);
 
 angle22 = (q22<=0 && q22>-180) ? q22 : (360+q22);//q22<=0 && q22>-180 ? q22 : (q22>=0 && q22<=180)  
 echo(angle22);
