@@ -33,7 +33,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [1,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [25];//[1,2,3,4,5];//[1,7,8];
+drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom big pulley (for m5 threaded rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - top big pulley (for alu 8mm rod) (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, no supprts)
 // 3 - mount for 2nd pulley and outer axis (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells, supports enabled)
@@ -64,12 +64,12 @@ drawArray = [25];//[1,2,3,4,5];//[1,7,8];
 // 301: Optional - xy steppers shaft to bearings coupliers 
 
 // more printer friedly layout (note: implemented not for all parts)
-printLayout = 1;
+printLayout = 0;
 
 
-drawSteppers = 0;
-drawBelts = 0;
-drawZBelts = 0;
+drawSteppers = 1;
+drawBelts = 1;
+drawZBelts = 1;
 drawSwitchesAll = 1;
 drawBaseAllum = 0;
 drawLCD = 1;
