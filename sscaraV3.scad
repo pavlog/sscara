@@ -1649,154 +1649,129 @@ if( drawArray==[] || search(8,drawArray)!=[] )
 // endstop mount bottom
 if( drawArray==[] || search(9,drawArray)!=[] )
 {
-		difference()
+	difference()
 	{
 		union()
 		{
 //		hull()
-		{
-			translate([-26,-24,z+45]) rotate([0,0,90]) cube([15,8,23-7.5]);
-		}
-		//hull()
-		{
-			translate([-29,-24,z+45]) rotate([0,0,90]) cube([10,23,5]);
-			translate([-44,-14,z+45]) rotate([0,0,90]) cube([33,8,5]);
-			translate([-29,-24,z+45]) rotate([0,0,90]) cube([13,23,5]);
-		}
+			{
+				translate([-26,-24,z+45]) rotate([0,0,90]) cube([15,8,23-7.5]);
+			}
+			//hull()
+			{
+				translate([-29,-24,z+45]) rotate([0,0,90]) cube([10,23,5]);
+				translate([-44,-14,z+45]) rotate([0,0,90]) cube([33,8,5]);
+				translate([-29,-24,z+45]) rotate([0,0,90]) cube([13,23,5]);
+			}
 		}	
-			translate([xStepperX,xStepperY,z+40]) cylinder(d=18.5,h=50,$fn=32);
-			translate([-23,-25.5,z+45]) rotate([0,0,90]) EndSwitchBody20x11(1);
-			translate([-23,-25.5,z+50]) rotate([0,0,90]) EndSwitchBody20x11(1);
+		translate([xStepperX,xStepperY,z+40]) cylinder(d=18.5,h=50,$fn=32);
+		translate([-23,-25.5,z+45]) rotate([0,0,90]) EndSwitchBody20x11(1);
+		translate([-23,-25.5,z+50]) rotate([0,0,90]) EndSwitchBody20x11(1);
 		translate([yStepperX,yStepperY,z+45])
 		{
 			rotate([0,0,0]) rotate([180,0,0]) Nema17_shaft22_Stepper(1,NemaSize);
 		}
 	}
-		translate([-23,-25.5,z+45+18]) rotate([0,0,90]) EndSwitchBody20x11();
-
-	//!mirror([0,0,1]) transform([0,0,0]) 
-	//!mirror([0,0,1]) translate([0,0,-148])  part8();
+	translate([-23,-25.5,z+45+18]) rotate([0,0,90]) EndSwitchBody20x11();
 }
 
 
 module panelHolder()
 {
-difference()
-{
-	union()
+	difference()
 	{
-		translate([100-11-4,-26+6,-35]) cube([11,6,15]);
-		translate([100-4-2,-26+10,-35]) cube([6,8,10]);
+		union()
+		{
+			translate([100-11-4,-26+6,-35]) cube([11,6,15]);
+			translate([100-4-2,-26+10,-35]) cube([6,8,10]);
+		}
+		translate([79.9,-50/2,-35]) cube([20-4,2+3,22]);
+		translate([70,-46/2,-35]) cube([30,46,3]);
+		//translate([70,-30/2,-35]) cube([30,30,16]);
+		//#translate([70,-36/2,-35]) cube([30,46-4-4-2,16]);
+		translate([100-10,-(46-6)/2,-35+11]) rotate([-90,0,0]) cylinder(d=3,h=20,$fn=16);
+		translate([100-10,-(46-6)/2,-35+11]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+2.5,$fn=16);
+		translate([100-10,-(46-22)/2,-35+6]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
+		hull()
+		{
+			translate([100-5,-(46-22)/2,-35+6.5]) rotate([0,90,0]) rotate([0,0,30])  cylinder(d=rolson_hex_nut_dia(3)+0.8,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
+			translate([100-5,-(46-22)/2,-35]) rotate([0,90,0]) rotate([0,0,30])   cylinder(d=rolson_hex_nut_dia(3)+0.8,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
+		}
 	}
-	translate([79.9,-50/2,-35]) cube([20-4,2+3,22]);
-	translate([70,-46/2,-35]) cube([30,46,3]);
-	//translate([70,-30/2,-35]) cube([30,30,16]);
-	//#translate([70,-36/2,-35]) cube([30,46-4-4-2,16]);
-	translate([100-10,-(46-6)/2,-35+11]) rotate([-90,0,0]) cylinder(d=3,h=20,$fn=16);
-	translate([100-10,-(46-6)/2,-35+11]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+1,h=rolson_hex_nut_hi(3)+2.5,$fn=16);
-	translate([100-10,-(46-22)/2,-35+6]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
-	hull()
-	{
-	translate([100-5,-(46-22)/2,-35+6.5]) rotate([0,90,0]) rotate([0,0,30])  cylinder(d=rolson_hex_nut_dia(3)+0.8,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
-	translate([100-5,-(46-22)/2,-35]) rotate([0,90,0]) rotate([0,0,30])   cylinder(d=rolson_hex_nut_dia(3)+0.8,h=rolson_hex_nut_hi(3)+0.5,$fn=6);
-	}
-}}
+}
 
 // sockets plugs panel
 if( drawArray==[] || search(10,drawArray)!=[] )
 {
-
-union()
-{
-
-difference()
-{
 	union()
 	{
-		translate([100-4,-50/2,-35]) cube([4+4,46+4,75+3]);
-//		translate([85,-50/2,-35]) cube([15,46+4,16]);
-//		translate([85,-50/2,-35+62]) cube([15,46+4,15]);
+		difference()
+		{
+			union()
+			{
+				translate([100-4,-50/2,-35]) cube([4+4,46+4,75+3]);
+			}
+			translate([79.9,-50/2,-35]) cube([20,2,75]);
+			mirror([0,1,0]) translate([79.9,-50/2,-35]) cube([20,2,75]);
+			translate([79.9,-50/2,-35]) cube([20,2+3,22]);
+			mirror([0,1,0]) translate([79.9,-50/2,-35]) cube([20,2+3,22]);
+			translate([70,-46/2,-35]) cube([30,46,3]);
+			translate([70,-30/2,-35]) cube([30,30,16]);
+			translate([70,-36/2,-35]) cube([30,46-4-4-2,74]);
+			translate([100-10,-(46-22)/2,-35+6]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
+			mirror([0,1,0]) translate([100-10,-(46-22)/2,-35+6]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
+
+			translate([100-10,-(46-7)/2,-35+74-2]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
+			mirror([0,1,0]) translate([100-10,-(46-7)/2,-35+74-2]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
+
+			// x stepper
+			translate([100-10,11,-35+74-9])
+			{	
+				rotate([0,90,0]) cylinder(d=16,h=20);
+				rotate([0,90,0]) cylinder(d=21,h=10);
+			}
+			
+			// y stepper
+			translate([100-10,-11,-35+74-9])
+			{
+				rotate([0,90,0]) cylinder(d=16,h=20);
+				rotate([0,90,0]) cylinder(d=21,h=10);
+			}
+			
+			// z stepper
+			translate([100-10,11,-35+74-9-21])
+			{	
+				rotate([0,90,0]) cylinder(d=16,h=20);
+				rotate([0,90,0]) cylinder(d=21,h=10);
+			}
+			
+			// e stepper
+			translate([100-10,-11,-35+74-9-21])
+			{
+				rotate([0,90,0]) cylinder(d=16,h=20);
+				rotate([0,90,0]) cylinder(d=21,h=10);
+			}
+
+			// stppers
+			translate([100-10,11,-35+74-9-21-21])
+			{	
+				rotate([0,90,0]) cylinder(d=16,h=20);
+				rotate([0,90,0]) cylinder(d=21,h=10);
+			}
+
+		// extruder stuff
+			translate([100-10,-11,-35+74-9-21-21])
+			{
+				rotate([0,90,0]) cylinder(d=16,h=20);
+				rotate([0,90,0]) cylinder(d=21,h=10);
+			}
+		}
+		union()
+		{
+			color ("blue") panelHolder();
+			mirror([0,1,0]) color ("blue") panelHolder();
+		}
 	}
-translate([79.9,-50/2,-35]) cube([20,2,75]);
-mirror([0,1,0]) translate([79.9,-50/2,-35]) cube([20,2,75]);
-translate([79.9,-50/2,-35]) cube([20,2+3,22]);
-mirror([0,1,0]) translate([79.9,-50/2,-35]) cube([20,2+3,22]);
-//translate([99.9,-48/2,-35]) cube([4,48,74]);
-	translate([70,-46/2,-35]) cube([30,46,3]);
-	translate([70,-30/2,-35]) cube([30,30,16]);
-	translate([70,-36/2,-35]) cube([30,46-4-4-2,74]);
-	translate([100-10,-(46-22)/2,-35+6]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
-	mirror([0,1,0]) translate([100-10,-(46-22)/2,-35+6]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
-
-	translate([100-10,-(46-7)/2,-35+74-2]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
-	mirror([0,1,0]) translate([100-10,-(46-7)/2,-35+74-2]) rotate([0,90,0]) cylinder(d=3,h=20,$fn=16);
-
-	//translate([100-10,-50,-35+11]) rotate([-90,0,0]) cylinder(d=3,h=100,$fn=16);
-/*
-hull()
-	{
-	translate([100-10,-36/2,-35+11]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=2,$fn=6);
-	translate([100-10,-36/2,-35+21]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=2,$fn=6);
-	}
-mirror([0,1,0]) hull()
-	{
-	translate([100-10,-36/2,-35+11]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=2,$fn=6);
-	translate([100-10,-36/2,-35+21]) rotate([-90,0,0]) cylinder(d=rolson_hex_nut_dia(3)+0.5,h=2,$fn=6);
-	}
-	*/
-	// x stepper
-	translate([100-10,11,-35+74-9])
-{	
-	rotate([0,90,0]) cylinder(d=16,h=20);
-	rotate([0,90,0]) cylinder(d=21,h=10);
-}
-	
-// y stepper
-	translate([100-10,-11,-35+74-9])
-{
-	rotate([0,90,0]) cylinder(d=16,h=20);
-	rotate([0,90,0]) cylinder(d=21,h=10);
-}
-	
-	// z stepper
-	translate([100-10,11,-35+74-9-21])
-{	
-	rotate([0,90,0]) cylinder(d=16,h=20);
-	rotate([0,90,0]) cylinder(d=21,h=10);
-}
-	
-// e stepper
-	translate([100-10,-11,-35+74-9-21])
-{
-	rotate([0,90,0]) cylinder(d=16,h=20);
-	rotate([0,90,0]) cylinder(d=21,h=10);
-}
-
-	// stppers
-	translate([100-10,11,-35+74-9-21-21])
-{	
-	rotate([0,90,0]) cylinder(d=16,h=20);
-	rotate([0,90,0]) cylinder(d=21,h=10);
-}
-
-// extruder stuff
-	translate([100-10,-11,-35+74-9-21-21])
-{
-	rotate([0,90,0]) cylinder(d=16,h=20);
-	rotate([0,90,0]) cylinder(d=21,h=10);
-}
-
-
-}
-
-union()
-{
-color ("blue") panelHolder();
-mirror([0,1,0]) color ("blue") panelHolder();
-}
-
-
-}
 }
 
 // top cap
