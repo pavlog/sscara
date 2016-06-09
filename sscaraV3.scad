@@ -51,7 +51,7 @@ outerRad = (80*2/3.14*0.5);
 
 //drawArray = [4,5,6,7,9,10,11,12,13];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [2,4,5];//[1,2,3,4,5];//[1,7,8];
-drawArray = [11,12];//[1,2,3,4,5];//[1,7,8];
+drawArray = [];//[1,2,3,4,5];//[1,7,8];
 //drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 1 - bottom arm pulley (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
 // 2 - bottom arm pulley (40%-infill, 0.25-layer, 0.4-nozzle, perimeter - 3 shells,no supports)
@@ -387,13 +387,6 @@ module gearPulleyBase()
 
 firtstNumZ = -1;
 firstBearingZ = firtstNumZ+rolson_hex_nut_hi(5)+1;
-if( !printLayout && (drawArray==[] || drawMetall) )
-{
-	translate ([0,0,firtstNumZ-5]) color( "grey") cylinder(d=5,h=400);
-	translate ([0,0,firtstNumZ]) color( "Silver") hex_nut(5);
-	translate ([0,0,firstBearingZ]) Bearing625();
-}
-
 
 // pulley1
 //intersection()
@@ -1807,7 +1800,7 @@ mirror([0,1,0]) color ("blue") panelHolder();
 }
 
 // top cap
-bMountsOnly = 4;
+bMountsOnly = 0;
 if( drawArray==[] || search(11,drawArray)!=[] )
 {
 translate([-147,-49/2,250]) union()
@@ -1900,7 +1893,7 @@ if( drawArray==[] || search(12,drawArray)!=[] )
 	{
 		if( drawMetall )
 		{
-			//Bearing608();
+			Bearing608();
 		}
 
 	difference()
