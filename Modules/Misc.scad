@@ -128,3 +128,32 @@ module Nema17_shaft22_Stepper(bSrewsOnly=0,NemaSize=NemaLengthLong)
 	}
 }
 Nema17_shaft22_Stepper();
+
+module GT2_16_Pulley(hole=5)
+{
+    difference()
+    {
+        union()
+        {
+            cylinder(d=10,h=14);
+            cylinder(d=13,h=6);
+            translate([0,0,13]) cylinder(d=13,h=1);
+        }
+        translate([0,0,-0.1]) cylinder(d=hole,h=14.2);
+    }
+}
+
+module GT2_20_Pulley(hole=8)
+{
+    difference()
+    {
+        union()
+        {
+            cylinder(d=11,h=16);
+            cylinder(d=16,h=7.5);
+            translate([0,0,15]) cylinder(d=16,h=1);
+        }
+        translate([0,0,-0.1]) cylinder(d=hole,h=14.2);
+    }
+}
+
