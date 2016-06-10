@@ -62,6 +62,8 @@ drawArray = [];//[1,2,3,4,5];//[1,7,8];
 // 10 - nut holder
 // 11 - top cap
 // 12 - extruder rotation mount
+// 13 - extruder bearing stick
+// 14 - extruder stepper mount
 
 
 
@@ -1863,7 +1865,6 @@ translate([-147,-49/2,250]) union()
 
 if( drawArray==[] || search(12,drawArray)!=[] )
 {
-	
 	translate([-105,0,264])
 	{
 		if( drawMetall )
@@ -1871,35 +1872,75 @@ if( drawArray==[] || search(12,drawArray)!=[] )
 			Bearing608();
 		}
 
-	difference()
-	{
-		union()
+		difference()
 		{
-			translate([0,0,0]) rotate([0,0,0]) cylinder(d=Bearing608Diameter()+10,h=9,$fn=12);
-			hull()
+			union()
 			{
-				translate([0,-49/2+(9),0]) rotate([0,0,0]) cylinder(d=10,h=9,$fn=12);
-				translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=10,h=9,$fn=12);
+				translate([0,0,0]) rotate([0,0,0]) cylinder(d=Bearing608Diameter()+10,h=9,$fn=12);
+				hull()
+				{
+					translate([0,-49/2+(9),0]) rotate([0,0,0]) cylinder(d=10,h=9,$fn=12);
+					translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=10,h=9,$fn=12);
+				}
+				/*
+				hull()
+				{
+					translate([0,-49/2+(9),0]) rotate([0,0,0]) cylinder(d=9,h=8,$fn=12);
+					translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=9,h=8,$fn=12);
+					translate([20,0,0]) rotate([0,0,0]) cylinder(d=3,h=8,$fn=12);
+					translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=3,h=8,$fn=12);
+				}
+				*/
 			}
-			/*
-			hull()
-			{
-				translate([0,-49/2+(9),0]) rotate([0,0,0]) cylinder(d=9,h=8,$fn=12);
-				translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=9,h=8,$fn=12);
-				translate([20,0,0]) rotate([0,0,0]) cylinder(d=3,h=8,$fn=12);
-				translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=3,h=8,$fn=12);
-			}
-			*/
+			translate([0,0,0]) rotate([0,0,0]) cylinder(d=15,h=18,$fn=12);
+			translate([0,0,0]) rotate([0,0,0]) cylinder(d=Bearing608Diameter()+1,h=Bearing608Height()+0.7,$fn=64);
+			translate([0,-49/2+(9),0]) rotate([0,0,0]) cylinder(d=3,h=19,$fn=12);
+			translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=3,h=19,$fn=12);
 		}
-		translate([0,0,0]) rotate([0,0,0]) cylinder(d=15,h=18,$fn=12);
-		translate([0,0,0]) rotate([0,0,0]) cylinder(d=Bearing608Diameter()+1,h=Bearing608Height()+0.7,$fn=64);
-		translate([0,-49/2+(9),0]) rotate([0,0,0]) cylinder(d=3,h=19,$fn=12);
-		translate([0,49/2-(9),0]) rotate([0,0,0]) cylinder(d=3,h=19,$fn=12);
 	}
 }
 
-}
+if( drawArray==[] || search(13,drawArray)!=[] || search(14,drawArray)!=[] || search(15,drawArray)!=[] )
+{
+	
+	translate([-105,0,264])
+	{
+		difference()
+		{
+			union()
+			{
+				color("green") if( drawArray==[] || search(13,drawArray)!=[] )
+				{
+					cylinder(d=8,h=9,$fn=32);
+					translate([0,0,9]) cylinder(r1=8/2,r2=15/2,h=1.5,$fn=32);
+				}
+				color("green") if( drawArray==[] || search(14,drawArray)!=[] )
+				{
+					translate([-15,-20,9+1.5]) cube([35+2,40,4]);
+				}
+				if( drawArray==[] || search(15,drawArray)!=[] )
+				{
+					color("blue") 
+					hull()
+					{
+						translate([-15+30,-20,9+1.5+4]) cube([7,40,1]);
+						translate([-15+30,-20,9+1.5+4+9]) cube([7,40,1]);
+					}
+				}
+			}
+			translate([0,0,-10]) cylinder(d=3,h=30,$fn=32);
+			translate([0,0,-0.1]) cylinder(d=7,h=4,$fn=6);
 
+			#translate([20-1.5,12,10.1]) cylinder(d=3,h=30,$fn=32);
+			#translate([20-1.5,-12,10.1]) cylinder(d=3,h=30,$fn=32);
+
+			#translate([20-20,15.5,20]) rotate([0,90,0]) cylinder(d=3,h=30,$fn=32);
+			#translate([20-20,-15.5,20]) rotate([0,90,0]) cylinder(d=3,h=30,$fn=32);
+
+
+		}
+	}
+}
 
 // hot end
 if( !printLayout && (drawArray==[] || drawHotEnd!=0) )
@@ -1964,5 +2005,5 @@ if( !printLayout && (drawArray==[] || drawBed) )
 
 if( drawExtruder )
 {
-	translate([-95,0,300]) extruder();
+	translate([-95,0,300-0.5]) extruder();
 }
