@@ -1903,39 +1903,39 @@ if( drawArray==[] || search(12,drawArray)!=[] )
 if( drawArray==[] || search(13,drawArray)!=[] || search(14,drawArray)!=[] || search(15,drawArray)!=[] )
 {
 	
-	translate([-105,0,264])
+	translate([-105,0,264]) rotate([0,0,180])
 	{
 		difference()
 		{
 			union()
 			{
-				color("green") if( drawArray==[] || search(13,drawArray)!=[] )
+				color("red") if( drawArray==[] || search(13,drawArray)!=[] )
 				{
 					cylinder(d=8,h=9,$fn=32);
 					translate([0,0,9]) cylinder(r1=8/2,r2=15/2,h=1.5,$fn=32);
 				}
 				color("green") if( drawArray==[] || search(14,drawArray)!=[] )
 				{
-					translate([-15,-20,9+1.5]) cube([35+2,40,4]);
+					translate([-10-3,-20,9+1.5]) cube([40,40,4]);
 				}
 				if( drawArray==[] || search(15,drawArray)!=[] )
 				{
 					color("blue") 
 					hull()
 					{
-						translate([-15+30,-20,9+1.5+4]) cube([7,40,1]);
-						translate([-15+30,-20,9+1.5+4+9]) cube([7,40,1]);
+						translate([-10+30,-20,9+1.5+4]) cube([7,40,1]);
+						translate([-10+30,-20,9+1.5+4+9]) cube([7,40,1]);
 					}
 				}
 			}
 			translate([0,0,-10]) cylinder(d=3,h=30,$fn=32);
 			translate([0,0,-0.1]) cylinder(d=7,h=4,$fn=6);
 
-			#translate([20-1.5,12,10.1]) cylinder(d=3,h=30,$fn=32);
-			#translate([20-1.5,-12,10.1]) cylinder(d=3,h=30,$fn=32);
+			translate([20-1.5+2+3,12,10.1]) cylinder(d=3,h=30,$fn=32);
+			translate([20-1.5+2+3,-12,10.1]) cylinder(d=3,h=30,$fn=32);
 
-			#translate([20-20,15.5,20]) rotate([0,90,0]) cylinder(d=3,h=30,$fn=32);
-			#translate([20-20,-15.5,20]) rotate([0,90,0]) cylinder(d=3,h=30,$fn=32);
+			translate([20-20,15.5,20]) rotate([0,90,0]) cylinder(d=3,h=30,$fn=32);
+			translate([20-20,-15.5,20]) rotate([0,90,0]) cylinder(d=3,h=30,$fn=32);
 
 
 		}
@@ -2005,5 +2005,5 @@ if( !printLayout && (drawArray==[] || drawBed) )
 
 if( drawExtruder )
 {
-	translate([-95,0,300-0.5]) extruder();
+	translate([-120,0,300-0.5]) rotate([0,0,180]) extruder();
 }
